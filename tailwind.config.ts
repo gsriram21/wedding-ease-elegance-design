@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'luxury-serif': ['Playfair Display', 'Georgia', 'serif'],
+				'luxury-sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,12 +65,36 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Luxury brand colors - Updated refined palette
+				luxury: {
+					maroon: 'hsl(var(--luxury-maroon))',
+					'dark-brown': 'hsl(var(--luxury-dark-brown))',
+					burgundy: 'hsl(var(--luxury-burgundy))',
+					'dusty-rose': 'hsl(var(--luxury-dusty-rose))',
+					blush: 'hsl(var(--luxury-blush))',
+					ivory: 'hsl(var(--luxury-ivory))',
+					'soft-pink': 'hsl(var(--luxury-soft-pink))',
+					taupe: 'hsl(var(--luxury-taupe))',
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			spacing: {
+				'18': '4.5rem',
+				'88': '22rem',
+				'128': '32rem',
+			},
+			letterSpacing: {
+				'luxury': '0.1em',
+				'wide': '0.05em',
+			},
+			lineHeight: {
+				'luxury': '1.2',
+				'relaxed-luxury': '1.75',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -84,11 +112,31 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in-up': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(30px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'luxury-float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in-up': 'fade-in-up 0.8s ease-out',
+				'luxury-float': 'luxury-float 6s ease-in-out infinite',
 			}
 		}
 	},

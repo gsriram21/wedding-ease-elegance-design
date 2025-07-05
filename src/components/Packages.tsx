@@ -1,7 +1,5 @@
-
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { check } from "lucide-react";
 
 const Packages = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -73,56 +71,74 @@ const Packages = () => {
   ];
 
   return (
-    <section id="packages" className="py-24 bg-stone-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-6">
+    <section id="packages" className="relative overflow-hidden luxury-spacing luxury-gradient">
+      {/* Background Floral Elements */}
+      <img 
+        src="/images/bg-flower.png" 
+        alt="" 
+        className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[30rem] opacity-25"
+      />
+      <img 
+        src="/images/bg-flower.png" 
+        alt="" 
+        className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-[25rem] opacity-25"
+      />
+      <img 
+        src="/images/bg-branch.png" 
+        alt="" 
+        className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/2 w-[35rem] opacity-25"
+      />
+
+      <div className="relative z-10 luxury-container">
+        <div className={`text-center mb-24 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="font-luxury-serif font-bold text-5xl md:text-6xl text-luxury-maroon mb-8 tracking-tight">
             Wedding Planning Packages
           </h2>
-          <p className="text-xl text-stone-600 max-w-3xl mx-auto leading-relaxed">
+          <div className="w-24 h-px bg-luxury-dusty-rose mx-auto mb-8" />
+          <p className="font-luxury-sans text-xl md:text-2xl text-luxury-maroon/70 max-w-4xl mx-auto leading-relaxed-luxury">
             Choose the perfect package for your special day. Each option is designed to provide 
             exceptional service and create the wedding of your dreams.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
           {packages.map((pkg, index) => (
             <div
               key={index}
-              className={`relative bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 ${
-                pkg.popular ? 'ring-2 ring-amber-800 scale-105' : ''
+              className={`relative bg-white/95 backdrop-blur-sm rounded-lg overflow-hidden transition-all duration-700 luxury-hover ${
+                pkg.popular ? 'ring-2 ring-luxury-dusty-rose shadow-2xl scale-105' : 'shadow-xl'
               } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ transitionDelay: `${index * 200}ms` }}
             >
               {pkg.popular && (
-                <div className="absolute top-0 left-0 right-0 bg-amber-800 text-white text-center py-2 text-sm font-semibold">
+                <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-luxury-dusty-rose to-rose-400 text-white text-center py-3 font-luxury-sans font-medium tracking-wide uppercase text-sm">
                   Most Popular
                 </div>
               )}
               
-              <div className={`p-8 ${pkg.popular ? 'pt-12' : ''}`}>
-                <h3 className="text-2xl font-serif font-bold text-stone-900 mb-2">
+              <div className={`p-12 ${pkg.popular ? 'pt-16' : ''}`}>
+                <h3 className="font-luxury-serif font-bold text-3xl md:text-4xl text-luxury-maroon mb-4 tracking-tight">
                   {pkg.name}
                 </h3>
-                <p className="text-stone-600 mb-4">{pkg.description}</p>
-                <div className="text-3xl font-bold text-amber-800 mb-6">
+                <p className="font-luxury-sans text-luxury-maroon/70 mb-6 text-lg leading-relaxed">{pkg.description}</p>
+                <div className="font-luxury-serif text-4xl font-bold text-luxury-dusty-rose mb-10">
                   {pkg.price}
                 </div>
                 
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-4 mb-12">
                   {pkg.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <check className="w-5 h-5 text-amber-800 mr-3 flex-shrink-0" />
-                      <span className="text-stone-700">{feature}</span>
+                    <li key={featureIndex} className="flex items-start">
+                      <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-3 mr-4 flex-shrink-0" />
+                      <span className="font-luxury-sans text-luxury-maroon/80 leading-relaxed text-lg">{feature}</span>
                     </li>
                   ))}
                 </ul>
                 
                 <Button 
-                  className={`w-full py-3 font-medium transition-all duration-300 ${
+                  className={`w-full py-4 font-luxury-sans font-medium tracking-wide uppercase text-sm transition-all duration-300 ${
                     pkg.popular 
-                      ? 'bg-amber-800 hover:bg-amber-900 text-white' 
-                      : 'border border-amber-800 text-amber-800 hover:bg-amber-800 hover:text-white'
+                      ? 'btn-luxury-primary' 
+                      : 'btn-luxury-secondary'
                   }`}
                   variant={pkg.popular ? "default" : "outline"}
                 >

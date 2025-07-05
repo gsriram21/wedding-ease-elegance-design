@@ -1,4 +1,3 @@
-
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Packages from "@/components/Packages";
@@ -9,7 +8,7 @@ import Navigation from "@/components/Navigation";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen luxury-gradient">
       <Navigation />
       <Hero />
       <Services />
