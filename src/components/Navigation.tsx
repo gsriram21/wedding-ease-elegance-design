@@ -16,7 +16,8 @@ const Navigation = () => {
               <img 
                 src="/images/logo.png" 
                 alt="Wedding Ease Logo" 
-                className="h-12 w-auto"
+                className="h-12 w-auto cursor-pointer"
+                onClick={() => navigate('/')}
               />
             </div>
           </div>
@@ -27,6 +28,12 @@ const Navigation = () => {
               <a href="#home" className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm">
                 Home
               </a>
+              <button 
+                onClick={() => navigate('/products')}
+                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
+              >
+                Products
+              </button>
               <a href="#services" className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm">
                 Services
               </a>

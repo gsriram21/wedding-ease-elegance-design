@@ -149,8 +149,106 @@ const Contact = () => {
         </div>
       </div>
       
-      <footer className="mt-24 pt-12 border-t border-luxury-ivory/20 text-center">
-        <p className="font-luxury-sans text-luxury-ivory/70 tracking-wide">
+      <footer className="mt-24 pt-12 border-t border-luxury-ivory/20 text-center relative overflow-hidden">
+        {/* Elegant Wedding Rings Watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+          <div className="relative">
+            {/* Main Ring Composition */}
+            <svg 
+              className="w-96 h-96 text-luxury-dusty-rose/30" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 300 300"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Elegant Overlapping Rings */}
+              {/* First Ring - Engagement Ring */}
+              <circle 
+                cx="130" 
+                cy="150" 
+                r="45" 
+                strokeWidth="2.5" 
+                className="opacity-80"
+                strokeLinecap="round"
+              />
+              <circle 
+                cx="130" 
+                cy="150" 
+                r="38" 
+                strokeWidth="1.5" 
+                className="opacity-60"
+              />
+              
+              {/* Second Ring - Wedding Band */}
+              <circle 
+                cx="170" 
+                cy="150" 
+                r="42" 
+                strokeWidth="2.5" 
+                className="opacity-80"
+                strokeLinecap="round"
+              />
+              <circle 
+                cx="170" 
+                cy="150" 
+                r="35" 
+                strokeWidth="1.5" 
+                className="opacity-60"
+              />
+              
+              {/* Elegant Diamond Accent */}
+              <g className="opacity-70">
+                <polygon 
+                  points="130,105 136,115 130,125 124,115" 
+                  fill="currentColor" 
+                  className="opacity-80"
+                />
+                <circle cx="130" cy="115" r="2" fill="currentColor" className="opacity-90" />
+              </g>
+              
+              {/* Subtle Sparkle Effects */}
+              <g className="opacity-50">
+                <path d="M110,130 L115,135 L110,140 L105,135 Z" fill="currentColor" className="opacity-60" />
+                <path d="M190,130 L195,135 L190,140 L185,135 Z" fill="currentColor" className="opacity-60" />
+                <path d="M150,110 L155,115 L150,120 L145,115 Z" fill="currentColor" className="opacity-40" />
+                <path d="M150,180 L155,185 L150,190 L145,185 Z" fill="currentColor" className="opacity-40" />
+              </g>
+              
+              {/* Delicate Flourishes */}
+              <g className="opacity-30" strokeWidth="1">
+                <path d="M80,150 Q100,130 120,150" stroke="currentColor" fill="none" />
+                <path d="M180,150 Q200,130 220,150" stroke="currentColor" fill="none" />
+                <path d="M150,100 Q130,120 150,140" stroke="currentColor" fill="none" />
+                <path d="M150,160 Q170,180 150,200" stroke="currentColor" fill="none" />
+              </g>
+            </svg>
+            
+            {/* Secondary decorative elements */}
+            <div className="absolute top-0 left-0 w-full h-full">
+              <svg 
+                className="w-full h-full text-luxury-dusty-rose/20" 
+                fill="none" 
+                viewBox="0 0 300 300"
+              >
+                {/* Corner Ornamental Details */}
+                <g className="opacity-40">
+                  <circle cx="50" cy="50" r="3" fill="currentColor" />
+                  <circle cx="250" cy="50" r="3" fill="currentColor" />
+                  <circle cx="50" cy="250" r="3" fill="currentColor" />
+                  <circle cx="250" cy="250" r="3" fill="currentColor" />
+                </g>
+                
+                {/* Delicate connecting lines */}
+                <g className="opacity-20" strokeWidth="0.5">
+                  <path d="M50,50 Q150,100 250,50" stroke="currentColor" fill="none" />
+                  <path d="M50,250 Q150,200 250,250" stroke="currentColor" fill="none" />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        
+        <p className="font-luxury-sans text-luxury-ivory/70 tracking-wide relative z-10">
           © 2024 Wedding Ease. All rights reserved. Creating luxury weddings worldwide.
         </p>
       </footer>
