@@ -136,7 +136,15 @@ const Account = () => {
       'update-profile': 'Profile updated successfully!',
       'add-products': 'Redirecting to product catalog...',
       'browse-products': 'Opening product catalog...',
-      'book-consultation': 'Consultation booking form opened!'
+      'book-consultation': 'Consultation booking form opened!',
+      'add-to-cart': 'Item added to cart successfully!',
+      'schedule-consultation': 'Consultation scheduled for next week!',
+      'view-order-details': 'Order details will be displayed here.',
+      'track-order': 'Order tracking information loaded.',
+      'contact-support': 'Support team will contact you within 24 hours.',
+      'save-profile': 'Profile information saved successfully!',
+      'change-password': 'Password updated successfully!',
+      'upload-photo': 'Profile photo uploaded successfully!'
     };
     showToast(messages[action] || 'Action completed!');
   };
@@ -162,12 +170,21 @@ const Account = () => {
               <p className="text-luxury-maroon/60 font-luxury-sans text-base leading-relaxed max-w-md mx-auto mb-8">
                 Your enquiry history and consultation requests will appear here. Start your wedding planning journey by making your first enquiry.
               </p>
-              <Button 
-                onClick={() => handleMockAction('make-enquiry')}
-                className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
-              >
-                Make Enquiry
-              </Button>
+              <div className="flex gap-4 justify-center">
+                <Button 
+                  onClick={() => handleMockAction('make-enquiry')}
+                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
+                >
+                  Make Enquiry
+                </Button>
+                <Button 
+                  onClick={() => handleMockAction('schedule-consultation')}
+                  variant="outline"
+                  className="border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300"
+                >
+                  Schedule Call
+                </Button>
+              </div>
             </div>
           </div>
         );
@@ -213,11 +230,27 @@ const Account = () => {
                       placeholder="Enter your phone number"
                     />
                   </div>
+                  <div className="flex gap-3">
+                    <Button 
+                      onClick={() => handleMockAction('save-profile')}
+                      className="flex-1 bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
+                    >
+                      Save Profile
+                    </Button>
+                    <Button 
+                      onClick={() => handleMockAction('upload-photo')}
+                      variant="outline"
+                      className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300"
+                    >
+                      Upload Photo
+                    </Button>
+                  </div>
                   <Button 
-                    onClick={() => handleMockAction('update-profile')}
-                    className="w-full bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
+                    onClick={() => handleMockAction('change-password')}
+                    variant="outline"
+                    className="w-full border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300 mt-3"
                   >
-                    Update Profile
+                    Change Password
                   </Button>
                 </div>
               </div>
@@ -315,15 +348,12 @@ const Account = () => {
                           View Details
                         </Button>
                         <Button 
-                          onClick={() => toggleWishlist(product.id)}
+                          onClick={() => handleMockAction('add-to-cart')}
                           variant="outline"
-                          className={`border-luxury-maroon font-luxury-sans tracking-wide uppercase text-xs py-2 px-3 rounded-lg transition-all duration-300 ${
-                            isLiked 
-                              ? 'bg-luxury-dusty-rose text-white border-luxury-dusty-rose hover:bg-luxury-dusty-rose/90' 
-                              : 'text-luxury-maroon hover:bg-luxury-maroon hover:text-white'
-                          }`}
+                          className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white font-luxury-sans tracking-wide uppercase text-xs py-2 px-3 rounded-lg transition-all duration-300"
                         >
-                          {isLiked ? <Check className="w-3 h-3" /> : <Heart className="w-3 h-3" />}
+                          <Plus className="w-3 h-3 mr-1" />
+                          Cart
                         </Button>
                       </div>
                     </div>
@@ -352,12 +382,21 @@ const Account = () => {
               <p className="text-luxury-maroon/60 font-luxury-sans text-base leading-relaxed max-w-md mx-auto mb-8">
                 When you make a purchase, your order history will appear here. Start exploring our collection to find your perfect wedding essentials.
               </p>
-              <Button 
-                onClick={() => handleMockAction('browse-products')}
-                className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
-              >
-                Browse Products
-              </Button>
+              <div className="flex gap-4 justify-center">
+                <Button 
+                  onClick={() => handleMockAction('browse-products')}
+                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
+                >
+                  Browse Products
+                </Button>
+                <Button 
+                  onClick={() => handleMockAction('track-order')}
+                  variant="outline"
+                  className="border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300"
+                >
+                  Track Order
+                </Button>
+              </div>
             </div>
           </div>
         );
@@ -380,12 +419,21 @@ const Account = () => {
               <p className="text-luxury-maroon/60 font-luxury-sans text-base leading-relaxed max-w-md mx-auto mb-8">
                 Your consultation bookings and appointment history will appear here. Schedule a consultation with our wedding experts to get started.
               </p>
-              <Button 
-                onClick={() => handleMockAction('book-consultation')}
-                className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
-              >
-                Book Consultation
-              </Button>
+              <div className="flex gap-4 justify-center">
+                <Button 
+                  onClick={() => handleMockAction('book-consultation')}
+                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
+                >
+                  Book Consultation
+                </Button>
+                <Button 
+                  onClick={() => handleMockAction('contact-support')}
+                  variant="outline"
+                  className="border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300"
+                >
+                  Contact Support
+                </Button>
+              </div>
             </div>
           </div>
         );
@@ -408,14 +456,18 @@ const Account = () => {
         {/* Sidebar */}
         <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col">
           {/* Logo Header - Match homepage navigation exactly */}
-          <div className="flex items-center h-20 px-6 border-b border-luxury-taupe/20">
-            <button onClick={handleLogoClick} className="transition-all duration-300 hover:opacity-80">
-              <img 
-                src="/images/logo.png" 
-                alt="Wedding Ease Logo" 
-                className="h-12 w-auto cursor-pointer"
-              />
-            </button>
+          <div className="flex items-center h-20 border-b border-luxury-taupe/20">
+            <div className="flex-1 flex justify-start px-6">
+              <div className="flex items-center">
+                <button onClick={handleLogoClick} className="transition-all duration-300 hover:opacity-80">
+                  <img 
+                    src="/images/logo.png" 
+                    alt="Wedding Ease Logo" 
+                    className="h-12 w-auto cursor-pointer"
+                  />
+                </button>
+              </div>
+            </div>
           </div>
           
           {/* Navigation Items */}
