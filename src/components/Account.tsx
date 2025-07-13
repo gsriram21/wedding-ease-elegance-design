@@ -483,9 +483,9 @@ const Account = () => {
     switch (activeSection) {
       case "enquiries":
         return (
-          <div className="min-h-screen flex flex-col">
-            {/* Chat Interface Header */}
-            <div className="bg-white/95 backdrop-blur-sm border-b border-luxury-taupe/20 p-4 flex items-center gap-4 shadow-sm sticky top-0 z-20">
+          <div className="h-[calc(100vh-5rem)] flex flex-col">
+            {/* Chat Interface Header - Fixed */}
+            <div className="bg-white/95 backdrop-blur-sm border-b border-luxury-taupe/20 p-4 flex items-center gap-4 shadow-sm flex-shrink-0">
               <div className="w-12 h-12 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center">
                 <MessageCircle className="w-6 h-6 text-white" />
               </div>
@@ -516,8 +516,8 @@ const Account = () => {
               </div>
             </div>
 
-            {/* Chat Messages Area - Scrollable */}
-            <div className="flex-1 p-6 space-y-4 bg-gradient-to-b from-luxury-soft-pink/10 to-white/50 min-h-[calc(100vh-200px)]">
+            {/* Chat Messages Area - Scrollable Only */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-luxury-soft-pink/10 to-white/50">
               {/* Welcome Message */}
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center flex-shrink-0">
@@ -721,8 +721,8 @@ const Account = () => {
             {/* Scroll to bottom reference */}
             <div ref={chatMessagesEndRef} />
 
-            {/* Chat Input Area - Sticky at bottom */}
-            <div className="bg-white/95 backdrop-blur-sm border-t border-luxury-taupe/20 p-4 shadow-lg sticky bottom-0 z-20">
+            {/* Chat Input Area - Fixed at bottom */}
+            <div className="bg-white/95 backdrop-blur-sm border-t border-luxury-taupe/20 p-4 shadow-lg flex-shrink-0">
               <div className="flex items-center gap-3">
                 <div className="flex-1 relative">
                   <input
@@ -759,7 +759,7 @@ const Account = () => {
         );
       case "profile":
         return (
-          <div className="min-h-screen py-8">
+          <div className="py-8">
             <div className="text-center mb-8">
               <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl mx-auto leading-relaxed">
                 Manage your personal information and preferences to enhance your wedding planning experience.
@@ -828,7 +828,7 @@ const Account = () => {
         );
       case "wishlist":
         return (
-          <div className="min-h-screen py-8">
+          <div className="py-8">
             <div className="text-center mb-8">
               <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl mx-auto leading-relaxed">
                 Curate your perfect wedding collection. Save your favorite items and create themed wishlists for different aspects of your special day.
@@ -1074,7 +1074,7 @@ const Account = () => {
         );
       case "order":
         return (
-          <div className="min-h-screen pb-8">
+          <div className="pb-8">
             <div className="space-y-6">
               {/* Orders Header */}
               <div className="flex items-center justify-between">
@@ -1266,7 +1266,7 @@ const Account = () => {
         );
       case "bookings":
         return (
-          <div className="min-h-screen">
+          <div className="h-[calc(100vh-5rem)]">
             <Bookings />
           </div>
         );
@@ -1287,7 +1287,7 @@ const Account = () => {
         </div>
       )}
 
-      <div className="flex min-h-screen pt-20">
+      <div className="flex h-screen pt-20">
         {/* Sidebar - Fixed height from top of viewport */}
         <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col fixed top-20 bottom-0 left-0 z-30">
           {/* Navigation Items */}
@@ -1322,7 +1322,7 @@ const Account = () => {
         {/* Main Content - Offset by sidebar width */}
         <div className="flex-1 ml-80">
           {/* Content Area - Scrollable with proper height */}
-          <div className={`relative min-h-screen transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeSection === 'enquiries' ? '' : 'px-8 py-8'}`}>
+          <div className={`relative h-[calc(100vh-5rem)] overflow-y-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeSection === 'enquiries' ? '' : 'px-8 py-8'}`}>
             {/* Background Floral Elements */}
             <img 
               src="/images/bg-flower.png" 
