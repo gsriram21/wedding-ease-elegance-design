@@ -24,28 +24,63 @@ const Navigation = () => {
           
           {/* Centered navigation links */}
           <div className="hidden md:flex items-center justify-center flex-1">
-            <div className="flex items-baseline space-x-12">
-              <a href="#home" className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm">
+            <div className="flex items-baseline space-x-8">
+              <button 
+                onClick={() => navigate('/')}
+                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
+              >
                 Home
-              </a>
+              </button>
               <button 
                 onClick={() => navigate('/products')}
                 className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
               >
                 Products
               </button>
-              <a href="#services" className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm">
+              <button 
+                onClick={() => {
+                  navigate('/');
+                  setTimeout(() => {
+                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
+              >
                 Services
-              </a>
-              <a href="#packages" className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm">
+              </button>
+              <button 
+                onClick={() => {
+                  navigate('/');
+                  setTimeout(() => {
+                    document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
+              >
                 Packages
-              </a>
-              <a href="#about" className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm">
+              </button>
+              <button 
+                onClick={() => {
+                  navigate('/');
+                  setTimeout(() => {
+                    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
+              >
                 About
-              </a>
-              <a href="#contact" className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm">
+              </button>
+              <button 
+                onClick={() => {
+                  navigate('/');
+                  setTimeout(() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
+              >
                 Contact
-              </a>
+              </button>
             </div>
           </div>
 
@@ -53,12 +88,12 @@ const Navigation = () => {
           <div className="flex justify-end flex-1 gap-4">
             <Button 
               onClick={() => navigate('/account')}
-              className="bg-transparent text-luxury-maroon font-luxury-sans tracking-wide uppercase text-sm px-4 py-2 rounded-lg border-2 border-luxury-maroon hover:bg-luxury-maroon hover:text-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              className="bg-transparent text-luxury-maroon font-luxury-sans tracking-wide uppercase text-sm px-6 py-2 rounded-lg border-2 border-luxury-maroon hover:bg-luxury-maroon hover:text-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
             >
               <span className="hidden sm:inline">Account</span>
             </Button>
             <Button 
-              className="text-white font-luxury-sans tracking-wide uppercase text-sm px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 hover:bg-opacity-90"
+              className="text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 hover:bg-opacity-90"
               style={{ backgroundColor: '#1a0000' }}
             >
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
