@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingBag, Phone, User, Calendar, LogOut, ChevronLeft, ChevronRight, Plus, X, Check } from "lucide-react";
+import { Heart, ShoppingBag, MessageCircle, User, Calendar, LogOut, ChevronLeft, ChevronRight, Plus, X, Check, Truck, Package, Clock, MapPin, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import Bookings from "./Bookings";
@@ -31,6 +31,31 @@ interface Wishlist {
   coverImage?: string;
 }
 
+interface OrderItem {
+  id: number;
+  name: string;
+  price: string;
+  quantity: number;
+  image: string;
+  category: string;
+  size?: string;
+  color?: string;
+}
+
+interface Order {
+  id: string;
+  orderNumber: string;
+  date: Date;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  total: string;
+  items: OrderItem[];
+  shippingAddress: string;
+  estimatedDelivery?: Date;
+  trackingNumber?: string;
+  paymentMethod: string;
+  shippingMethod: string;
+}
+
 const Account = () => {
   // Check URL params for section to activate
   const urlParams = new URLSearchParams(window.location.search);
@@ -48,6 +73,8 @@ const Account = () => {
   const [newWishlistDescription, setNewWishlistDescription] = useState("");
   const [chatInput, setChatInput] = useState("");
   const [chatMessages, setChatMessages] = useState<Array<{id: string, type: 'user' | 'assistant', content: string, timestamp: Date, action?: string}>>([]);
+  const chatMessagesEndRef = useRef<HTMLDivElement>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [wishlists, setWishlists] = useState<Wishlist[]>([
     {
       id: "1",
@@ -64,6 +91,112 @@ const Account = () => {
       products: [],
       createdAt: new Date(),
       coverImage: "/images/accesories1.png"
+    }
+  ]);
+
+  const [orders] = useState<Order[]>([
+    {
+      id: '1',
+      orderNumber: 'WE-2024-001',
+      date: new Date('2024-01-20'),
+      status: 'delivered',
+      total: '₹85,000',
+      items: [
+        {
+          id: 1,
+          name: 'Elegant Bridal Gown',
+          price: '₹45,000',
+          quantity: 1,
+          image: '/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg',
+          category: 'Attire',
+          size: 'M',
+          color: 'Ivory'
+        },
+        {
+          id: 2,
+          name: 'Pearl Wedding Shoes',
+          price: '₹12,000',
+          quantity: 1,
+          image: '/images/awesome-sauce-creative-ZQJzMDWyqEI-unsplash.jpg',
+          category: 'Footwear',
+          size: '7',
+          color: 'White'
+        },
+        {
+          id: 3,
+          name: 'Diamond Necklace Set',
+          price: '₹28,000',
+          quantity: 1,
+          image: '/images/accesories1.png',
+          category: 'Jewelry'
+        }
+      ],
+      shippingAddress: '123 Wedding Lane, Mumbai, Maharashtra 400001',
+      estimatedDelivery: new Date('2024-01-22'),
+      trackingNumber: 'WE1234567890',
+      paymentMethod: 'Credit Card',
+      shippingMethod: 'Express Delivery'
+    },
+    {
+      id: '2',
+      orderNumber: 'WE-2024-002',
+      date: new Date('2024-01-25'),
+      status: 'shipped',
+      total: '₹35,500',
+      items: [
+        {
+          id: 4,
+          name: 'Vintage Veil',
+          price: '₹8,500',
+          quantity: 1,
+          image: '/images/celebration-new-1.jpg',
+          category: 'Accessories'
+        },
+        {
+          id: 5,
+          name: 'Pearl Earrings',
+          price: '₹15,000',
+          quantity: 1,
+          image: '/images/accesories1.png',
+          category: 'Jewelry'
+        },
+        {
+          id: 6,
+          name: 'Wedding Invitation Set',
+          price: '₹12,000',
+          quantity: 1,
+          image: '/images/invites1.png',
+          category: 'Invitations'
+        }
+      ],
+      shippingAddress: '456 Celebration Street, Delhi, Delhi 110001',
+      estimatedDelivery: new Date('2024-01-28'),
+      trackingNumber: 'WE0987654321',
+      paymentMethod: 'UPI',
+      shippingMethod: 'Standard Delivery'
+    },
+    {
+      id: '3',
+      orderNumber: 'WE-2024-003',
+      date: new Date('2024-01-26'),
+      status: 'processing',
+      total: '₹22,000',
+      items: [
+        {
+          id: 7,
+          name: 'Groom\'s Sherwani',
+          price: '₹22,000',
+          quantity: 1,
+          image: '/images/celebration-new-2.jpg',
+          category: 'Attire',
+          size: 'L',
+          color: 'Gold'
+        }
+      ],
+      shippingAddress: '789 Royal Avenue, Bangalore, Karnataka 560001',
+      estimatedDelivery: new Date('2024-01-30'),
+      paymentMethod: 'Debit Card',
+      shippingMethod: 'Express Delivery'
     }
   ]);
   
@@ -127,13 +260,71 @@ const Account = () => {
       features: ["Hand-embroidered lace", "Silk lining", "Custom sizing available"],
       trending: true
     },
-    // Add more sample products as needed
+    {
+      id: 2,
+      name: "Pearl Wedding Shoes",
+      category: "Footwear",
+      subcategory: "Bridal Shoes",
+      price: "₹12,000",
+      originalPrice: "₹15,000",
+      rating: 4.6,
+      reviews: 89,
+      images: ["/images/awesome-sauce-creative-ZQJzMDWyqEI-unsplash.jpg"],
+      description: "Elegant pearl-adorned heels perfect for your special day.",
+      features: ["Pearl detailing", "Comfortable padding", "Non-slip sole"],
+      bestSeller: true
+    },
+    {
+      id: 3,
+      name: "Vintage Veil",
+      category: "Accessories",
+      subcategory: "Veils",
+      price: "₹8,500",
+      originalPrice: "₹10,000",
+      rating: 4.9,
+      reviews: 156,
+      images: ["/images/celebration-new-1.jpg"],
+      description: "A timeless cathedral-length veil with delicate lace edging.",
+      features: ["Cathedral length", "Lace trim", "Handcrafted"],
+      newArrival: true
+    }
+  ];
+
+  const jewelryProducts: Product[] = [
+    {
+      id: 4,
+      name: "Diamond Necklace Set",
+      category: "Jewelry",
+      subcategory: "Necklaces",
+      price: "₹85,000",
+      originalPrice: "₹95,000",
+      rating: 4.9,
+      reviews: 67,
+      images: ["/images/accesories1.png"],
+      description: "Exquisite diamond necklace with matching earrings.",
+      features: ["18k Gold", "Natural diamonds", "Lifetime warranty"],
+      trending: true
+    },
+    {
+      id: 5,
+      name: "Pearl Earrings",
+      category: "Jewelry",
+      subcategory: "Earrings",
+      price: "₹15,000",
+      originalPrice: "₹18,000",
+      rating: 4.7,
+      reviews: 43,
+      images: ["/images/accesories1.png"],
+      description: "Classic pearl drop earrings for the elegant bride.",
+      features: ["Freshwater pearls", "Sterling silver", "Hypoallergenic"],
+      bestSeller: true
+    }
   ];
 
   // Add sample products to wishlists for demonstration
   const populatedWishlists = wishlists.map(wishlist => ({
     ...wishlist,
-    products: wishlist.id === "1" ? sampleProducts : []
+    products: wishlist.id === "1" ? sampleProducts : wishlist.id === "2" ? jewelryProducts : []
   }));
 
   const totalSlides = Math.ceil(wishlistItems.length / 4);
@@ -164,11 +355,11 @@ const Account = () => {
   };
 
   const sidebarItems = [
-    { id: "enquiries", label: "Chat", title: "Chat", icon: Phone, active: true },
-    { id: "profile", label: "Profile", title: "Profile", icon: User, active: false },
+    { id: "enquiries", label: "Chat", title: "Chat", icon: MessageCircle, active: true },
     { id: "wishlist", label: "Wishlist", title: "Wishlist", icon: Heart, active: false },
     { id: "order", label: "Order", title: "Orders", icon: ShoppingBag, active: false },
     { id: "bookings", label: "Bookings", title: "Bookings", icon: Calendar, active: false },
+    { id: "profile", label: "Profile", title: "Profile", icon: User, active: false },
     { id: "logout", label: "Logout", title: "Logout", icon: LogOut, active: false }
   ];
 
@@ -205,6 +396,14 @@ const Account = () => {
     }
   };
 
+  const scrollToBottom = () => {
+    chatMessagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages]);
+
   const handleSendMessage = () => {
     if (!chatInput.trim()) return;
     
@@ -215,17 +414,38 @@ const Account = () => {
       timestamp: new Date()
     };
     
+    const userInput = chatInput.toLowerCase();
     setChatMessages(prev => [...prev, userMessage]);
     setChatInput("");
     
-    // Mock AI response
+    // Mock AI response based on user input
     setTimeout(() => {
+      let assistantContent = "Thank you for your message! I'm here to help you with your wedding planning.";
+      let action = undefined;
+      
+      if (userInput.includes('book') || userInput.includes('consultation') || userInput.includes('appointment') || userInput.includes('visit')) {
+        assistantContent = "I'd be happy to help you book a consultation! We offer various consultation types to help plan your perfect wedding.";
+        action = 'show-options';
+      } else if (userInput.includes('package') || userInput.includes('pricing') || userInput.includes('cost') || userInput.includes('price')) {
+        assistantContent = "Let me show you our wedding packages and services! We have options for every budget and style.";
+        action = 'show-options';
+      } else if (userInput.includes('product') || userInput.includes('dress') || userInput.includes('attire') || userInput.includes('shop')) {
+        assistantContent = "Would you like to browse our exclusive collection of wedding attire and accessories? I can help you find the perfect items!";
+        action = 'show-options';
+      } else if (userInput.includes('quote') || userInput.includes('estimate') || userInput.includes('budget')) {
+        assistantContent = "I can help you get a personalized quote for your wedding! Let me show you the available options.";
+        action = 'show-options';
+      } else {
+        assistantContent = "I'm here to help with all your wedding planning needs! Would you like to explore our services?";
+        action = 'show-options';
+      }
+      
       const assistantMessage = {
         id: (Date.now() + 1).toString(),
         type: 'assistant' as const,
-        content: "Thank you for your message! I understand you're interested in wedding planning. Let me help you with some options:",
+        content: assistantContent,
         timestamp: new Date(),
-        action: 'show-options'
+        action
       };
       setChatMessages(prev => [...prev, assistantMessage]);
     }, 1000);
@@ -237,15 +457,37 @@ const Account = () => {
     }
   };
 
+  const getOrderStatusColor = (status: string) => {
+    switch (status) {
+      case 'delivered': return 'bg-green-100 text-green-800';
+      case 'shipped': return 'bg-blue-100 text-blue-800';
+      case 'processing': return 'bg-yellow-100 text-yellow-800';
+      case 'pending': return 'bg-orange-100 text-orange-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getOrderStatusIcon = (status: string) => {
+    switch (status) {
+      case 'delivered': return <Check className="w-4 h-4" />;
+      case 'shipped': return <Truck className="w-4 h-4" />;
+      case 'processing': return <Package className="w-4 h-4" />;
+      case 'pending': return <Clock className="w-4 h-4" />;
+      case 'cancelled': return <X className="w-4 h-4" />;
+      default: return <Package className="w-4 h-4" />;
+    }
+  };
+
   const renderContent = () => {
     switch (activeSection) {
       case "enquiries":
         return (
-          <div className="h-full flex flex-col">
+          <div className="min-h-screen flex flex-col">
             {/* Chat Interface Header */}
-            <div className="bg-white/95 backdrop-blur-sm border-b border-luxury-taupe/20 p-4 flex items-center gap-4 shadow-sm">
+            <div className="bg-white/95 backdrop-blur-sm border-b border-luxury-taupe/20 p-4 flex items-center gap-4 shadow-sm sticky top-0 z-20">
               <div className="w-12 h-12 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center">
-                <Phone className="w-6 h-6 text-white" />
+                <MessageCircle className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
                 <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon">
@@ -275,7 +517,7 @@ const Account = () => {
             </div>
 
             {/* Chat Messages Area - Scrollable */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-luxury-soft-pink/10 to-white/50" style={{ maxHeight: 'calc(100vh - 300px)' }}>
+            <div className="flex-1 p-6 space-y-4 bg-gradient-to-b from-luxury-soft-pink/10 to-white/50 min-h-[calc(100vh-200px)]">
               {/* Welcome Message */}
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center flex-shrink-0">
@@ -475,9 +717,12 @@ const Account = () => {
                 </div>
               </div>
             ))}
+            
+            {/* Scroll to bottom reference */}
+            <div ref={chatMessagesEndRef} />
 
-            {/* Chat Input Area - Fixed at bottom */}
-            <div className="bg-white/95 backdrop-blur-sm border-t border-luxury-taupe/20 p-4 shadow-lg">
+            {/* Chat Input Area - Sticky at bottom */}
+            <div className="bg-white/95 backdrop-blur-sm border-t border-luxury-taupe/20 p-4 shadow-lg sticky bottom-0 z-20">
               <div className="flex items-center gap-3">
                 <div className="flex-1 relative">
                   <input
@@ -514,7 +759,7 @@ const Account = () => {
         );
       case "profile":
         return (
-          <div className="py-8">
+          <div className="min-h-screen py-8">
             <div className="text-center mb-8">
               <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl mx-auto leading-relaxed">
                 Manage your personal information and preferences to enhance your wedding planning experience.
@@ -583,7 +828,7 @@ const Account = () => {
         );
       case "wishlist":
         return (
-          <div className="py-8">
+          <div className="min-h-screen py-8">
             <div className="text-center mb-8">
               <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl mx-auto leading-relaxed">
                 Curate your perfect wedding collection. Save your favorite items and create themed wishlists for different aspects of your special day.
@@ -829,43 +1074,202 @@ const Account = () => {
         );
       case "order":
         return (
-          <div className="py-8">
-            <div className="text-center mb-8">
-              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl mx-auto leading-relaxed">
-                Track your wedding purchases and delivery status.
-              </p>
+          <div className="min-h-screen pb-8">
+            <div className="space-y-6">
+              {/* Orders Header */}
+              <div className="flex items-center justify-between">
+                <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon">Your Orders</h2>
+                <Button
+                  onClick={() => navigate('/products')}
+                  className="bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white"
+                >
+                  <ShoppingBag className="w-4 h-4 mr-2" />
+                  Continue Shopping
+                </Button>
+              </div>
+
+              {/* Orders List */}
+              <div className="space-y-4">
+              {orders.map((order) => (
+                <div key={order.id} className="bg-white/80 backdrop-blur-sm rounded-xl border border-luxury-taupe/20 overflow-hidden hover:shadow-lg transition-all duration-300">
+                  {/* Order Header */}
+                  <div className="p-6 border-b border-luxury-taupe/20 bg-luxury-soft-pink/10">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-4">
+                          <h3 className="font-luxury-serif font-bold text-luxury-maroon">Order #{order.orderNumber}</h3>
+                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${getOrderStatusColor(order.status)}`}>
+                            {getOrderStatusIcon(order.status)}
+                            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm text-luxury-maroon/60 font-luxury-sans">
+                          <span>Placed on {order.date.toLocaleDateString()}</span>
+                          <span>•</span>
+                          <span>Total: {order.total}</span>
+                          {order.estimatedDelivery && (
+                            <>
+                              <span>•</span>
+                              <span>Delivery by {order.estimatedDelivery.toLocaleDateString()}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() => setSelectedOrder(order)}
+                        variant="outline"
+                        className="border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white"
+                      >
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Order Items Preview */}
+                  <div className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {order.items.slice(0, 3).map((item) => (
+                        <div key={item.id} className="flex items-center gap-3">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-16 h-16 rounded-lg object-cover"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-luxury-sans font-medium text-luxury-maroon truncate">{item.name}</h4>
+                            <p className="text-sm text-luxury-maroon/60">Qty: {item.quantity}</p>
+                            <p className="text-sm font-bold text-luxury-dusty-rose">{item.price}</p>
+                          </div>
+                        </div>
+                      ))}
+                      {order.items.length > 3 && (
+                        <div className="flex items-center justify-center text-luxury-maroon/60 font-luxury-sans text-sm">
+                          +{order.items.length - 3} more items
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-12 shadow-lg border border-luxury-taupe/10 text-center">
-              <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <ShoppingBag className="w-8 h-8 text-luxury-dusty-rose" />
+
+            {/* Order Detail Modal */}
+            {selectedOrder && (
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                  <div className="p-6 border-b border-luxury-taupe/20">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
+                        Order Details - #{selectedOrder.orderNumber}
+                      </h3>
+                      <button
+                        onClick={() => setSelectedOrder(null)}
+                        className="w-8 h-8 bg-luxury-taupe/10 hover:bg-luxury-taupe/20 rounded-full flex items-center justify-center transition-colors"
+                      >
+                        <X className="w-5 h-5 text-luxury-maroon" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-6 space-y-6">
+                    {/* Order Status and Info */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Order Status</h4>
+                          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${getOrderStatusColor(selectedOrder.status)}`}>
+                            {getOrderStatusIcon(selectedOrder.status)}
+                            <span className="font-medium">{selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}</span>
+                          </div>
+                        </div>
+                        {selectedOrder.trackingNumber && (
+                          <div>
+                            <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Tracking Number</h4>
+                            <p className="font-luxury-sans text-luxury-maroon bg-luxury-soft-pink/20 px-3 py-2 rounded-lg inline-block">
+                              {selectedOrder.trackingNumber}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Shipping Address</h4>
+                          <p className="font-luxury-sans text-luxury-maroon/70">{selectedOrder.shippingAddress}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Payment Method</h4>
+                          <p className="font-luxury-sans text-luxury-maroon/70">{selectedOrder.paymentMethod}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Order Items */}
+                    <div>
+                      <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-4">Items Ordered</h4>
+                      <div className="space-y-4">
+                        {selectedOrder.items.map((item) => (
+                          <div key={item.id} className="flex items-center gap-4 p-4 bg-luxury-soft-pink/10 rounded-lg">
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-20 h-20 rounded-lg object-cover"
+                            />
+                            <div className="flex-1">
+                              <h5 className="font-luxury-sans font-semibold text-luxury-maroon">{item.name}</h5>
+                              <p className="text-sm text-luxury-maroon/60 font-luxury-sans">{item.category}</p>
+                              {item.size && <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Size: {item.size}</p>}
+                              {item.color && <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Color: {item.color}</p>}
+                            </div>
+                            <div className="text-right">
+                              <p className="font-luxury-sans font-semibold text-luxury-maroon">Qty: {item.quantity}</p>
+                              <p className="font-luxury-serif font-bold text-luxury-dusty-rose">{item.price}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Order Total */}
+                    <div className="border-t border-luxury-taupe/20 pt-4">
+                      <div className="flex justify-between items-center">
+                        <span className="font-luxury-serif text-lg font-semibold text-luxury-maroon">Order Total:</span>
+                        <span className="font-luxury-serif text-xl font-bold text-luxury-dusty-rose">{selectedOrder.total}</span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3">
+                      {selectedOrder.status === 'shipped' && (
+                        <Button className="flex-1 bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white">
+                          <Truck className="w-4 h-4 mr-2" />
+                          Track Package
+                        </Button>
+                      )}
+                      {selectedOrder.status === 'delivered' && (
+                        <Button className="flex-1 bg-luxury-maroon hover:bg-luxury-maroon/90 text-white">
+                          <ShoppingBag className="w-4 h-4 mr-2" />
+                          Reorder Items
+                        </Button>
+                      )}
+                      <Button
+                        variant="outline"
+                        className="border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10"
+                      >
+                        Download Invoice
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">
-                No orders yet
-              </h3>
-              <p className="text-luxury-maroon/60 font-luxury-sans text-base leading-relaxed max-w-md mx-auto mb-8">
-                When you make a purchase, your order history will appear here. Start exploring our collection to find your perfect wedding essentials.
-              </p>
-              <div className="flex gap-4 justify-center">
-                <Button 
-                  onClick={() => handleMockAction('browse-products')}
-                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
-                >
-                  Browse Products
-                </Button>
-                <Button 
-                  onClick={() => handleMockAction('track-order')}
-                  variant="outline"
-                  className="border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-8 py-3 rounded-lg transition-all duration-300"
-                >
-                  Track Order
-                </Button>
-              </div>
+            )}
             </div>
           </div>
         );
       case "bookings":
-        return <Bookings />;
+        return (
+          <div className="min-h-screen">
+            <Bookings />
+          </div>
+        );
       default:
         return null;
     }
@@ -883,9 +1287,9 @@ const Account = () => {
         </div>
       )}
 
-      <div className="flex h-screen pt-20">
-        {/* Sidebar - Fixed height */}
-        <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col h-full">
+      <div className="flex min-h-screen pt-20">
+        {/* Sidebar - Fixed height from top of viewport */}
+        <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col fixed top-20 bottom-0 left-0 z-30">
           {/* Navigation Items */}
           <div className="flex-1 p-6 space-y-2 overflow-y-auto">
             {sidebarItems.map((item) => {
@@ -915,10 +1319,10 @@ const Account = () => {
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col">
-          {/* Content Area - Full height without header */}
-          <div className={`flex-1 relative overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeSection === 'enquiries' ? '' : 'px-8 py-8'}`}>
+        {/* Main Content - Offset by sidebar width */}
+        <div className="flex-1 ml-80">
+          {/* Content Area - Scrollable with proper height */}
+          <div className={`relative min-h-screen transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeSection === 'enquiries' ? '' : 'px-8 py-8'}`}>
             {/* Background Floral Elements */}
             <img 
               src="/images/bg-flower.png" 

@@ -17,14 +17,23 @@ interface Booking {
   rating?: number;
   notes?: string;
   packageType: string;
+  recordingUrl?: string;
+  transcript?: string;
+  agenda?: string[];
+  actionItems?: string[];
+  nextSteps?: string[];
 }
 
 const Bookings = () => {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'upcoming' | 'past' | 'analytics' | 'new'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'upcoming' | 'past' | 'new'>('new');
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [selectedConsultant, setSelectedConsultant] = useState<string | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [isRescheduling, setIsRescheduling] = useState(false);
+  const [isCanceling, setIsCanceling] = useState(false);
+  const [newRescheduleDate, setNewRescheduleDate] = useState<Date | null>(null);
+  const [newRescheduleTime, setNewRescheduleTime] = useState<string | null>(null);
 
   // Mock data for bookings
   const bookings: Booking[] = [
@@ -32,7 +41,7 @@ const Bookings = () => {
       id: '1',
       title: 'Wedding Planning Consultation',
       consultant: 'Priya Sharma',
-      consultantImage: '/images/testimonial-1.jpg',
+      consultantImage: '/images/aastha-bansal-W1wkx5kcaBk-unsplash.jpg',
       date: new Date('2024-01-25'),
       time: '2:00 PM',
       duration: 60,
@@ -45,7 +54,7 @@ const Bookings = () => {
       id: '2',
       title: 'Venue Selection Discussion',
       consultant: 'Rajesh Kumar',
-      consultantImage: '/images/testimonial-2.jpg',
+      consultantImage: '/images/ikshana-productions-UX3-_dGbCzk-unsplash.jpg',
       date: new Date('2024-01-20'),
       time: '10:00 AM',
       duration: 45,
@@ -54,13 +63,18 @@ const Bookings = () => {
       platform: 'Zoom',
       summary: 'Discussed 5 potential venues. Client interested in garden settings.',
       rating: 5,
-      packageType: 'Venue Consultation'
+      packageType: 'Venue Consultation',
+      recordingUrl: 'https://example.com/recording/venue-session',
+      transcript: 'Session transcript: Discussed various venue options including outdoor gardens, banquet halls, and heritage properties...',
+      agenda: ['Review venue requirements', 'Discuss budget constraints', 'Present venue options', 'Schedule site visits'],
+      actionItems: ['Schedule visits to 3 shortlisted venues', 'Get quotes from selected venues', 'Check availability for preferred dates'],
+      nextSteps: ['Site visits next week', 'Final venue selection by month end', 'Book chosen venue']
     },
     {
       id: '3',
       title: 'Budget Planning Session',
       consultant: 'Anjali Patel',
-      consultantImage: '/images/testimonial-3.jpg',
+      consultantImage: '/images/khadija-yousaf-lKwp3-FQomY-unsplash.jpg',
       date: new Date('2024-01-15'),
       time: '3:30 PM',
       duration: 90,
@@ -69,14 +83,19 @@ const Bookings = () => {
       platform: 'Phone Call',
       summary: 'Comprehensive budget breakdown completed. Next: vendor selection.',
       rating: 4,
-      packageType: 'Financial Planning'
+      packageType: 'Financial Planning',
+      recordingUrl: 'https://example.com/recording/budget-session',
+      transcript: 'Budget planning session: Reviewed total wedding budget, allocated funds for different categories...',
+      agenda: ['Review total budget', 'Allocate category budgets', 'Identify cost-saving opportunities', 'Plan vendor negotiations'],
+      actionItems: ['Create detailed budget spreadsheet', 'Research vendor pricing', 'Set up payment timeline'],
+      nextSteps: ['Begin vendor outreach', 'Negotiate contracts', 'Finalize payment schedule']
     }
   ];
 
   const consultants = [
-    { id: '1', name: 'Priya Sharma', specialty: 'Wedding Planning', image: '/images/testimonial-1.jpg', rating: 4.9 },
-    { id: '2', name: 'Rajesh Kumar', specialty: 'Venue Selection', image: '/images/testimonial-2.jpg', rating: 4.8 },
-    { id: '3', name: 'Anjali Patel', specialty: 'Budget Planning', image: '/images/testimonial-3.jpg', rating: 4.7 },
+    { id: '1', name: 'Priya Sharma', specialty: 'Wedding Planning', image: '/images/aastha-bansal-W1wkx5kcaBk-unsplash.jpg', rating: 4.9 },
+    { id: '2', name: 'Rajesh Kumar', specialty: 'Venue Selection', image: '/images/ikshana-productions-UX3-_dGbCzk-unsplash.jpg', rating: 4.8 },
+    { id: '3', name: 'Anjali Patel', specialty: 'Budget Planning', image: '/images/khadija-yousaf-lKwp3-FQomY-unsplash.jpg', rating: 4.7 },
   ];
 
   const timeSlots = [
@@ -107,6 +126,50 @@ const Bookings = () => {
       case 'canceled': return 'text-red-600 bg-red-50';
       default: return 'text-gray-600 bg-gray-50';
     }
+  };
+
+  const handleReschedule = () => {
+    setIsRescheduling(true);
+  };
+
+  const handleCancelBooking = () => {
+    setIsCanceling(true);
+  };
+
+  const confirmReschedule = () => {
+    if (selectedBooking && newRescheduleDate && newRescheduleTime) {
+      // In a real app, this would call an API
+      console.log('Rescheduling booking', selectedBooking.id, 'to', newRescheduleDate, newRescheduleTime);
+      setIsRescheduling(false);
+      setSelectedBooking(null);
+      setNewRescheduleDate(null);
+      setNewRescheduleTime(null);
+      // Show success message
+      alert('Booking rescheduled successfully!');
+    }
+  };
+
+  const confirmCancel = () => {
+    if (selectedBooking) {
+      // In a real app, this would call an API
+      console.log('Canceling booking', selectedBooking.id);
+      setIsCanceling(false);
+      setSelectedBooking(null);
+      // Show success message
+      alert('Booking canceled successfully!');
+    }
+  };
+
+  const handleBookFollowup = () => {
+    // Navigate to new booking with pre-filled consultant
+    setActiveTab('new');
+    if (selectedBooking) {
+      const consultant = consultants.find(c => c.name === selectedBooking.consultant);
+      if (consultant) {
+        setSelectedConsultant(consultant.id);
+      }
+    }
+    setSelectedBooking(null);
   };
 
   const renderDashboard = () => (
@@ -154,6 +217,58 @@ const Bookings = () => {
             <div>
               <p className="text-2xl font-bold text-luxury-maroon">{bookings.length}</p>
               <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Total Sessions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Analytics Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
+          <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Satisfaction</h3>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-luxury-maroon mb-2">4.8</div>
+            <div className="flex items-center justify-center gap-1 mb-2">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+            <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Average Rating</p>
+          </div>
+        </div>
+
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
+          <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Preferences</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <span className="text-luxury-maroon/70 font-luxury-sans">Video Calls:</span>
+              <span className="font-bold text-luxury-maroon">75%</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-luxury-maroon/70 font-luxury-sans">Phone Calls:</span>
+              <span className="font-bold text-luxury-maroon">25%</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-luxury-maroon/70 font-luxury-sans">Avg Duration:</span>
+              <span className="font-bold text-luxury-maroon">65 min</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
+          <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Session History</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <span className="text-luxury-maroon/70 font-luxury-sans">Total Sessions:</span>
+              <span className="font-bold text-luxury-maroon">{bookings.length}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-luxury-maroon/70 font-luxury-sans">Completed:</span>
+              <span className="font-bold text-green-600">{filterBookings('completed').length}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-luxury-maroon/70 font-luxury-sans">Upcoming:</span>
+              <span className="font-bold text-blue-600">{filterBookings('upcoming').length}</span>
             </div>
           </div>
         </div>
@@ -564,11 +679,10 @@ const Bookings = () => {
       <div className="bg-white/90 backdrop-blur-sm rounded-xl p-1.5 shadow-lg border border-luxury-taupe/20 mb-6">
         <div className="flex gap-1 overflow-x-auto scrollbar-hide">
           {[
+            { id: 'new', label: 'Book Session', icon: Plus },
             { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'upcoming', label: 'Upcoming', icon: Clock },
-            { id: 'past', label: 'Past Sessions', icon: CheckCircle },
-            { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-            { id: 'new', label: 'Book Session', icon: Plus }
+            { id: 'past', label: 'Past Sessions', icon: CheckCircle }
           ].map((tab) => {
             const Icon = tab.icon;
             return (
@@ -577,7 +691,7 @@ const Bookings = () => {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-luxury-sans font-medium transition-all duration-300 whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'bg-luxury-maroon text-white shadow-lg'
+                    ? (tab.id === 'new' ? 'bg-luxury-maroon text-white shadow-lg' : 'bg-luxury-dusty-rose text-white shadow-lg')
                     : 'text-luxury-maroon hover:bg-luxury-taupe/10'
                 }`}
               >
@@ -594,14 +708,13 @@ const Bookings = () => {
         {activeTab === 'dashboard' && renderDashboard()}
         {activeTab === 'upcoming' && renderBookingsList('upcoming')}
         {activeTab === 'past' && renderBookingsList('completed')}
-        {activeTab === 'analytics' && renderAnalytics()}
         {activeTab === 'new' && renderNewBooking()}
       </div>
 
       {/* Booking Detail Modal */}
       {selectedBooking && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-luxury-taupe/20">
               <div className="flex items-center justify-between">
                 <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
@@ -660,49 +773,239 @@ const Bookings = () => {
                 </div>
               </div>
 
-              {selectedBooking.summary && (
-                <div className="mb-6">
-                  <label className="text-sm font-medium text-luxury-maroon/70 font-luxury-sans mb-2 block">Session Summary</label>
-                  <div className="bg-luxury-soft-pink/20 rounded-lg p-4">
-                    <p className="text-luxury-maroon font-luxury-sans">{selectedBooking.summary}</p>
-                  </div>
-                </div>
-              )}
+              {/* Teams-style Content Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                {/* Left Column */}
+                <div className="space-y-4">
+                  {/* Recording Section */}
+                  {selectedBooking.recordingUrl && selectedBooking.status === 'completed' && (
+                    <div className="bg-luxury-soft-pink/10 rounded-lg p-4 border border-luxury-taupe/20">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Video className="w-5 h-5 text-luxury-maroon" />
+                        <h5 className="font-luxury-serif font-semibold text-luxury-maroon">Session Recording</h5>
+                      </div>
+                      <div className="bg-gray-100 rounded-lg p-4 mb-3">
+                        <div className="flex items-center justify-center text-gray-500">
+                          <Video className="w-8 h-8 mr-2" />
+                          <span className="font-luxury-sans">Recording Available</span>
+                        </div>
+                      </div>
+                      <Button className="w-full bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white">
+                        <Video className="w-4 h-4 mr-2" />
+                        Play Recording
+                      </Button>
+                    </div>
+                  )}
 
-              {selectedBooking.rating && (
-                <div className="mb-6">
-                  <label className="text-sm font-medium text-luxury-maroon/70 font-luxury-sans mb-2 block">Your Rating</label>
-                  <div className="flex items-center gap-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${i < selectedBooking.rating! ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
-                      />
-                    ))}
-                    <span className="text-luxury-maroon font-luxury-sans ml-2">{selectedBooking.rating}/5</span>
-                  </div>
+                  {/* Session Summary */}
+                  {selectedBooking.summary && (
+                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
+                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Session Summary</h5>
+                      <p className="text-luxury-maroon/70 font-luxury-sans">{selectedBooking.summary}</p>
+                    </div>
+                  )}
+
+                  {/* Agenda */}
+                  {selectedBooking.agenda && (
+                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
+                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Meeting Agenda</h5>
+                      <ul className="space-y-2">
+                        {selectedBooking.agenda.map((item, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="text-luxury-dusty-rose font-bold text-sm mt-1">{index + 1}.</span>
+                            <span className="text-luxury-maroon/70 font-luxury-sans text-sm">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                {/* Right Column */}
+                <div className="space-y-4">
+                  {/* Action Items */}
+                  {selectedBooking.actionItems && (
+                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
+                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Action Items</h5>
+                      <ul className="space-y-2">
+                        {selectedBooking.actionItems.map((item, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                            <span className="text-luxury-maroon/70 font-luxury-sans text-sm">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Next Steps */}
+                  {selectedBooking.nextSteps && (
+                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
+                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Next Steps</h5>
+                      <ul className="space-y-2">
+                        {selectedBooking.nextSteps.map((item, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <ArrowRight className="w-4 h-4 text-luxury-dusty-rose mt-0.5 flex-shrink-0" />
+                            <span className="text-luxury-maroon/70 font-luxury-sans text-sm">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Rating */}
+                  {selectedBooking.rating && (
+                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
+                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Your Rating</h5>
+                      <div className="flex items-center gap-2">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-5 h-5 ${i < selectedBooking.rating! ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                          />
+                        ))}
+                        <span className="text-luxury-maroon font-luxury-sans ml-2">{selectedBooking.rating}/5</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Transcript Section */}
+                  {selectedBooking.transcript && selectedBooking.status === 'completed' && (
+                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
+                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Session Transcript</h5>
+                      <div className="bg-gray-50 rounded-lg p-3 max-h-32 overflow-y-auto">
+                        <p className="text-luxury-maroon/70 font-luxury-sans text-sm">{selectedBooking.transcript}</p>
+                      </div>
+                      <Button variant="outline" className="w-full mt-3 border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10">
+                        View Full Transcript
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
 
               <div className="flex gap-3">
                 {selectedBooking.status === 'upcoming' && (
                   <>
-                    <Button className="flex-1 bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white">
+                    <Button 
+                      onClick={handleReschedule}
+                      className="flex-1 bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white"
+                    >
                       <Edit className="w-4 h-4 mr-2" />
                       Reschedule
                     </Button>
-                    <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50">
+                    <Button 
+                      onClick={handleCancelBooking}
+                      variant="outline" 
+                      className="border-red-300 text-red-600 hover:bg-red-50"
+                    >
                       <XCircle className="w-4 h-4 mr-2" />
                       Cancel
                     </Button>
                   </>
                 )}
                 {selectedBooking.status === 'completed' && (
-                  <Button className="flex-1 bg-luxury-maroon hover:bg-luxury-maroon/90 text-white">
+                  <Button 
+                    onClick={handleBookFollowup}
+                    className="flex-1 bg-luxury-maroon hover:bg-luxury-maroon/90 text-white"
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     Book Follow-up
                   </Button>
                 )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reschedule Modal */}
+      {isRescheduling && selectedBooking && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
+            <div className="p-6 border-b border-luxury-taupe/20">
+              <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
+                Reschedule Session
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="text-sm font-medium text-luxury-maroon/70 font-luxury-sans mb-2 block">
+                  Select New Date
+                </label>
+                <input
+                  type="date"
+                  onChange={(e) => setNewRescheduleDate(new Date(e.target.value))}
+                  className="w-full p-3 border border-luxury-taupe/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-dusty-rose"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-luxury-maroon/70 font-luxury-sans mb-2 block">
+                  Select New Time
+                </label>
+                <select
+                  onChange={(e) => setNewRescheduleTime(e.target.value)}
+                  className="w-full p-3 border border-luxury-taupe/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-dusty-rose"
+                >
+                  <option value="">Choose time...</option>
+                  {timeSlots.map((time) => (
+                    <option key={time} value={time}>{time}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-3 pt-4">
+                <Button
+                  onClick={confirmReschedule}
+                  disabled={!newRescheduleDate || !newRescheduleTime}
+                  className="flex-1 bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white disabled:opacity-50"
+                >
+                  Confirm Reschedule
+                </Button>
+                <Button
+                  onClick={() => {
+                    setIsRescheduling(false);
+                    setNewRescheduleDate(null);
+                    setNewRescheduleTime(null);
+                  }}
+                  variant="outline"
+                  className="border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cancel Confirmation Modal */}
+      {isCanceling && selectedBooking && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
+            <div className="p-6 border-b border-luxury-taupe/20">
+              <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
+                Cancel Session
+              </h3>
+            </div>
+            <div className="p-6">
+              <p className="text-luxury-maroon/70 font-luxury-sans mb-6">
+                Are you sure you want to cancel your session with {selectedBooking.consultant}? 
+                This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <Button
+                  onClick={confirmCancel}
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                >
+                  Yes, Cancel Session
+                </Button>
+                <Button
+                  onClick={() => setIsCanceling(false)}
+                  variant="outline"
+                  className="border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10"
+                >
+                  Keep Session
+                </Button>
               </div>
             </div>
           </div>

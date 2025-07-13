@@ -1251,7 +1251,7 @@ const Products = () => {
         onAddToWishlist={handleAddToWishlist}
         onCreateWishlist={handleCreateWishlist}
         existingWishlists={wishlists}
-        onNavigateToAccount={() => navigate('/account')}
+        onNavigateToAccount={() => navigate('/account?section=wishlist')}
       />
     </div>
   );
