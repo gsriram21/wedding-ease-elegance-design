@@ -759,9 +759,10 @@ const Account = () => {
         );
       case "profile":
         return (
-          <div className="py-8">
-            <div className="text-center mb-8">
-              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl mx-auto leading-relaxed">
+          <div className="h-full overflow-y-auto">
+            <div className="mb-8">
+              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Profile Settings</h2>
+              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
                 Manage your personal information and preferences to enhance your wedding planning experience.
               </p>
             </div>
@@ -828,9 +829,10 @@ const Account = () => {
         );
       case "wishlist":
         return (
-          <div className="py-8">
-            <div className="text-center mb-8">
-              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl mx-auto leading-relaxed">
+          <div className="h-full overflow-y-auto">
+            <div className="mb-8">
+              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Your Wishlists</h2>
+              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
                 Curate your perfect wedding collection. Save your favorite items and create themed wishlists for different aspects of your special day.
               </p>
             </div>
@@ -1074,7 +1076,7 @@ const Account = () => {
         );
       case "order":
         return (
-          <div className="pb-8">
+          <div className="h-full overflow-y-auto">
             <div className="space-y-6">
               {/* Orders Header */}
               <div className="flex items-center justify-between">
@@ -1321,8 +1323,8 @@ const Account = () => {
 
         {/* Main Content - Offset by sidebar width */}
         <div className="flex-1 ml-80">
-          {/* Content Area - Scrollable with proper height */}
-          <div className={`relative h-[calc(100vh-5rem)] overflow-y-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeSection === 'enquiries' ? '' : 'px-8 py-8'}`}>
+          {/* Content Area - Each section handles its own scrolling */}
+          <div className={`relative h-[calc(100vh-5rem)] transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeSection === 'enquiries' ? '' : 'px-8 py-8'}`}>
             {/* Background Floral Elements */}
             <img 
               src="/images/bg-flower.png" 
