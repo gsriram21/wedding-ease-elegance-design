@@ -878,13 +878,13 @@ const Products = () => {
           {/* Banner 1: Main Categories */}
           <div className="bg-white/90 backdrop-blur-sm border-b border-luxury-taupe/20">
             <div className="max-w-7xl mx-auto px-6 py-4">
-              <div className="flex items-center gap-4 overflow-x-auto">
+              <div className="flex flex-wrap items-center gap-4">
                 <button
                   onClick={() => {
                     setActiveCategory("all");
                     setActiveSubcategory("all");
                   }}
-                  className={`flex-shrink-0 px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap shadow-sm hover:shadow-md ${
+                  className={`px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap shadow-sm hover:shadow-md ${
                     activeCategory === "all"
                       ? "bg-luxury-maroon text-white shadow-lg"
                       : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/30 hover:border-luxury-dusty-rose/40"
@@ -899,7 +899,7 @@ const Products = () => {
                       setActiveCategory(category.id);
                       setActiveSubcategory("all");
                     }}
-                    className={`flex-shrink-0 px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap shadow-sm hover:shadow-md ${
+                    className={`px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap shadow-sm hover:shadow-md ${
                       activeCategory === category.id
                         ? "bg-luxury-maroon text-white shadow-lg"
                         : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/30 hover:border-luxury-dusty-rose/40"
@@ -946,12 +946,12 @@ const Products = () => {
                       ))}
                     </div>
                   ) : (
-                    // Horizontal scroll for many items with balanced wrapping
-                    <div className="overflow-x-auto scrollbar-hide">
-                      <div className="flex items-center gap-3 min-w-max px-4">
+                    // Responsive wrapping layout for many items - no horizontal scroll
+                    <div className="px-4">
+                      <div className="flex flex-wrap items-center gap-3">
                         <button
                           onClick={() => setActiveSubcategory("all")}
-                          className={`flex-shrink-0 px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm whitespace-nowrap shadow-sm hover:shadow-md ${
+                          className={`px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm whitespace-nowrap shadow-sm hover:shadow-md ${
                             activeSubcategory === "all"
                               ? "bg-luxury-maroon text-white shadow-lg transform scale-105"
                               : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40"
@@ -963,7 +963,7 @@ const Products = () => {
                           <button
                             key={subcategory}
                             onClick={() => setActiveSubcategory(subcategory)}
-                            className={`flex-shrink-0 px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm capitalize whitespace-nowrap shadow-sm hover:shadow-md ${
+                            className={`px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm capitalize whitespace-nowrap shadow-sm hover:shadow-md ${
                               activeSubcategory === subcategory
                                 ? "bg-luxury-maroon text-white shadow-lg transform scale-105"
                                 : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40"

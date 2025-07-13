@@ -11,7 +11,6 @@
   - button "Packages"
   - button "About"
   - button "Contact"
-  - button "Contact"
   - button "Account"
   - button "Ease Bot AI"
 - img
@@ -24,34 +23,34 @@
 - text: Max
 - spinbutton: "200000"
 - heading "⭐ Customer Rating" [level=3]
-- checkbox "4.5+ (35)"
+- checkbox "4.5+ (40)"
 - img
 - img
 - img
 - img
 - img
-- text: 4.5+ (35)
-- checkbox "4+ (10)"
+- text: 4.5+ (40)
+- checkbox "4+ (32)"
 - img
 - img
 - img
 - img
 - img
-- text: 4+ (10)
-- checkbox "3.5+ (17)"
+- text: 4+ (32)
+- checkbox "3.5+ (35)"
 - img
 - img
 - img
 - img
 - img
-- text: 3.5+ (17)
-- checkbox "3+ (15)"
+- text: 3.5+ (35)
+- checkbox "3+ (42)"
 - img
 - img
 - img
 - img
 - img
-- text: 3+ (15)
+- text: 3+ (42)
 - heading "🎨 Color" [level=3]
 - button "Red"
 - button "Blue"
@@ -62,16 +61,16 @@
 - button "Purple"
 - button "Black"
 - heading "🏷️ Brand" [level=3]
-- checkbox "Wedding Ease (23)"
-- text: Wedding Ease (23)
-- checkbox "Luxury Collection (12)"
-- text: Luxury Collection (12)
-- checkbox "Heritage Designs (7)"
-- text: Heritage Designs (7)
-- checkbox "Royal Crafts (26)"
-- text: Royal Crafts (26)
-- checkbox "Elegant Touch (17)"
-- text: Elegant Touch (17)
+- checkbox "Wedding Ease (19)"
+- text: Wedding Ease (19)
+- checkbox "Luxury Collection (29)"
+- text: Luxury Collection (29)
+- checkbox "Heritage Designs (27)"
+- text: Heritage Designs (27)
+- checkbox "Royal Crafts (13)"
+- text: Royal Crafts (13)
+- checkbox "Elegant Touch (7)"
+- text: Elegant Touch (7)
 - heading "📏 Size" [level=3]
 - button "XS"
 - button "S"

@@ -1,0 +1,71 @@
+# Page snapshot
+
+```yaml
+- region "Notifications (F8)":
+  - list
+- navigation:
+  - img "Wedding Ease Logo"
+  - button "Home"
+  - button "Products"
+  - button "Services"
+  - button "Packages"
+  - button "About"
+  - button "Contact"
+  - button "Account"
+  - button "Ease Bot AI"
+- button "Enquire Session":
+  - img
+  - text: Enquire Session
+- button "Profile":
+  - img
+  - text: Profile
+- button "Wishlist":
+  - img
+  - text: Wishlist
+- button "Order":
+  - img
+  - text: Order
+- button "Bookings":
+  - img
+  - text: Bookings
+- button "Logout":
+  - img
+  - text: Logout
+- heading "Enquiries" [level=1]
+- img
+- heading "Wedding Planning Assistant" [level=3]
+- text: Online • Typically replies instantly
+- button "Video Call"
+- button "Schedule Meeting"
+- text: W
+- paragraph: Welcome to WeddingEase! 🌸 I'm here to help you plan your perfect wedding.
+- paragraph: You can ask me about our services, book consultations, or get personalized recommendations!
+- text: Just now
+- button "Book Consultation Schedule a free 30-minute consultation with our wedding experts":
+  - img
+  - heading "Book Consultation" [level=4]
+  - paragraph: Schedule a free 30-minute consultation with our wedding experts
+- button "View Packages Explore our curated wedding packages and pricing options":
+  - img
+  - heading "View Packages" [level=4]
+  - paragraph: Explore our curated wedding packages and pricing options
+- button "Browse Products Discover our exclusive collection of wedding attire and accessories":
+  - img
+  - heading "Browse Products" [level=4]
+  - paragraph: Discover our exclusive collection of wedding attire and accessories
+- button "Get Custom Quote Tell us about your dream wedding and get a personalized quote":
+  - img
+  - heading "Get Custom Quote" [level=4]
+  - paragraph: Tell us about your dream wedding and get a personalized quote
+- text: W
+- paragraph: "Here are some questions I can help you with:"
+- button "What wedding packages do you offer?"
+- button "How do I book a venue consultation?"
+- button "Can you help with destination weddings?"
+- button "What's included in the premium package?"
+- text: Just now
+- textbox "Type your message or question..."
+- button "→"
+- button "📎 Attach"
+- text: Powered by AI • Responses are typically instant Press Enter to send
+```

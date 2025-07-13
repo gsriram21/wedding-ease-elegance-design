@@ -1,0 +1,61 @@
+# Page snapshot
+
+```yaml
+- region "Notifications (F8)":
+  - list
+- navigation:
+  - img "Wedding Ease Logo"
+  - button "Home"
+  - button "Products"
+  - button "Services"
+  - button "Packages"
+  - button "About"
+  - button "Contact"
+  - button "Account"
+  - button "Ease Bot AI"
+- button "Enquire Session":
+  - img
+  - text: Enquire Session
+- button "Profile":
+  - img
+  - text: Profile
+- button "Wishlist":
+  - img
+  - text: Wishlist
+- button "Order":
+  - img
+  - text: Order
+- button "Bookings":
+  - img
+  - text: Bookings
+- button "Logout":
+  - img
+  - text: Logout
+- heading "Wishlist" [level=1]
+- paragraph: Manage your Pinterest-style wishlist collections for your special day.
+- text: 2 wishlists created
+- button "Browse Products"
+- button "Create Wishlist":
+  - img
+  - text: Create Wishlist
+- button "Dream Wedding Collection 0 View Collection 0 items Dream Wedding Collection My favorite items for the big day Jul 12 Wishlist":
+  - img "Dream Wedding Collection"
+  - text: "0"
+  - paragraph: View Collection
+  - paragraph: 0 items
+  - heading "Dream Wedding Collection" [level=4]
+  - paragraph: My favorite items for the big day
+  - text: Jul 12 Wishlist
+- button "Jewelry Selection 0 View Collection 0 items Jewelry Selection Beautiful jewelry pieces Jul 12 Wishlist":
+  - img "Jewelry Selection"
+  - text: "0"
+  - paragraph: View Collection
+  - paragraph: 0 items
+  - heading "Jewelry Selection" [level=4]
+  - paragraph: Beautiful jewelry pieces
+  - text: Jul 12 Wishlist
+- button "Create New Wishlist Collection":
+  - img
+  - paragraph: Create New
+  - paragraph: Wishlist Collection
+```
