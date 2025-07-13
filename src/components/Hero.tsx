@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 300);
@@ -41,6 +43,7 @@ const Hero = () => {
             <div className="flex justify-center gap-6 flex-wrap">
               <Button 
                 size="lg" 
+                onClick={() => navigate('/account?section=enquiries')}
                 className="text-white font-luxury-sans tracking-wide uppercase text-lg px-8 py-4 rounded-xl border-2 border-white bg-transparent hover:bg-white hover:text-black shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 group"
               >
                 <span>Book Consultation</span>
@@ -57,12 +60,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 className="text-white font-luxury-sans tracking-wide uppercase text-lg px-8 py-4 rounded-xl border-2 border-white bg-transparent hover:bg-white hover:text-black shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 group"
-                onClick={() => {
-                  const servicesSection = document.getElementById('services');
-                  if (servicesSection) {
-                    servicesSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
+                onClick={() => navigate('/products')}
               >
                 <span>Explore</span>
                 <svg 

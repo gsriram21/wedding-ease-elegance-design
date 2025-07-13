@@ -12,7 +12,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo on the left */}
           <div className="flex-1 flex justify-start">
-            <div className="flex items-center">
+            <div className="flex items-center mr-12">
               <img 
                 src="/images/logo.png" 
                 alt="Wedding Ease Logo" 
@@ -85,13 +85,15 @@ const Navigation = () => {
           </div>
 
           {/* Right side - Account and Ease Bot buttons */}
-          <div className="flex justify-end flex-1 gap-4">
+          <div className="flex justify-end flex-1 items-center gap-6">
             <Button 
               onClick={() => navigate('/account')}
-              className="bg-transparent text-luxury-maroon font-luxury-sans tracking-wide uppercase text-sm px-6 py-2 rounded-lg border-2 border-luxury-maroon hover:bg-luxury-maroon hover:text-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              variant="outline"
+              className="bg-transparent text-luxury-maroon font-luxury-sans tracking-wide uppercase text-sm px-6 py-2 rounded-lg border-2 border-luxury-maroon hover:bg-luxury-maroon hover:text-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 ml-12"
             >
               <span className="hidden sm:inline">Account</span>
             </Button>
+            
             <Button 
               className="text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 hover:bg-opacity-90"
               style={{ backgroundColor: '#1a0000' }}

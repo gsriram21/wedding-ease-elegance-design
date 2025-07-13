@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, X, ChevronLeft, ChevronRight, Star, ShoppingBag, DollarSign } from "lucide-react";
+import Navigation from "./Navigation";
 
 interface Product {
   id: number;
@@ -63,24 +64,27 @@ const ProductDetailModal = ({
 
   return (
     <div className="fixed inset-0 z-40 bg-gradient-to-br from-luxury-ivory via-white to-luxury-soft-pink overflow-y-auto">
-      {/* Product Detail View - No Background Blur */}
-      <div className="min-h-screen">
+      {/* Navigation - Ensure it's accessible */}
+      <Navigation />
+      
+      {/* Product Detail View */}
+      <div className="min-h-screen pt-20"> {/* Add top padding for navigation */}
         <div className="relative bg-white/90 backdrop-blur-sm max-w-7xl mx-auto">
           {/* Back to Products Button */}
-          <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-luxury-taupe/20 px-8 py-4">
+          <div className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-luxury-taupe/20 px-8 py-4">
             <button
               onClick={onClose}
-              className="flex items-center gap-2 text-luxury-maroon hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans"
+              className="flex items-center gap-2 text-luxury-maroon hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium"
             >
               <ChevronLeft className="w-5 h-5" />
               Back to Products
             </button>
           </div>
 
-          <div className="flex flex-col lg:flex-row p-6 gap-6 min-h-[calc(100vh-120px)]">
-            {/* Image Gallery */}
-            <div className="lg:w-1/2 relative">
-              <div className="relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg">
+          <div className="flex flex-col lg:flex-row p-6 gap-6 min-h-[calc(100vh-160px)]">
+            {/* Image Gallery - Reduced Size */}
+            <div className="lg:w-2/5 relative">
+              <div className="relative aspect-[4/5] max-h-[500px] overflow-hidden rounded-xl shadow-lg">
                 <img
                   src={product.images[currentImageIndex]}
                   alt={product.name}
@@ -143,9 +147,9 @@ const ProductDetailModal = ({
               </div>
             </div>
 
-            {/* Product Details */}
-            <div className="lg:w-1/2 flex flex-col justify-between">
-              <div className="space-y-4">
+            {/* Product Details - Expanded */}
+            <div className="lg:w-3/5 flex flex-col justify-between">
+              <div className="space-y-3">
                 {/* Header */}
                 <div>
                   <h1 className="font-luxury-serif font-bold text-2xl text-luxury-maroon mb-2">
@@ -197,31 +201,26 @@ const ProductDetailModal = ({
                   </div>
                 </div>
 
-                {/* What's Included - Condensed */}
+                {/* What's Included - Expanded */}
                 <div>
-                  <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-2">
+                  <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-3">
                     What's Included
                   </h3>
-                  <div className="grid grid-cols-1 gap-1 max-h-32 overflow-y-auto">
-                    {whatsIncluded.slice(0, 4).map((item, index) => (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {whatsIncluded.map((item, index) => (
                       <div key={index} className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 bg-luxury-dusty-rose rounded-full mt-1.5 flex-shrink-0" />
-                        <span className="font-luxury-sans text-luxury-maroon/70 text-xs leading-relaxed">
+                        <div className="w-1.5 h-1.5 bg-luxury-dusty-rose rounded-full mt-2 flex-shrink-0" />
+                        <span className="font-luxury-sans text-luxury-maroon/70 text-sm leading-relaxed">
                           {item}
                         </span>
                       </div>
                     ))}
-                    {whatsIncluded.length > 4 && (
-                      <span className="font-luxury-sans text-luxury-maroon/50 text-xs">
-                        +{whatsIncluded.length - 4} more benefits included
-                      </span>
-                    )}
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons - Always visible at bottom */}
-              <div className="flex gap-3 mt-6 pt-4 border-t border-luxury-taupe/20 sticky bottom-0 bg-white/95">
+              <div className="flex gap-3 mt-4 pt-3 border-t border-luxury-taupe/20 sticky bottom-0 bg-white/95">
                 <Button
                   onClick={() => onBuyNow(product)}
                   className="flex-1 bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans text-base py-3 rounded-xl transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2"

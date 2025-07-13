@@ -11,6 +11,7 @@
   - button "Packages"
   - button "About"
   - button "Contact"
+  - button "Contact"
   - button "Account"
   - button "Ease Bot AI"
 - img
@@ -18,39 +19,39 @@
 - heading "Filters" [level=2]
 - heading "💰 Price Range" [level=3]
 - slider: "200000"
-- text: ₹0 ₹200,000+ Min Price
+- text: ₹0 ₹200,000+ Min
 - spinbutton: "0"
-- text: Max Price
+- text: Max
 - spinbutton: "200000"
 - heading "⭐ Customer Rating" [level=3]
-- checkbox "4.5+ (52)"
+- checkbox "4.5+ (35)"
 - img
 - img
 - img
 - img
 - img
-- text: 4.5+ (52)
-- checkbox "4+ (20)"
+- text: 4.5+ (35)
+- checkbox "4+ (10)"
 - img
 - img
 - img
 - img
 - img
-- text: 4+ (20)
-- checkbox "3.5+ (46)"
+- text: 4+ (10)
+- checkbox "3.5+ (17)"
 - img
 - img
 - img
 - img
 - img
-- text: 3.5+ (46)
-- checkbox "3+ (22)"
+- text: 3.5+ (17)
+- checkbox "3+ (15)"
 - img
 - img
 - img
 - img
 - img
-- text: 3+ (22)
+- text: 3+ (15)
 - heading "🎨 Color" [level=3]
 - button "Red"
 - button "Blue"
@@ -61,16 +62,16 @@
 - button "Purple"
 - button "Black"
 - heading "🏷️ Brand" [level=3]
-- checkbox "Wedding Ease (20)"
-- text: Wedding Ease (20)
-- checkbox "Luxury Collection (33)"
-- text: Luxury Collection (33)
-- checkbox "Heritage Designs (13)"
-- text: Heritage Designs (13)
-- checkbox "Royal Crafts (13)"
-- text: Royal Crafts (13)
-- checkbox "Elegant Touch (29)"
-- text: Elegant Touch (29)
+- checkbox "Wedding Ease (23)"
+- text: Wedding Ease (23)
+- checkbox "Luxury Collection (12)"
+- text: Luxury Collection (12)
+- checkbox "Heritage Designs (7)"
+- text: Heritage Designs (7)
+- checkbox "Royal Crafts (26)"
+- text: Royal Crafts (26)
+- checkbox "Elegant Touch (17)"
+- text: Elegant Touch (17)
 - heading "📏 Size" [level=3]
 - button "XS"
 - button "S"

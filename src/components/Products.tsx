@@ -82,8 +82,47 @@ const Products = () => {
       setActiveCategory(category);
     }
     
+    // Close modal when component mounts (navigation from other pages)
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+    
+    // Always scroll to top when Products page loads - immediate for Services redirects
+    window.scrollTo(0, 0);
+    
     return () => clearTimeout(timer);
   }, [searchParams]);
+
+  // Add effect to handle scroll position on route change
+  useEffect(() => {
+    // For initial mount, ensure we're at the top without animation
+    window.scrollTo(0, 0);
+    
+    // Also handle browser back/forward navigation
+    const handlePopState = () => {
+      window.scrollTo(0, 0);
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // Add effect to close modal when navigating away
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setIsModalOpen(false);
+      setSelectedProduct(null);
+    };
+
+    // Listen for route changes
+    window.addEventListener('popstate', handleRouteChange);
+    
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+    };
+  }, []);
 
   const showToast = (message: string) => {
     setNotificationMessage(message);
@@ -402,9 +441,26 @@ const Products = () => {
     return category ? category.subcategories : [];
   };
 
+  // Helper function to check if a product is in any wishlist
+  const isProductInWishlist = (productId: number) => {
+    return wishlists.some(wishlist => 
+      wishlist.products.some(product => product.id === productId)
+    );
+  };
+
   const toggleWishlist = (productId: number) => {
     const product = products.find(p => p.id === productId);
-    if (product) {
+    if (!product) return;
+
+    // If product is already in a wishlist, remove it from all wishlists
+    if (isProductInWishlist(productId)) {
+      setWishlists(prev => prev.map(wishlist => ({
+        ...wishlist,
+        products: wishlist.products.filter(p => p.id !== productId)
+      })));
+      showToast(`Removed ${product.name} from all wishlists`);
+    } else {
+      // If product is not in any wishlist, open the wishlist modal
       setWishlistSelectedProduct(product);
       setIsWishlistModalOpen(true);
     }
@@ -479,13 +535,18 @@ const Products = () => {
   };
 
   const handleGetPrice = (product: Product) => {
-    showToast(`Price inquiry sent for ${product.name}. We'll contact you soon!`);
+    // Navigate to chat interface in account page
     setIsModalOpen(false);
+    navigate('/account?section=enquiries');
+    showToast(`Redirecting to chat for ${product.name} price inquiry...`);
   };
 
+  // Enhanced close modal function with proper cleanup
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
+    // Ensure we're on the products page
+    navigate('/products', { replace: true });
   };
 
   const filteredProducts = getFilteredProducts();
@@ -527,29 +588,29 @@ const Products = () => {
             </div>
           </div>
 
-      <div className="flex min-h-screen overflow-hidden">
-        {/* Traditional Sidebar Filters */}
-        <div className="w-80 min-w-[280px] max-w-[280px] bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col">
+      <div className="flex min-h-screen">
+        {/* Traditional Sidebar Filters - Natural Height */}
+        <div className="w-80 min-w-[320px] max-w-[320px] bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20">
           {/* Header */}
-          <div className="flex items-center h-20 border-b border-luxury-taupe/20 px-6">
+          <div className="flex items-center h-16 border-b border-luxury-taupe/20 px-6 bg-white/90 sticky top-20 z-30">
             <h2 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
               Filters
             </h2>
           </div>
 
-          {/* Modern Filters */}
-          <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+          {/* Modern Filters - No Internal Scroll */}
+          <div className="p-6 space-y-5">
             {(() => {
               const filters = getDynamicFilters();
               return (
                 <>
-                  {/* Price Range Filter */}
+                  {/* Price Range Filter - More Compact */}
                   <div>
-                    <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4 flex items-center gap-2">
+                    <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
                       <span>💰</span>
                       Price Range
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="flex items-center gap-2">
               <input
                           type="range" 
@@ -564,13 +625,13 @@ const Products = () => {
                           className="flex-1 h-2 bg-luxury-taupe/20 rounded-lg appearance-none slider"
                         />
                       </div>
-                      <div className="flex justify-between text-sm text-luxury-maroon/70 font-luxury-sans">
+                      <div className="flex justify-between text-xs text-luxury-maroon/70 font-luxury-sans">
                         <span>₹{filters.priceRange.min.toLocaleString()}</span>
                         <span>₹{filters.priceRange.max.toLocaleString()}+</span>
                       </div>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-2 gap-2">
                         <div className="space-y-1">
-                          <label className="text-xs text-luxury-maroon/70 font-luxury-sans">Min Price</label>
+                          <label className="text-xs text-luxury-maroon/70 font-luxury-sans">Min</label>
                           <input 
                             type="number" 
                             placeholder={`₹${filters.priceRange.min}`}
@@ -583,7 +644,7 @@ const Products = () => {
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-xs text-luxury-maroon/70 font-luxury-sans">Max Price</label>
+                          <label className="text-xs text-luxury-maroon/70 font-luxury-sans">Max</label>
                           <input 
                             type="number" 
                             placeholder={`₹${filters.priceRange.max}`}
@@ -601,7 +662,7 @@ const Products = () => {
 
                   {/* Customer Rating Filter */}
             <div>
-              <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4 flex items-center gap-2">
+              <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
                       <span>⭐</span>
                       Customer Rating
               </h3>
@@ -645,7 +706,7 @@ const Products = () => {
               const filters = getDynamicFilters();
               return (
                 <div>
-                  <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4 flex items-center gap-2">
+                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
                     <span>🎨</span>
                     Color
                   </h3>
@@ -674,14 +735,19 @@ const Products = () => {
                           color === 'gold' ? 'bg-yellow-400' :
                           color === 'silver' ? 'bg-gray-300' :
                           color === 'black' ? 'bg-black' :
-                          color === 'white' ? 'bg-white' :
-                          color === 'ivory' ? 'bg-amber-50' :
+                          color === 'white' ? 'bg-white border-gray-300' : // Add border for white
+                          color === 'ivory' ? 'bg-amber-50 border-amber-200' :
                           color === 'rose-gold' ? 'bg-rose-300' :
                           color === 'white-gold' ? 'bg-gray-100' :
                           color === 'platinum' ? 'bg-gray-200' :
                           color === 'copper' ? 'bg-amber-600' :
                           color === 'maroon' ? 'bg-red-800' :
-                          `bg-${color}-500`
+                          color === 'red' ? 'bg-red-500' :
+                          color === 'blue' ? 'bg-blue-500' :
+                          color === 'pink' ? 'bg-pink-500' :
+                          color === 'green' ? 'bg-green-500' :
+                          color === 'purple' ? 'bg-purple-500' :
+                          'bg-gray-300' // Fallback to prevent empty circles
                         }`}
                         title={color.charAt(0).toUpperCase() + color.slice(1).replace('-', ' ')}
                       />
@@ -696,7 +762,7 @@ const Products = () => {
               const filters = getDynamicFilters();
               return (
                 <div>
-                  <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4 flex items-center gap-2">
+                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
                     <span>🏷️</span>
                     Brand
                   </h3>
@@ -734,7 +800,7 @@ const Products = () => {
               const filters = getDynamicFilters();
               return (
                 <div>
-                  <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4 flex items-center gap-2">
+                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
                     <span>📏</span>
                     Size
                   </h3>
@@ -772,7 +838,7 @@ const Products = () => {
             {/* Subcategories - Only show when category is selected */}
             {activeCategory !== "all" && (
               <div>
-                <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4 flex items-center gap-2">
+                <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
                   <span>📂</span>
                   {categories.find(c => c.id === activeCategory)?.name} Types
                 </h3>
@@ -807,7 +873,7 @@ const Products = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col">
           {/* Two-Level Banner System */}
           {/* Banner 1: Main Categories */}
           <div className="bg-white/90 backdrop-blur-sm border-b border-luxury-taupe/20">
@@ -818,10 +884,10 @@ const Products = () => {
                     setActiveCategory("all");
                     setActiveSubcategory("all");
                   }}
-                  className={`flex-shrink-0 px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap ${
+                  className={`flex-shrink-0 px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap shadow-sm hover:shadow-md ${
                     activeCategory === "all"
                       ? "bg-luxury-maroon text-white shadow-lg"
-                      : "bg-white text-luxury-maroon hover:bg-luxury-dusty-rose hover:text-white border border-luxury-taupe/30"
+                      : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/30 hover:border-luxury-dusty-rose/40"
                   }`}
                 >
                   All Products
@@ -833,10 +899,10 @@ const Products = () => {
                       setActiveCategory(category.id);
                       setActiveSubcategory("all");
                     }}
-                    className={`flex-shrink-0 px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap ${
+                    className={`flex-shrink-0 px-6 py-3 rounded-full transition-all duration-300 font-luxury-sans font-medium whitespace-nowrap shadow-sm hover:shadow-md ${
                       activeCategory === category.id
                         ? "bg-luxury-maroon text-white shadow-lg"
-                        : "bg-white text-luxury-maroon hover:bg-luxury-dusty-rose hover:text-white border border-luxury-taupe/30"
+                        : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/30 hover:border-luxury-dusty-rose/40"
                     }`}
                   >
                     {category.name}
@@ -846,74 +912,78 @@ const Products = () => {
             </div>
           </div>
 
-          {/* Banner 2: Subcategories (only show when a specific category is selected) */}
+          {/* Banner 2: Subcategories - Optimized Layout */}
           {activeCategory !== "all" && (
             <div className="bg-white/80 backdrop-blur-sm border-b border-luxury-taupe/10">
               <div className="max-w-7xl mx-auto px-6 py-3">
+                {/* Optimized Subcategory Container */}
                 <div className="relative">
-                  {/* Left Arrow */}
-                  <button
-                    onClick={() => {
-                      const container = document.getElementById('subcategory-container');
-                      if (container) {
-                        container.scrollBy({ left: -200, behavior: 'smooth' });
-                      }
-                    }}
-                    className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-300 border border-luxury-taupe/20"
-                  >
-                    <ChevronLeft className="w-4 h-4 text-luxury-maroon" />
-                  </button>
-                  
-                  {/* Subcategory Container */}
-                  <div
-                    id="subcategory-container"
-                    className="flex items-center gap-3 overflow-x-auto px-8 scrollbar-hide"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                  >
-                    <button
-                      onClick={() => setActiveSubcategory("all")}
-                      className={`flex-shrink-0 px-4 py-2 rounded-full transition-all duration-300 font-luxury-sans text-sm whitespace-nowrap ${
-                        activeSubcategory === "all"
-                          ? "bg-luxury-dusty-rose text-white shadow-md"
-                          : "bg-white/80 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20"
-                      }`}
-                    >
-                      All Types
-                    </button>
-                    {getCurrentSubcategories().map((subcategory) => (
+                  {getCurrentSubcategories().length <= 4 ? (
+                    // Centered layout for 4 or fewer items
+                    <div className="flex items-center gap-3 justify-center">
                       <button
-                        key={subcategory}
-                        onClick={() => setActiveSubcategory(subcategory)}
-                        className={`flex-shrink-0 px-4 py-2 rounded-full transition-all duration-300 font-luxury-sans text-sm capitalize whitespace-nowrap ${
-                          activeSubcategory === subcategory
-                            ? "bg-luxury-dusty-rose text-white shadow-md"
-                            : "bg-white/80 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20"
+                        onClick={() => setActiveSubcategory("all")}
+                        className={`flex-shrink-0 px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm whitespace-nowrap shadow-sm hover:shadow-md ${
+                          activeSubcategory === "all"
+                            ? "bg-luxury-maroon text-white shadow-lg transform scale-105"
+                            : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40"
                         }`}
                       >
-                        {subcategory.replace('-', ' ')}
+                        All Types
                       </button>
-                    ))}
-                  </div>
-
-                  {/* Right Arrow */}
-                  <button
-                    onClick={() => {
-                      const container = document.getElementById('subcategory-container');
-                      if (container) {
-                        container.scrollBy({ left: 200, behavior: 'smooth' });
-                      }
-                    }}
-                    className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-300 border border-luxury-taupe/20"
-                  >
-                    <ChevronRight className="w-4 h-4 text-luxury-maroon" />
-                  </button>
+                      {getCurrentSubcategories().map((subcategory) => (
+                        <button
+                          key={subcategory}
+                          onClick={() => setActiveSubcategory(subcategory)}
+                          className={`flex-shrink-0 px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm capitalize whitespace-nowrap shadow-sm hover:shadow-md ${
+                            activeSubcategory === subcategory
+                              ? "bg-luxury-maroon text-white shadow-lg transform scale-105"
+                              : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40"
+                          }`}
+                        >
+                          {subcategory.replace('-', ' ')}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    // Horizontal scroll for many items with balanced wrapping
+                    <div className="overflow-x-auto scrollbar-hide">
+                      <div className="flex items-center gap-3 min-w-max px-4">
+                        <button
+                          onClick={() => setActiveSubcategory("all")}
+                          className={`flex-shrink-0 px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm whitespace-nowrap shadow-sm hover:shadow-md ${
+                            activeSubcategory === "all"
+                              ? "bg-luxury-maroon text-white shadow-lg transform scale-105"
+                              : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40"
+                          }`}
+                        >
+                          All Types
+                        </button>
+                        {getCurrentSubcategories().map((subcategory) => (
+                          <button
+                            key={subcategory}
+                            onClick={() => setActiveSubcategory(subcategory)}
+                            className={`flex-shrink-0 px-5 py-2.5 rounded-full transition-all duration-300 font-luxury-sans text-sm capitalize whitespace-nowrap shadow-sm hover:shadow-md ${
+                              activeSubcategory === subcategory
+                                ? "bg-luxury-maroon text-white shadow-lg transform scale-105"
+                                : "bg-white/90 text-luxury-maroon hover:bg-luxury-taupe/20 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40"
+                            }`}
+                          >
+                            {subcategory.replace('-', ' ')}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           )}
 
           {/* Header Bar with Product Count and Actions */}
-          <div className="bg-white/90 backdrop-blur-md border-b border-luxury-taupe/20 sticky top-36 z-20 overflow-hidden">
+          <div className={`bg-white/90 backdrop-blur-md border-b border-luxury-taupe/20 sticky z-20 overflow-hidden ${
+            activeCategory !== "all" ? "top-36" : "top-24"
+          }`}>
             <div className="flex items-center justify-between px-4 lg:px-8 py-4 min-w-0">
               <div>
                 <span className="font-luxury-sans text-lg font-medium text-luxury-maroon">
@@ -976,7 +1046,7 @@ const Products = () => {
           </div>
 
           {/* Enhanced Products Grid/List */}
-          <div className={`flex-1 relative px-6 md:px-8 py-6 overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`flex-1 relative px-6 md:px-8 py-6 overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${viewMode === "list" ? "pt-8" : ""}`}>
             {/* Subtle Background Elements */}
             <img 
               src="/images/bg-flower.png" 
@@ -1005,15 +1075,16 @@ const Products = () => {
               ) : (
                 <div className={viewMode === "grid" 
                   ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
-                  : "space-y-4"
+                  : "space-y-4 mt-6"
                 }>
                   {filteredProducts.map((product, index) => {
-                    const isLiked = wishlistItems.includes(product.id);
+                    const isLiked = isProductInWishlist(product.id);
                     const currentImg = currentImageIndex[product.id] || 0;
                     
                     return (
                       <div
                         key={product.id}
+                        data-testid="product-card"
                         onClick={() => handleProductClick(product.id)}
                         className={`group relative bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-luxury-taupe/10 hover:border-luxury-dusty-rose/30 cursor-pointer ${
                           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -1061,6 +1132,7 @@ const Products = () => {
                           <Button
                             variant="ghost"
                             size="icon"
+                            data-testid="wishlist-heart"
                             onClick={(e) => {
                               e.stopPropagation();
                               toggleWishlist(product.id);
@@ -1074,21 +1146,21 @@ const Products = () => {
                             <Heart className={`w-4 h-4 transition-all duration-300 ${isLiked ? 'fill-current' : ''}`} />
                           </Button>
 
-                          {/* Simplified Badge */}
+                          {/* Improved Badge Positioning */}
                           {(product.trending || product.newArrival || product.bestSeller) && (
-                            <div className="absolute top-3 left-3">
+                            <div className="absolute top-2 left-2 z-10">
                               {product.trending && (
-                                <span className="bg-orange-500 text-white px-2.5 py-1 rounded-full text-xs font-luxury-sans font-medium shadow-md">
+                                <span className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-2 py-1 rounded-lg text-xs font-luxury-sans font-bold shadow-lg backdrop-blur-sm border border-white/20">
                                   🔥 Trending
                                 </span>
                               )}
                               {product.newArrival && !product.trending && (
-                                <span className="bg-emerald-500 text-white px-2.5 py-1 rounded-full text-xs font-luxury-sans font-medium shadow-md">
+                                <span className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-2 py-1 rounded-lg text-xs font-luxury-sans font-bold shadow-lg backdrop-blur-sm border border-white/20">
                                   ✨ New
                                 </span>
                               )}
                               {product.bestSeller && !product.trending && !product.newArrival && (
-                                <span className="bg-luxury-maroon text-white px-2.5 py-1 rounded-full text-xs font-luxury-sans font-medium shadow-md">
+                                <span className="bg-gradient-to-r from-luxury-maroon to-luxury-burgundy text-white px-2 py-1 rounded-lg text-xs font-luxury-sans font-bold shadow-lg backdrop-blur-sm border border-white/20">
                                   ⭐ Bestseller
                                 </span>
                               )}
@@ -1179,6 +1251,7 @@ const Products = () => {
         onAddToWishlist={handleAddToWishlist}
         onCreateWishlist={handleCreateWishlist}
         existingWishlists={wishlists}
+        onNavigateToAccount={() => navigate('/account')}
       />
     </div>
   );
