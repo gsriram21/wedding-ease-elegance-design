@@ -236,37 +236,6 @@ const ProductDetailModal = ({
                   </div>
                 </div>
 
-                {/* See Similar Products */}
-                {similarProducts.length > 0 && (
-                  <div className="border-t border-luxury-taupe/20 pt-4">
-                    <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4">
-                      See Similar Products
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      {similarProducts.map((similarProduct) => (
-                        <div
-                          key={similarProduct.id}
-                          onClick={() => onSimilarProductClick(similarProduct)}
-                          className="cursor-pointer group bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 hover:shadow-md transition-all duration-300"
-                        >
-                          <div className="aspect-square mb-2 overflow-hidden rounded-lg">
-                            <img
-                              src={similarProduct.images[0]}
-                              alt={similarProduct.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                          <h4 className="font-luxury-sans font-medium text-sm text-luxury-maroon mb-1 line-clamp-2">
-                            {similarProduct.name}
-                          </h4>
-                          <p className="font-luxury-serif font-bold text-luxury-dusty-rose text-sm">
-                            {similarProduct.price}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Action Buttons - Always visible at bottom */}
@@ -300,6 +269,38 @@ const ProductDetailModal = ({
                   <Heart className={`w-5 h-5 transition-all duration-500 ${isWishlisted ? "fill-current" : "hover:scale-110"}`} />
                 </Button>
               </div>
+
+              {/* See Similar Products - Moved to bottom for better UX */}
+              {similarProducts.length > 0 && (
+                <div className="border-t border-luxury-taupe/20 pt-6 mt-6">
+                  <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4">
+                    You Might Also Like
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {similarProducts.map((similarProduct) => (
+                      <div
+                        key={similarProduct.id}
+                        onClick={() => onSimilarProductClick(similarProduct)}
+                        className="cursor-pointer group bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 hover:shadow-md transition-all duration-300"
+                      >
+                        <div className="aspect-square mb-2 overflow-hidden rounded-lg">
+                          <img
+                            src={similarProduct.images[0]}
+                            alt={similarProduct.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <h4 className="font-luxury-sans font-medium text-sm text-luxury-maroon mb-1 line-clamp-2">
+                          {similarProduct.name}
+                        </h4>
+                        <p className="font-luxury-serif font-bold text-luxury-dusty-rose text-sm">
+                          {similarProduct.price}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           </div>

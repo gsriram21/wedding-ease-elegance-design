@@ -39,7 +39,7 @@ const Products = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [wishlistItems, setWishlistItems] = useState<number[]>([1, 3, 7]);
+  const [wishlistItems, setWishlistItems] = useState<number[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: number]: number }>({});
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
