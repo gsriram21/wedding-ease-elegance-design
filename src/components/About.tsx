@@ -33,7 +33,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="relative overflow-hidden luxury-spacing bg-white">
+    <section id="about" className="relative overflow-hidden py-20 bg-white">
       {/* Background Floral Elements */}
       <img 
         src="/images/bg-flower.png" 
@@ -47,7 +47,7 @@ const About = () => {
       />
 
       <div className="relative z-10 luxury-container">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
             <div className="relative">
               <img
@@ -59,23 +59,22 @@ const About = () => {
           </div>
 
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
-            <h2 className="font-luxury-serif font-bold text-5xl md:text-6xl text-luxury-maroon mb-8 tracking-tight">
+            <h2 className="font-luxury-serif font-bold text-4xl md:text-5xl text-luxury-maroon mb-6 tracking-tight">
               Why Choose Wedding Ease?
             </h2>
-            <div className="w-24 h-px bg-luxury-dusty-rose mb-8" />
-            <p className="font-luxury-sans text-xl md:text-2xl text-luxury-maroon/70 mb-12 leading-relaxed-luxury">
+            <div className="w-16 h-px bg-luxury-dusty-rose mb-6" />
+            <p className="font-luxury-sans text-lg md:text-xl text-luxury-maroon/70 mb-10 leading-relaxed">
               With over 15 years of experience in luxury wedding planning, we bring unparalleled 
-              expertise and attention to detail to every celebration. Our team of dedicated professionals 
-              works tirelessly to ensure your special day exceeds every expectation.
+              expertise and attention to detail to every celebration.
             </p>
 
-            <div className="grid grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-2 gap-6 mb-10">
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="text-center p-6 bg-gradient-to-br from-luxury-ivory to-luxury-soft-pink rounded-lg border border-luxury-taupe/20"
+                  className="text-center p-4 bg-gradient-to-br from-luxury-ivory to-luxury-soft-pink rounded-lg border border-luxury-taupe/20"
                 >
-                  <div className="font-luxury-serif text-4xl font-bold text-luxury-dusty-rose mb-2">
+                  <div className="font-luxury-serif text-3xl font-bold text-luxury-dusty-rose mb-2">
                     {stat.number}
                   </div>
                   <div className="font-luxury-sans text-luxury-maroon/70 font-medium tracking-wide uppercase text-sm">
@@ -85,18 +84,18 @@ const About = () => {
               ))}
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="flex items-start">
-                <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-3 mr-6 flex-shrink-0"></div>
-                <p className="font-luxury-sans text-luxury-maroon/80 leading-relaxed text-lg">Personalized service tailored to your unique vision and style</p>
+                <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                <p className="font-luxury-sans text-luxury-maroon/80 leading-relaxed">Personalized service tailored to your unique vision</p>
               </div>
               <div className="flex items-start">
-                <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-3 mr-6 flex-shrink-0"></div>
-                <p className="font-luxury-sans text-luxury-maroon/80 leading-relaxed text-lg">Extensive network of premium vendors and exclusive venues</p>
+                <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                <p className="font-luxury-sans text-luxury-maroon/80 leading-relaxed">Extensive network of premium vendors and venues</p>
               </div>
               <div className="flex items-start">
-                <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-3 mr-6 flex-shrink-0"></div>
-                <p className="font-luxury-sans text-luxury-maroon/80 leading-relaxed text-lg">Seamless coordination and stress-free planning experience</p>
+                <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                <p className="font-luxury-sans text-luxury-maroon/80 leading-relaxed">Seamless coordination and stress-free planning</p>
               </div>
             </div>
           </div>

@@ -253,6 +253,34 @@ const Account = () => {
   
   const navigate = useNavigate();
 
+  // Update URL when section changes and handle browser navigation
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 300);
+    
+    // Listen for browser navigation (back/forward buttons)
+    const handlePopState = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const section = urlParams.get('section') || "enquiries";
+      setActiveSection(section);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // Update URL when activeSection changes
+  const handleSectionChange = (newSection: string) => {
+    setActiveSection(newSection);
+    
+    // Update URL without triggering navigation
+    const newUrl = `/account?section=${newSection}`;
+    window.history.pushState({ section: newSection }, '', newUrl);
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 300);
     return () => clearTimeout(timer);
@@ -563,7 +591,7 @@ const Account = () => {
     switch (userStatus) {
       case 'new':
         // First free consultation: redirect to calendar booking
-        setActiveSection('bookings');
+        handleSectionChange('bookings');
         break;
       case 'used-free':
         // Returning users who used free consultation: redirect to buy package page
@@ -571,10 +599,10 @@ const Account = () => {
         break;
       case 'has-package':
         // Users with package: redirect to calendar booking
-        setActiveSection('bookings');
+        handleSectionChange('bookings');
         break;
       default:
-        setActiveSection('bookings');
+        handleSectionChange('bookings');
     }
   };
 
@@ -1889,7 +1917,7 @@ const Account = () => {
                   variant="outline" 
                   size="sm"
                   className="w-full mt-3 border-luxury-maroon/20 text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-xs"
-                  onClick={() => setActiveSection('profile')}
+                  onClick={() => handleSectionChange('profile')}
                 >
                   View Package Details
                 </Button>
@@ -1908,7 +1936,7 @@ const Account = () => {
                     if (item.id === "logout") {
                       handleLogout();
                     } else {
-                      setActiveSection(item.id);
+                      handleSectionChange(item.id);
                     }
                   }}
                   className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl font-medium ${
