@@ -40,12 +40,6 @@
   - [x] Final invoice.
 - [x] Implement a unified checkout for both e-commerce products and products selected in chat compatible with stripe payments.
 
-## Bookings & Sessions
-- [ ] Remove "Choose Consultant", "Dashboard", and "Platform" from bookings.
-- [ ] In Past Sessions, remove "Meeting Agenda" and "Session Transcript".
-- [ ] Enable access to a consultation pre-requisite form after date and slot selection.
-
-
 ## Account & Forms
 - [ ] On the Account page, add the button on the left for active and other related details.
 - [ ] Add ‘Add Shopper’ option in packages where applicable.
@@ -55,6 +49,12 @@
 - [ ] Add a footer to the vendor application form.
 - [ ] For Contact (Booking Consultation), pre-fill the information form if the user is signed up; otherwise, use the form to create a user account.
 - [ ] For Wedding Planning Packages, add a "Select Package" option for each (Royal, Elegant, Majestic).
+- [ ] Bookings & Sessions
+    - [ ] Remove "Choose Consultant", "Dashboard", and "Platform" from bookings.
+    - [ ] In Past Sessions, remove "Meeting Agenda" and "Session Transcript".
+    - [ ] Enable access to a consultation pre-requisite form after date and slot selection.
+- [ ] In any page in accounts, only if a button has no functionality currently active and is clicked, show the sweet alert. but if a button has functionality, then just do the functionality dont show a transient sweet alert. for example, if i click book consultation i should just be redirected to that page not be shown a sweet alert for 2 seconds before that happens. 
+
 
 ## Menus & Sections
 - [ ] Add a blog section inside the About dropdown.
