@@ -20,54 +20,6 @@ const Navigation = () => {
       description: "Latest insights and wedding trends", 
       icon: FileText,
       path: "/blog"
-    },
-    {
-      title: "Our Luxury Offerings",
-      description: "",
-      icon: null,
-      isCategory: true
-    },
-    {
-      title: "Wedding Attire",
-      description: "Bridal gowns and groom's wear",
-      icon: Heart,
-      path: "/products?category=attire",
-      isSubItem: true
-    },
-    {
-      title: "Luxury Jewellery", 
-      description: "Exquisite bridal jewelry collections",
-      icon: Gem,
-      path: "/products?category=jewelry",
-      isSubItem: true
-    },
-    {
-      title: "Invites & Stationery",
-      description: "Elegant wedding invitations",
-      icon: FileText,
-      path: "/products?category=invites",
-      isSubItem: true
-    },
-    {
-      title: "Gifts & Favours",
-      description: "Wedding gifts and guest favors",
-      icon: Gift,
-      path: "/products?category=gifts",
-      isSubItem: true
-    },
-    {
-      title: "Accessories",
-      description: "Complete your perfect look",
-      icon: Gem,
-      path: "/products?category=accessories",
-      isSubItem: true
-    },
-    {
-      title: "Wedding Planning Packages",
-      description: "Full-service wedding planning",
-      icon: Calendar,
-      path: "/#packages",
-      isSubItem: true
     }
   ];
 
@@ -123,7 +75,7 @@ const Navigation = () => {
                 
                 {/* Dropdown Menu */}
                 <div className={`absolute top-full left-1/2 transform -translate-x-1/2 mt-2 transition-all duration-300 ${aboutDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-2 invisible'}`}>
-                  <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-luxury-taupe/20 p-6 min-w-[320px] max-w-[400px]">
+                  <div className="bg-white rounded-xl shadow-2xl border border-luxury-taupe/20 p-6 min-w-[320px] max-w-[400px]">
                     <div className="space-y-1">
                       {aboutMenuItems.map((item, index) => {
                         if (item.isCategory) {

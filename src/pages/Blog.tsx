@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
-import { Calendar, Clock, User, Heart, ChevronRight } from "lucide-react";
+import { Calendar, Clock, User, Heart, ChevronRight, ArrowLeft } from "lucide-react";
 
 interface BlogPost {
   id: string;
@@ -24,7 +24,7 @@ const Blog = () => {
       id: "modern-bridal-trends-2024",
       title: "Modern Bridal Trends: What's Inspiring 2024 Weddings",
       excerpt: "Discover the latest trends shaping weddings this year, from sustainable fashion choices to technology-enhanced ceremonies.",
-      author: "Priya Sharma",
+      author: "Shilpa Parikh",
       date: "December 15, 2024",
       readTime: "5 min read",
       image: "/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg",
@@ -97,14 +97,23 @@ const Blog = () => {
       <Navigation />
       
       <main className="pt-24 pb-16">
-        {/* Header */}
         <div className="luxury-container">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 text-luxury-maroon hover:text-luxury-dusty-rose transition-colors duration-300 mb-8"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="font-luxury-sans font-medium">Back to Home</span>
+          </button>
+
+          {/* Header */}
           <div className="text-center mb-16">
             <h1 className="font-luxury-serif text-5xl font-bold text-luxury-maroon mb-4">
-              Wedding Inspiration
+              Wedding Wisdom
             </h1>
             <p className="font-luxury-sans text-xl text-luxury-maroon/70 max-w-3xl mx-auto">
-              Discover the latest trends, expert tips, and inspiring stories to make your special day unforgettable
+              Expert insights and trends for your perfect wedding
             </p>
           </div>
 

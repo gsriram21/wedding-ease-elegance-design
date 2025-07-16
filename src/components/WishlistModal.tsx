@@ -129,10 +129,10 @@ const WishlistModal = ({
             <div>
               {/* Wishlist Grid - Matching Account Page Style */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-                {/* Create New Wishlist Card - Matching Account Style */}
+                {/* Create New Wishlist Card - Elegant Style */}
                 <div 
                   onClick={() => setIsCreating(true)}
-                  className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg border-2 border-dashed border-luxury-dusty-rose/40 hover:border-luxury-dusty-rose hover:bg-white/80 transition-all duration-300 cursor-pointer group text-center"
+                  className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden"
                 >
                   <div className="w-12 h-12 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
                     <Plus className="w-6 h-6 text-luxury-dusty-rose" />

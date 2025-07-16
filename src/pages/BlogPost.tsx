@@ -1,17 +1,32 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
-import { Calendar, Clock, User, Heart, Share2, ArrowLeft, ChevronRight } from "lucide-react";
+import SocialShare from "../components/SocialShare";
+import { Calendar, Clock, User, ArrowLeft, ChevronRight } from "lucide-react";
 
 const BlogPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [savedBlogs, setSavedBlogs] = useState<string[]>([]);
+
+  const handleSaveBlog = () => {
+    if (blogPost.id && !savedBlogs.includes(blogPost.id)) {
+      setSavedBlogs(prev => [...prev, blogPost.id]);
+      // Here you could also save to localStorage or send to an API
+      localStorage.setItem('savedBlogs', JSON.stringify([...savedBlogs, blogPost.id]));
+    } else if (blogPost.id) {
+      setSavedBlogs(prev => prev.filter(id => id !== blogPost.id));
+      const updated = savedBlogs.filter(id => id !== blogPost.id);
+      localStorage.setItem('savedBlogs', JSON.stringify(updated));
+    }
+  };
 
   // This would typically come from an API or CMS
   const blogPost = {
     id: "modern-bridal-trends-2024",
     title: "Modern Bridal Trends: What's Inspiring 2024 Weddings",
     excerpt: "Discover the latest trends shaping weddings this year, from sustainable fashion choices to technology-enhanced ceremonies.",
-    author: "Priya Sharma",
+    author: "Shilpa Parikh",
     date: "December 15, 2024",
     readTime: "5 min read",
     image: "/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg",
@@ -118,15 +133,14 @@ const BlogPost = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 mb-8">
-                <button className="flex items-center gap-2 px-4 py-2 bg-white/80 rounded-lg hover:bg-white transition-colors duration-300">
-                  <Heart className="w-4 h-4" />
-                  <span className="font-luxury-sans text-sm">Save</span>
-                </button>
-                <button className="flex items-center gap-2 px-4 py-2 bg-white/80 rounded-lg hover:bg-white transition-colors duration-300">
-                  <Share2 className="w-4 h-4" />
-                  <span className="font-luxury-sans text-sm">Share</span>
-                </button>
+              <div className="mb-8">
+                <SocialShare
+                  url={typeof window !== 'undefined' ? window.location.href : ''}
+                  title={blogPost.title}
+                  description={blogPost.excerpt}
+                  onSave={handleSaveBlog}
+                  isSaved={savedBlogs.includes(blogPost.id)}
+                />
               </div>
               
               <div className="rounded-2xl overflow-hidden shadow-xl">

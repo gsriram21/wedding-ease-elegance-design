@@ -57,10 +57,10 @@
 
 
 ## Menus & Sections
-- [ ] Add a blog section inside the About dropdown.
-- [ ] In About, add a dropdown for:
-  - [ ] Founder’s story, company philosophy, and additional details.
-  - [ ] Blogs page.
-  - [ ] Our Luxury Offerings: Wedding Attire, Luxury Jewellery, Invites & Stationery, Gifts & Favours, Accessories, Wedding Planning Packages.
-- [ ] Keep the testimonial and About Us sections short and the ticket size should be the same for homogeneity
-- [ ] make sure when I press back that it takes me to the page I was at. For example, when I click wishlist, and product details, and click the product view and then I click back arrow it should go back to the previous page. Right now, it goes to the chat page in the account. So make sure that consistency is there across the website. 
+- [x] Add a blog section inside the About dropdown.
+- [x] In About, add a dropdown for:
+  - [x] Founder’s story, company philosophy, and additional details.
+  - [x] Blogs page.
+  - [x] Our Luxury Offerings: Wedding Attire, Luxury Jewellery, Invites & Stationery, Gifts & Favours, Accessories, Wedding Planning Packages.
+- [x] Keep the testimonial and About Us sections short and the ticket size should be the same for homogeneity
+- [x] make sure when I press back that it takes me to the page I was at. For example, when I click wishlist, and product details, and click the product view and then I click back arrow it should go back to the previous page. Right now, it goes to the chat page in the account. So make sure that consistency is there across the website. 

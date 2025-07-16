@@ -100,8 +100,8 @@ const FounderStory = () => {
               <div className="relative">
                 <div className="rounded-2xl overflow-hidden shadow-2xl">
                   <img 
-                    src="/images/indian-wedding-ceremony.jpg" 
-                    alt="Founder at a wedding ceremony"
+                    src="/images/wedding-portrait.jpg" 
+                    alt="Shilpa Parikh - Founder & CEO"
                     className="w-full h-96 object-cover"
                   />
                 </div>
@@ -126,7 +126,7 @@ const FounderStory = () => {
                       <Users className="w-16 h-16 text-luxury-dusty-rose" />
                     </div>
                     <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon text-center">
-                      Priya Sharma
+                      Shilpa Parikh
                     </h3>
                     <p className="font-luxury-sans text-luxury-maroon/70 text-center">
                       Founder & CEO
@@ -234,7 +234,7 @@ const FounderStory = () => {
                 your wedding day should be about you - stress-free, joyful, and absolutely perfect."
               </p>
               <div className="mt-8">
-                <span className="font-luxury-serif text-lg opacity-90">- Priya Sharma, Founder</span>
+                <span className="font-luxury-serif text-lg opacity-90">- Shilpa Parikh, Founder</span>
               </div>
             </div>
           </section>
@@ -251,7 +251,7 @@ const FounderStory = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
-                  onClick={() => navigate('/account')}
+                  onClick={() => navigate('/account?section=bookings')}
                   className="bg-luxury-maroon text-white px-8 py-3 rounded-lg hover:bg-luxury-burgundy transition-colors duration-300 font-luxury-sans font-medium"
                 >
                   Book Consultation
@@ -260,7 +260,7 @@ const FounderStory = () => {
                   onClick={() => navigate('/products')}
                   className="bg-transparent border-2 border-luxury-maroon text-luxury-maroon px-8 py-3 rounded-lg hover:bg-luxury-maroon hover:text-white transition-colors duration-300 font-luxury-sans font-medium"
                 >
-                  Explore Packages
+                  Browse Products
                 </button>
               </div>
             </div>

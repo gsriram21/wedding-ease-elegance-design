@@ -40,7 +40,7 @@ const Bookings = () => {
     {
       id: '1',
       title: 'Wedding Planning Consultation',
-      consultant: 'Priya Sharma',
+      consultant: 'Shilpa Parikh',
       consultantImage: '/images/aastha-bansal-W1wkx5kcaBk-unsplash.jpg',
       date: new Date('2024-01-25'),
       time: '2:00 PM',
@@ -93,7 +93,7 @@ const Bookings = () => {
   ];
 
   const consultants = [
-    { id: '1', name: 'Priya Sharma', specialty: 'Wedding Planning', image: '/images/aastha-bansal-W1wkx5kcaBk-unsplash.jpg', rating: 4.9 },
+    { id: '1', name: 'Shilpa Parikh', specialty: 'Wedding Planning', image: '/images/aastha-bansal-W1wkx5kcaBk-unsplash.jpg', rating: 4.9 },
     { id: '2', name: 'Rajesh Kumar', specialty: 'Venue Selection', image: '/images/ikshana-productions-UX3-_dGbCzk-unsplash.jpg', rating: 4.8 },
     { id: '3', name: 'Anjali Patel', specialty: 'Budget Planning', image: '/images/khadija-yousaf-lKwp3-FQomY-unsplash.jpg', rating: 4.7 },
   ];
