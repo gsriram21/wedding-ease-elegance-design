@@ -43,7 +43,7 @@ const Hero = () => {
             <div className="flex justify-center gap-6 flex-wrap">
               <Button 
                 size="lg" 
-                onClick={() => navigate('/account?section=enquiries')}
+                onClick={() => navigate('/account?section=bookings')}
                 className="text-white font-luxury-sans tracking-wide uppercase text-lg px-8 py-4 rounded-xl border-2 border-white bg-transparent hover:bg-white hover:text-black shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 group"
               >
                 <span>Book Consultation</span>
@@ -62,7 +62,7 @@ const Hero = () => {
                 className="text-white font-luxury-sans tracking-wide uppercase text-lg px-8 py-4 rounded-xl border-2 border-white bg-transparent hover:bg-white hover:text-black shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 group"
                 onClick={() => navigate('/products')}
               >
-                <span>Explore</span>
+                <span>Shop Now</span>
                 <svg 
                   className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" 
                   fill="none" 

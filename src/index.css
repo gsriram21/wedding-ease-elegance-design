@@ -179,6 +179,31 @@
     display: none;
   }
 
+  /* Standardized Card Sizes for Homogeneous Look */
+  .card-standard {
+    @apply bg-white/90 backdrop-blur-sm rounded-xl border border-luxury-taupe/10 shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+
+  .card-small {
+    @apply min-h-[280px] p-6;
+  }
+
+  .card-medium {
+    @apply min-h-[320px] p-8;
+  }
+
+  .card-large {
+    @apply min-h-[380px] p-8;
+  }
+
+  .card-grid-item {
+    @apply h-full flex flex-col;
+  }
+
+  .card-content-flex {
+    @apply flex-1 flex flex-col justify-between;
+  }
+
   /* Luxury gradients - Updated for refined palette */
   .luxury-gradient {
     background: linear-gradient(135deg, 

@@ -378,7 +378,7 @@ const Account = () => {
 
   const handleMockAction = (action: string) => {
     const messages = {
-      'book-consultation': 'Booking consultation - Calendar integration coming soon!',
+      'book-consultation': 'Redirecting to calendar...',
       'browse-packages': 'Viewing packages - Redirecting to packages page...',
       'ask-question': 'AI assistant integration coming soon!',
       'get-quote': 'Custom quote generation coming soon!',
@@ -393,6 +393,10 @@ const Account = () => {
     
     if (action === 'browse-products') {
       setTimeout(() => navigate('/products'), 1000);
+    }
+    
+    if (action === 'book-consultation') {
+      setTimeout(() => setActiveSection('bookings'), 500);
     }
   };
 
@@ -542,62 +546,67 @@ const Account = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
                 <button 
                   onClick={() => handleMockAction('book-consultation')}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 hover:shadow-md transition-all duration-300 text-left group"
+                  className="card-standard card-small text-left group"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
-                      <Calendar className="w-5 h-5 text-luxury-dusty-rose group-hover:text-white" />
+                  <div className="card-content-flex">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
+                        <Calendar className="w-5 h-5 text-luxury-dusty-rose group-hover:text-white transition-colors duration-300" />
+                      </div>
+                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Book Consultation</span>
                     </div>
-                    <h4 className="font-luxury-serif font-bold text-luxury-maroon">Book Consultation</h4>
+                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                      Schedule a free consultation
+                    </p>
                   </div>
-                  <p className="font-luxury-sans text-sm text-luxury-maroon/70">
-                    Schedule a free 30-minute consultation with our wedding experts
-                  </p>
                 </button>
-
                 <button 
                   onClick={() => handleMockAction('browse-packages')}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 hover:shadow-md transition-all duration-300 text-left group"
+                  className="card-standard card-small text-left group"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 bg-luxury-maroon/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-maroon group-hover:text-white transition-all duration-300">
-                      <ShoppingBag className="w-5 h-5 text-luxury-maroon group-hover:text-white" />
+                  <div className="card-content-flex">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
+                        <ShoppingBag className="w-5 h-5 text-luxury-maroon group-hover:text-white transition-colors duration-300" />
+                      </div>
+                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">View Packages</span>
                     </div>
-                    <h4 className="font-luxury-serif font-bold text-luxury-maroon">View Packages</h4>
+                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                      Explore our packages
+                    </p>
                   </div>
-                  <p className="font-luxury-sans text-sm text-luxury-maroon/70">
-                    Explore our curated wedding packages and pricing options
-                  </p>
                 </button>
-
                 <button 
                   onClick={() => navigate('/products')}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 hover:shadow-md transition-all duration-300 text-left group"
+                  className="card-standard card-small text-left group"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
-                      <Heart className="w-5 h-5 text-luxury-dusty-rose group-hover:text-white" />
+                  <div className="card-content-flex">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
+                        <Heart className="w-5 h-5 text-luxury-dusty-rose group-hover:text-white transition-colors duration-300" />
+                      </div>
+                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Browse Products</span>
                     </div>
-                    <h4 className="font-luxury-serif font-bold text-luxury-maroon">Browse Products</h4>
+                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                      Discover our collection
+                    </p>
                   </div>
-                  <p className="font-luxury-sans text-sm text-luxury-maroon/70">
-                    Discover our exclusive collection of wedding attire and accessories
-                  </p>
                 </button>
-
                 <button 
                   onClick={() => handleMockAction('get-quote')}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 hover:shadow-md transition-all duration-300 text-left group"
+                  className="card-standard card-small text-left group"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 bg-luxury-maroon/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-maroon group-hover:text-white transition-all duration-300">
-                      <User className="w-5 h-5 text-luxury-maroon group-hover:text-white" />
+                  <div className="card-content-flex">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
+                        <User className="w-5 h-5 text-luxury-maroon group-hover:text-white transition-colors duration-300" />
+                      </div>
+                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Get Quote</span>
                     </div>
-                    <h4 className="font-luxury-serif font-bold text-luxury-maroon">Get Custom Quote</h4>
+                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                      Get personalized pricing
+                    </p>
                   </div>
-                  <p className="font-luxury-sans text-sm text-luxury-maroon/70">
-                    Tell us about your dream wedding and get a personalized quote
-                  </p>
                 </button>
               </div>
 
@@ -842,17 +851,21 @@ const Account = () => {
               {/* Create New Wishlist Card */}
               <div 
                 onClick={() => setIsCreatingWishlist(true)}
-                className="bg-white/60 backdrop-blur-sm rounded-xl p-8 shadow-lg border-2 border-dashed border-luxury-dusty-rose/40 hover:border-luxury-dusty-rose hover:bg-white/80 transition-all duration-300 cursor-pointer group text-center"
+                className="card-standard card-medium border-2 border-dashed border-luxury-dusty-rose/40 hover:border-luxury-dusty-rose cursor-pointer group text-center"
               >
-                <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
-                  <Plus className="w-8 h-8 text-luxury-dusty-rose" />
+                <div className="card-content-flex items-center justify-center">
+                  <div>
+                    <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
+                      <Plus className="w-8 h-8 text-luxury-dusty-rose" />
+                    </div>
+                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-2">
+                      Create New Wishlist
+                    </h3>
+                    <p className="font-luxury-sans text-luxury-maroon/60 text-sm">
+                      Start a new collection for your special day
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-2">
-                  Create New Wishlist
-                </h3>
-                <p className="font-luxury-sans text-luxury-maroon/60 text-sm">
-                  Start a new collection for your special day
-                </p>
               </div>
 
               {/* Existing Wishlists */}
