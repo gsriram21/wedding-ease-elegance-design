@@ -28,6 +28,8 @@ interface ProductDetailModalProps {
   isWishlisted: boolean;
   onBuyNow: (product: Product) => void;
   onGetPrice: (product: Product) => void;
+  allProducts: Product[];
+  onSimilarProductClick: (product: Product) => void;
 }
 
 const ProductDetailModal = ({ 
@@ -37,7 +39,9 @@ const ProductDetailModal = ({
   onWishlistToggle, 
   isWishlisted,
   onBuyNow,
-  onGetPrice 
+  onGetPrice,
+  allProducts,
+  onSimilarProductClick 
 }: ProductDetailModalProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -76,14 +80,28 @@ const ProductDetailModal = ({
     "After-purchase support and care instructions"
   ];
 
+  // Get similar products (same category or subcategory, excluding current product)
+  const getSimilarProducts = () => {
+    if (!product) return [];
+    
+    return allProducts
+      .filter(p => 
+        p.id !== product.id && 
+        (p.category === product.category || p.subcategory === product.subcategory)
+      )
+      .slice(0, 4); // Show up to 4 similar products
+  };
+
+  const similarProducts = getSimilarProducts();
+
   return (
     <div className="fixed inset-0 z-40 bg-gradient-to-br from-luxury-ivory via-white to-luxury-soft-pink overflow-y-auto">
       {/* Navigation - Ensure it's accessible */}
       <Navigation />
       
-      {/* Product Detail View */}
-      <div className="min-h-screen pt-20"> {/* Add top padding for navigation */}
-        <div className="relative bg-white/90 backdrop-blur-sm max-w-7xl mx-auto">
+        {/* Product Detail View */}
+        <div className="min-h-screen pt-20"> {/* Add top padding for navigation */}
+          <div className="relative bg-white/90 backdrop-blur-sm max-w-6xl mx-auto">
           {/* Back to Products Button */}
           <div className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-luxury-taupe/20 px-8 py-4">
             <button
@@ -174,28 +192,14 @@ const ProductDetailModal = ({
                   </p>
                 </div>
 
-                {/* Rating and Price */}
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-luxury-sans font-semibold text-luxury-maroon">
-                        {product.rating}
-                      </span>
-                    </div>
-                    <span className="font-luxury-sans text-luxury-maroon/60 text-sm">
-                      ({product.reviews} reviews)
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-4">
-                    <span className="font-luxury-serif text-2xl font-bold text-luxury-dusty-rose">
-                      {product.price}
-                    </span>
-                    <span className="font-luxury-sans text-luxury-maroon/50 line-through">
-                      {product.originalPrice}
-                    </span>
-                  </div>
+                {/* Price */}
+                <div className="flex items-center gap-4">
+                  <span className="font-luxury-serif text-2xl font-bold text-luxury-dusty-rose">
+                    {product.price}
+                  </span>
+                  <span className="font-luxury-sans text-luxury-maroon/50 line-through">
+                    {product.originalPrice}
+                  </span>
                 </div>
 
                 {/* Features */}
@@ -231,6 +235,38 @@ const ProductDetailModal = ({
                     ))}
                   </div>
                 </div>
+
+                {/* See Similar Products */}
+                {similarProducts.length > 0 && (
+                  <div className="border-t border-luxury-taupe/20 pt-4">
+                    <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-4">
+                      See Similar Products
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {similarProducts.map((similarProduct) => (
+                        <div
+                          key={similarProduct.id}
+                          onClick={() => onSimilarProductClick(similarProduct)}
+                          className="cursor-pointer group bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 hover:shadow-md transition-all duration-300"
+                        >
+                          <div className="aspect-square mb-2 overflow-hidden rounded-lg">
+                            <img
+                              src={similarProduct.images[0]}
+                              alt={similarProduct.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                          <h4 className="font-luxury-sans font-medium text-sm text-luxury-maroon mb-1 line-clamp-2">
+                            {similarProduct.name}
+                          </h4>
+                          <p className="font-luxury-serif font-bold text-luxury-dusty-rose text-sm">
+                            {similarProduct.price}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons - Always visible at bottom */}
@@ -255,19 +291,19 @@ const ProductDetailModal = ({
                 <Button
                   onClick={() => onWishlistToggle(product.id)}
                   variant="outline"
-                  className={`p-3 rounded-xl transition-all duration-300 ${
+                  className={`p-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${
                     isWishlisted
-                      ? "bg-luxury-dusty-rose text-white border-luxury-dusty-rose hover:bg-luxury-dusty-rose/90"
-                      : "border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white"
+                      ? "bg-red-500 text-white border-red-500 hover:bg-red-600 shadow-lg shadow-red-500/25"
+                      : "border-gray-300 text-gray-400 hover:border-red-500 hover:text-red-500 hover:bg-red-50"
                   }`}
                 >
-                  <Heart className={`w-5 h-5 ${isWishlisted ? "fill-current" : ""}`} />
+                  <Heart className={`w-5 h-5 transition-all duration-500 ${isWishlisted ? "fill-current" : "hover:scale-110"}`} />
                 </Button>
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
     </div>
   );
 };

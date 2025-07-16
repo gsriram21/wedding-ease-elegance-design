@@ -53,22 +53,22 @@ const Services = () => {
       )
     },
     {
-      title: "Wedding Decor",
-      description: "Bespoke decoration services including mandap designs, floral arrangements, and stunning venue transformations.",
-      category: "decor",
+      title: "Invites & Stationery",
+      description: "Beautiful wedding invitations, save-the-dates, menu cards, and custom stationery for your special day.",
+      category: "stationery",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       )
     },
     {
-      title: "Special Collections",
-      description: "Curated seasonal collections and limited edition pieces from renowned designers and artisans.",
-      category: "collections",
+      title: "Gifts & Accessories",
+      description: "Thoughtful wedding gifts, favors, and elegant accessories to complete your celebration.",
+      category: "gifts-favors",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
         </svg>
       )
     }
@@ -86,14 +86,14 @@ const Services = () => {
       category: "jewelry"
     },
     {
-      src: "/images/celebration-new-3.jpg",
-      alt: "A vibrant, colorful shot of a traditional wedding ritual with flower garlands.",
-      category: "decor"
+      src: "/images/invites1.png",
+      alt: "Elegant wedding invitation cards with gold foil detailing and custom design.",
+      category: "stationery"
     },
     {
       src: "/images/celebration-new-4.jpg",
-      alt: "A beautiful portrait of a bride in her stunning wedding attire.",
-      category: "collections"
+      alt: "Beautiful wedding gifts and favors arranged in an elegant display.",
+      category: "gifts-favors"
     }
   ];
 

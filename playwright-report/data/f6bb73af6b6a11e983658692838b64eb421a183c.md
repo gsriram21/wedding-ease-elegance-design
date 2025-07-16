@@ -32,13 +32,13 @@
 - text: Shop Now
 - img
 - img
-- heading "Wedding Decor" [level=3]
-- paragraph: Bespoke decoration services including mandap designs, floral arrangements, and stunning venue transformations.
+- heading "Invites & Stationery" [level=3]
+- paragraph: Beautiful wedding invitations, save-the-dates, menu cards, and custom stationery for your special day.
 - text: Shop Now
 - img
 - img
-- heading "Special Collections" [level=3]
-- paragraph: Curated seasonal collections and limited edition pieces from renowned designers and artisans.
+- heading "Gifts & Accessories" [level=3]
+- paragraph: Thoughtful wedding gifts, favors, and elegant accessories to complete your celebration.
 - text: Shop Now
 - img
 - heading "Featured Collections" [level=3]
@@ -47,9 +47,9 @@
 - text: View Collection
 - img "An intimate close-up of a bride's hands, showcasing detailed henna and jewelry."
 - text: View Collection
-- img "A vibrant, colorful shot of a traditional wedding ritual with flower garlands."
+- img "Elegant wedding invitation cards with gold foil detailing and custom design."
 - text: View Collection
-- img "A beautiful portrait of a bride in her stunning wedding attire."
+- img "Beautiful wedding gifts and favors arranged in an elegant display."
 - text: View Collection
 - heading "Wedding Planning Packages" [level=2]
 - paragraph: Choose the perfect package for your special day. Each option is designed to provide exceptional service and create the wedding of your dreams.

@@ -8,17 +8,17 @@
 - [x] Keep the size of all cards the same for a homogeneous look.
 
 ## Product & Offerings
-- [ ] On Our Offerings, add product-specific cards; remove wedding décor.
-- [ ] Change Wedding Decor to Invites and Stationery.
-- [ ] Change Special Collection to Gifts & Accessories.
-- [ ] Add See Similar functionality for products.
-- [ ] Change heart color when adding/removing from wishlist.
-- [ ] Remove star rating and reviews pop-up.
-- [ ] Remove emojis from product filters.
-- [ ] In all product filters, add gender selection.
-- [ ] Remove Brands filter.
-- [ ] Add an option to select or create a custom package.
-- [ ] Keep the filter sidebar sticky even when a product is opened.
+- [x] On Our Offerings, add product-specific cards; remove wedding décor.
+- [x] Change Wedding Decor to Invites and Stationery.
+- [x] Change Special Collection to Gifts & Accessories.
+- [x] Add See Similar functionality for products.
+- [x] Change heart color when adding/removing from wishlist.
+- [x] Remove star rating and reviews pop-up.
+- [x] Remove emojis from product filters.
+- [x] In all product filters, add gender selection.
+- [x] Remove Brands filter.
+- [x] Add an option to select or create a custom package.
+- [x] Keep the filter sidebar sticky even when a product is opened.
 
 ## Chat & Consultation
 - [ ] Remove the video call option in chat.

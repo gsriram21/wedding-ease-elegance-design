@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingBag, Filter, Grid3X3, List, Star, ChevronLeft, ChevronRight, Search, Plus, Sparkles, SlidersHorizontal } from "lucide-react";
+import { Heart, ShoppingBag, Filter, Grid3X3, List, Star, ChevronLeft, ChevronRight, Search, Plus, Sparkles, SlidersHorizontal, Check } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProductDetailModal from "./ProductDetailModal";
@@ -57,18 +57,22 @@ const Products = () => {
   ]);
   const [isWishlistModalOpen, setIsWishlistModalOpen] = useState(false);
   const [wishlistSelectedProduct, setWishlistSelectedProduct] = useState<Product | null>(null);
+  const [isPackageMode, setIsPackageMode] = useState(false);
+  const [selectedPackageItems, setSelectedPackageItems] = useState<number[]>([]);
   const [activeFilters, setActiveFilters] = useState<{
     priceRange: [number, number];
     ratings: number[];
     colors: string[];
     brands: string[];
     sizes: string[];
+    gender: string[];
   }>({
     priceRange: [0, 200000],
     ratings: [],
     colors: [],
     brands: [],
-    sizes: []
+    sizes: [],
+    gender: []
   });
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -329,7 +333,8 @@ const Products = () => {
     const baseFilters = {
       priceRange: { min: 0, max: 200000, step: 5000 },
       ratings: [4.5, 4.0, 3.5, 3.0],
-      brands: ['Wedding Ease', 'Luxury Collection', 'Heritage Designs', 'Royal Crafts', 'Elegant Touch']
+      brands: ['Wedding Ease', 'Luxury Collection', 'Heritage Designs', 'Royal Crafts', 'Elegant Touch'],
+      gender: ['Men', 'Women', 'Unisex']
     };
 
     const categoryFilters = {
@@ -503,6 +508,30 @@ const Products = () => {
     showToast(`Created wishlist "${name}" and added ${product.name}`);
   };
 
+  const togglePackageItem = (productId: number) => {
+    setSelectedPackageItems(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const handleCreatePackage = () => {
+    if (selectedPackageItems.length === 0) {
+      showToast("Please select at least one product for your package");
+      return;
+    }
+    
+    const selectedProducts = products.filter(p => selectedPackageItems.includes(p.id));
+    const totalPrice = selectedProducts.reduce((sum, product) => {
+      return sum + parseInt(product.price.replace(/[₹,]/g, ''));
+    }, 0);
+    
+    showToast(`Custom package created with ${selectedPackageItems.length} items. Total: ₹${totalPrice.toLocaleString()}`);
+    setIsPackageMode(false);
+    setSelectedPackageItems([]);
+  };
+
   const nextImage = (productId: number, totalImages: number) => {
     setCurrentImageIndex(prev => ({
       ...prev,
@@ -660,43 +689,7 @@ const Products = () => {
             </div>
           </div>
 
-                  {/* Customer Rating Filter */}
-            <div>
-              <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
-                      <span>⭐</span>
-                      Customer Rating
-              </h3>
-              <div className="space-y-2">
-                      {filters.ratings.map((rating) => (
-                        <label key={rating} className="flex items-center gap-3 cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            checked={activeFilters.ratings.includes(rating)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setActiveFilters(prev => ({
-                                  ...prev,
-                                  ratings: [...prev.ratings, rating]
-                                }));
-                              } else {
-                                setActiveFilters(prev => ({
-                                  ...prev,
-                                  ratings: prev.ratings.filter(r => r !== rating)
-                                }));
-                              }
-                            }}
-                            className="rounded border-luxury-taupe/30 text-luxury-dusty-rose focus:ring-luxury-dusty-rose" 
-                          />
-                          <div className="flex items-center gap-1">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-luxury-taupe/30'}`} />
-                            ))}
-                            <span className="text-sm text-luxury-maroon/70 ml-1 font-luxury-sans">{rating}+ ({Math.floor(Math.random() * 50) + 10})</span>
-                          </div>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+
                 </>
               );
             })()}
@@ -706,8 +699,7 @@ const Products = () => {
               const filters = getDynamicFilters();
               return (
                 <div>
-                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
-                    <span>🎨</span>
+                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3">
                     Color
                   </h3>
                   <div className="grid grid-cols-4 gap-3">
@@ -757,51 +749,14 @@ const Products = () => {
               );
             })()}
 
-            {/* Brand Filter */}
-            {(() => {
-              const filters = getDynamicFilters();
-              return (
-                <div>
-                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
-                    <span>🏷️</span>
-                    Brand
-                  </h3>
-                  <div className="space-y-2">
-                    {filters.brands.map((brand) => (
-                      <label key={brand} className="flex items-center gap-3 cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          checked={activeFilters.brands.includes(brand)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setActiveFilters(prev => ({
-                                ...prev,
-                                brands: [...prev.brands, brand]
-                              }));
-                            } else {
-                              setActiveFilters(prev => ({
-                                ...prev,
-                                brands: prev.brands.filter(b => b !== brand)
-                              }));
-                            }
-                          }}
-                          className="rounded border-luxury-taupe/30 text-luxury-dusty-rose focus:ring-luxury-dusty-rose" 
-                        />
-                        <span className="text-sm text-luxury-maroon/70 font-luxury-sans">{brand} ({Math.floor(Math.random() * 30) + 5})</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              );
-            })()}
+
 
             {/* Size Filter */}
             {(() => {
               const filters = getDynamicFilters();
               return (
                 <div>
-                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
-                    <span>📏</span>
+                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3">
                     Size
                   </h3>
                   <div className="grid grid-cols-3 gap-2">
@@ -835,11 +790,47 @@ const Products = () => {
               );
             })()}
 
+            {/* Gender Filter */}
+            {(() => {
+              const filters = getDynamicFilters();
+              return (
+                <div>
+                  <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3">
+                    Gender
+                  </h3>
+                  <div className="space-y-2">
+                    {filters.gender.map((gender) => (
+                      <label key={gender} className="flex items-center gap-3 cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          checked={activeFilters.gender.includes(gender)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setActiveFilters(prev => ({
+                                ...prev,
+                                gender: [...prev.gender, gender]
+                              }));
+                            } else {
+                              setActiveFilters(prev => ({
+                                ...prev,
+                                gender: prev.gender.filter(g => g !== gender)
+                              }));
+                            }
+                          }}
+                          className="rounded border-luxury-taupe/30 text-luxury-dusty-rose focus:ring-luxury-dusty-rose" 
+                        />
+                        <span className="text-sm text-luxury-maroon/70 font-luxury-sans">{gender}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Subcategories - Only show when category is selected */}
             {activeCategory !== "all" && (
               <div>
-                <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3 flex items-center gap-2">
-                  <span>📂</span>
+                <h3 className="font-luxury-serif font-bold text-base text-luxury-maroon mb-3">
                   {categories.find(c => c.id === activeCategory)?.name} Types
                 </h3>
                 <div className="space-y-2">
@@ -1041,12 +1032,69 @@ const Products = () => {
                   <Filter className="w-4 h-4 mr-1" />
                   Filters
                 </Button>
+
+                {/* Custom Package Mode Toggle */}
+                <Button
+                  variant={isPackageMode ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => {
+                    setIsPackageMode(!isPackageMode);
+                    setSelectedPackageItems([]);
+                  }}
+                  className={`rounded-xl px-4 py-2.5 transition-all duration-300 ${
+                    isPackageMode 
+                      ? 'bg-luxury-maroon text-white hover:bg-luxury-burgundy shadow-lg' 
+                      : 'border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white'
+                  }`}
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  {isPackageMode ? 'Cancel Package' : 'Create Package'}
+                </Button>
+
+                {/* Package Actions */}
+                {isPackageMode && selectedPackageItems.length > 0 && (
+                  <Button
+                    onClick={handleCreatePackage}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-xl px-4 py-2.5"
+                  >
+                    <Check className="w-4 h-4 mr-1" />
+                    Create Package ({selectedPackageItems.length})
+                  </Button>
+                )}
               </div>
             </div>
           </div>
 
           {/* Enhanced Products Grid/List */}
           <div className={`flex-1 relative px-6 md:px-8 py-6 overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${viewMode === "list" ? "pt-8" : ""}`}>
+            {/* Package Mode Banner */}
+            {isPackageMode && (
+              <div className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-4 relative z-20">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <Plus className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-luxury-serif font-bold text-green-800 mb-1">
+                      Custom Package Mode
+                    </h3>
+                    <p className="font-luxury-sans text-green-700 text-sm">
+                      Click on products to add them to your custom package. Selected: {selectedPackageItems.length} items
+                    </p>
+                  </div>
+                  {selectedPackageItems.length > 0 && (
+                    <Button
+                      onClick={handleCreatePackage}
+                      size="sm"
+                      className="bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      Create Package
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Subtle Background Elements */}
             <img 
               src="/images/bg-flower.png" 
@@ -1080,15 +1128,20 @@ const Products = () => {
                   {filteredProducts.map((product, index) => {
                     const isLiked = isProductInWishlist(product.id);
                     const currentImg = currentImageIndex[product.id] || 0;
+                    const isSelectedForPackage = selectedPackageItems.includes(product.id);
                     
                     return (
                       <div
                         key={product.id}
                         data-testid="product-card"
-                        onClick={() => handleProductClick(product.id)}
-                        className={`group relative bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-luxury-taupe/10 hover:border-luxury-dusty-rose/30 cursor-pointer ${
+                        onClick={() => isPackageMode ? togglePackageItem(product.id) : handleProductClick(product.id)}
+                        className={`group relative bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border cursor-pointer ${
                           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                        } ${viewMode === "list" ? "flex gap-6 p-6" : "hover:-translate-y-1"}`}
+                        } ${viewMode === "list" ? "flex gap-6 p-6" : "hover:-translate-y-1"} ${
+                          isPackageMode && isSelectedForPackage 
+                            ? "border-green-500 ring-2 ring-green-500/30 bg-green-50/80" 
+                            : "border-luxury-taupe/10 hover:border-luxury-dusty-rose/30"
+                        }`}
                         style={{ transitionDelay: `${index * 50}ms` }}
                       >
                         {/* Cleaner Product Image */}
@@ -1137,14 +1190,29 @@ const Products = () => {
                               e.stopPropagation();
                               toggleWishlist(product.id);
                             }}
-                            className={`absolute top-3 right-3 rounded-full transition-all duration-300 h-8 w-8 ${
+                            className={`absolute top-3 right-3 rounded-full transition-all duration-300 h-8 w-8 transform hover:scale-110 ${
                               isLiked 
-                                ? 'bg-luxury-dusty-rose text-white hover:bg-luxury-dusty-rose/90 shadow-lg' 
-                                : 'bg-white/90 text-luxury-dusty-rose hover:bg-white shadow-lg'
+                                ? 'bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/25' 
+                                : 'bg-white/90 text-gray-400 hover:text-red-500 hover:bg-white shadow-lg'
                             }`}
                           >
-                            <Heart className={`w-4 h-4 transition-all duration-300 ${isLiked ? 'fill-current' : ''}`} />
+                            <Heart className={`w-4 h-4 transition-all duration-500 ${isLiked ? 'fill-current' : 'hover:scale-110'}`} />
                           </Button>
+
+                          {/* Package Selection Checkbox */}
+                          {isPackageMode && (
+                            <div className="absolute bottom-3 left-3 z-10">
+                              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                                isSelectedForPackage 
+                                  ? 'bg-green-500 border-green-500' 
+                                  : 'bg-white/90 border-gray-300 hover:border-green-500'
+                              }`}>
+                                {isSelectedForPackage && (
+                                  <Check className="w-4 h-4 text-white" />
+                                )}
+                              </div>
+                            </div>
+                          )}
 
                           {/* Improved Badge Positioning */}
                           {(product.trending || product.newArrival || product.bestSeller) && (
@@ -1189,21 +1257,13 @@ const Products = () => {
                           </div>
 
                           {/* Price and Rating */}
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-2">
-                              <span className="font-luxury-serif text-xl font-bold text-luxury-dusty-rose">
-                                {product.price}
-                              </span>
-                              <span className="font-luxury-sans text-sm text-luxury-maroon/40 line-through">
-                                {product.originalPrice}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                              <span className="font-luxury-sans text-sm text-luxury-maroon/70 font-medium">
-                                {product.rating}
-                              </span>
-                            </div>
+                          <div className="flex items-center gap-2 mb-4">
+                            <span className="font-luxury-serif text-xl font-bold text-luxury-dusty-rose">
+                              {product.price}
+                            </span>
+                            <span className="font-luxury-sans text-sm text-luxury-maroon/40 line-through">
+                              {product.originalPrice}
+                            </span>
                           </div>
 
                           {/* Simplified Action Buttons */}
@@ -1238,6 +1298,11 @@ const Products = () => {
         isWishlisted={selectedProduct ? wishlistItems.includes(selectedProduct.id) : false}
         onBuyNow={handleBuyNow}
         onGetPrice={handleGetPrice}
+        allProducts={products}
+        onSimilarProductClick={(product) => {
+          setSelectedProduct(product);
+          // Keep modal open to show the new product
+        }}
       />
 
       {/* Pinterest-style Wishlist Modal */}
