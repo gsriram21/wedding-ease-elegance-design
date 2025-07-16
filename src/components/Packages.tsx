@@ -105,37 +105,39 @@ const Packages = () => {
           {packages.map((pkg, index) => (
             <div
               key={index}
-              className={`relative bg-white/95 backdrop-blur-sm rounded-lg overflow-hidden transition-all duration-700 luxury-hover ${
-                pkg.popular ? 'ring-2 ring-luxury-dusty-rose shadow-2xl scale-105' : 'shadow-xl'
+              className={`relative card-standard card-large card-grid-item transition-all duration-700 luxury-hover ${
+                pkg.popular ? 'ring-2 ring-luxury-dusty-rose shadow-2xl scale-105' : ''
               } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ transitionDelay: `${index * 200}ms` }}
             >
               {pkg.popular && (
-                <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-luxury-dusty-rose to-rose-400 text-white text-center py-3 font-luxury-sans font-medium tracking-wide uppercase text-sm">
+                <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-luxury-dusty-rose to-rose-400 text-white text-center py-3 font-luxury-sans font-medium tracking-wide uppercase text-sm rounded-t-xl">
                   Most Popular
                 </div>
               )}
               
-              <div className={`p-12 ${pkg.popular ? 'pt-16' : ''}`}>
-                <h3 className="font-luxury-serif font-bold text-3xl md:text-4xl text-luxury-maroon mb-4 tracking-tight">
-                  {pkg.name}
-                </h3>
-                <p className="font-luxury-sans text-luxury-maroon/70 mb-6 text-lg leading-relaxed">{pkg.description}</p>
-                <div className="font-luxury-serif text-4xl font-bold text-luxury-dusty-rose mb-10">
-                  {pkg.price}
+              <div className={`card-content-flex ${pkg.popular ? 'pt-8' : ''}`}>
+                <div>
+                  <h3 className="font-luxury-serif font-bold text-3xl md:text-4xl text-luxury-maroon mb-4 tracking-tight">
+                    {pkg.name}
+                  </h3>
+                  <p className="font-luxury-sans text-luxury-maroon/70 mb-6 text-lg leading-relaxed">{pkg.description}</p>
+                  <div className="font-luxury-serif text-4xl font-bold text-luxury-dusty-rose mb-10">
+                    {pkg.price}
+                  </div>
+                  
+                  <ul className="space-y-4 mb-12">
+                    {pkg.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start">
+                        <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-3 mr-4 flex-shrink-0" />
+                        <span className="font-luxury-sans text-luxury-maroon/80 leading-relaxed text-lg">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
                 
-                <ul className="space-y-4 mb-12">
-                  {pkg.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start">
-                      <div className="w-2 h-2 bg-luxury-dusty-rose rounded-full mt-3 mr-4 flex-shrink-0" />
-                      <span className="font-luxury-sans text-luxury-maroon/80 leading-relaxed text-lg">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
                 <Button 
-                  className={`w-full py-4 font-luxury-sans font-medium tracking-wide uppercase text-sm transition-all duration-300 ${
+                  className={`w-full py-4 font-luxury-sans font-medium tracking-wide uppercase text-sm transition-all duration-300 mt-auto ${
                     pkg.popular 
                       ? 'btn-luxury-primary' 
                       : 'btn-luxury-secondary'

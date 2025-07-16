@@ -26,27 +26,10 @@ const Navigation = () => {
           <div className="hidden md:flex items-center justify-center flex-1">
             <div className="flex items-baseline space-x-8">
               <button 
-                onClick={() => navigate('/')}
-                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
-              >
-                Home
-              </button>
-              <button 
                 onClick={() => navigate('/products')}
                 className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
               >
                 Products
-              </button>
-              <button 
-                onClick={() => {
-                  navigate('/');
-                  setTimeout(() => {
-                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }}
-                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
-              >
-                Services
               </button>
               <button 
                 onClick={() => {

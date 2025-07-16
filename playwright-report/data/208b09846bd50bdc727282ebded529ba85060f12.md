@@ -1,0 +1,135 @@
+# Page snapshot
+
+```yaml
+- region "Notifications (F8)":
+  - list
+- navigation:
+  - img "Wedding Ease Logo"
+  - button "Products"
+  - button "Packages"
+  - button "About"
+  - button "Contact"
+  - button "Account"
+  - button "Ease Bot AI"
+- heading "All-in-One Wedding Shopping" [level=1]
+- paragraph: Exclusive Indian selections with personalized consultations for a seamless shopping experience accessible worldwide. From traditional attire to modern celebrations, we bring India's finest to your doorstep.
+- button "Book Consultation":
+  - text: Book Consultation
+  - img
+- button "Shop Now":
+  - text: Shop Now
+  - img
+- heading "Our Luxury Offerings" [level=2]
+- paragraph: Discover our curated collection of wedding essentials, from exquisite attire to stunning jewelry, each piece chosen to make your special day unforgettable.
+- img
+- heading "Wedding Attire" [level=3]
+- paragraph: Exquisite collection of bridal lehengas, sherwanis, sarees, and designer outfits for your special day.
+- text: Shop Now
+- img
+- img
+- heading "Luxury Jewelry" [level=3]
+- paragraph: Premium jewelry collection featuring traditional and contemporary designs with precious metals and stones.
+- text: Shop Now
+- img
+- img
+- heading "Wedding Decor" [level=3]
+- paragraph: Bespoke decoration services including mandap designs, floral arrangements, and stunning venue transformations.
+- text: Shop Now
+- img
+- img
+- heading "Special Collections" [level=3]
+- paragraph: Curated seasonal collections and limited edition pieces from renowned designers and artisans.
+- text: Shop Now
+- img
+- heading "Featured Collections" [level=3]
+- paragraph: Explore our carefully curated collections showcasing the finest in wedding fashion and accessories.
+- img "A couple holding hands affectionately during their wedding ceremony."
+- text: View Collection
+- img "An intimate close-up of a bride's hands, showcasing detailed henna and jewelry."
+- text: View Collection
+- img "A vibrant, colorful shot of a traditional wedding ritual with flower garlands."
+- text: View Collection
+- img "A beautiful portrait of a bride in her stunning wedding attire."
+- text: View Collection
+- heading "Wedding Planning Packages" [level=2]
+- paragraph: Choose the perfect package for your special day. Each option is designed to provide exceptional service and create the wedding of your dreams.
+- heading "Essential" [level=3]
+- paragraph: Perfect for intimate celebrations
+- text: From $5,000
+- list:
+  - listitem: Venue selection assistance
+  - listitem: Vendor recommendations
+  - listitem: Timeline creation
+  - listitem: Month-of coordination
+  - listitem: Emergency kit on wedding day
+- button "Select Package"
+- text: Most Popular
+- heading "Premium" [level=3]
+- paragraph: Comprehensive planning experience
+- text: From $12,000
+- list:
+  - listitem: Full-service planning
+  - listitem: Unlimited consultations
+  - listitem: Design & styling services
+  - listitem: Vendor management
+  - listitem: Rehearsal coordination
+  - listitem: Day-of coordination team
+- button "Select Package"
+- heading "Luxury" [level=3]
+- paragraph: White-glove concierge service
+- text: From $25,000
+- list:
+  - listitem: Bespoke wedding design
+  - listitem: Destination wedding planning
+  - listitem: Guest accommodation coordination
+  - listitem: Custom stationery design
+  - listitem: Dedicated planning team
+  - listitem: Post-wedding cleanup
+- button "Select Package"
+- img "Beautiful Indian wedding couple portrait"
+- heading "Why Choose Wedding Ease?" [level=2]
+- paragraph: With over 15 years of experience in luxury wedding planning, we bring unparalleled expertise and attention to detail to every celebration. Our team of dedicated professionals works tirelessly to ensure your special day exceeds every expectation.
+- text: 1200+ Happy Couples 1467+ Weddings 679+ Decorations 1608+ Locations
+- paragraph: Personalized service tailored to your unique vision and style
+- paragraph: Extensive network of premium vendors and exclusive venues
+- paragraph: Seamless coordination and stress-free planning experience
+- heading "What Our Couples Say" [level=2]
+- paragraph: Hear from the couples who trusted us to make their wedding dreams come true
+- img "Wedding photo of Ananya & Vikram"
+- img
+- paragraph: "\"The team at Wedding Ease exceeded all our expectations. Their attention to detail and ability to bring our vision to life was incredible. Our wedding was absolutely perfect!\""
+- paragraph: Ananya & Vikram
+- paragraph: Delhi
+- img "Wedding photo of Priya & Rajesh"
+- img
+- paragraph: "\"Wedding Ease made our dream wedding come true! Every detail was perfect, from the stunning venue to the flawless coordination. Our guests are still talking about how magical everything was.\""
+- paragraph: Priya & Rajesh
+- paragraph: Mumbai
+- img "Wedding photo of Kavya & Arjun"
+- img
+- paragraph: "\"From our first consultation to the last dance, Wedding Ease handled everything with such professionalism and care. They made our special day stress-free and unforgettable.\""
+- paragraph: Kavya & Arjun
+- paragraph: Bangalore
+- heading "Let's Create Your Perfect Wedding" [level=2]
+- paragraph: Ready to begin planning the wedding of your dreams? Contact us today for a complimentary consultation and let's start bringing your vision to life.
+- img
+- paragraph: Phone
+- paragraph: +1 (555) 123-4567
+- img
+- paragraph: Email
+- paragraph: hello@weddingease.com
+- img
+- paragraph: Office
+- paragraph: Beverly Hills, California
+- heading "Book Your Consultation" [level=3]
+- textbox "First Name"
+- textbox "Last Name"
+- textbox "Email Address"
+- textbox "Phone Number"
+- textbox
+- textbox "Tell us about your dream wedding..."
+- button "Schedule Consultation"
+- img
+- img
+- paragraph: © 2024 Wedding Ease. All rights reserved. Creating luxury weddings worldwide.
+```

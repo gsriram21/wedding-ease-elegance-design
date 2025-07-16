@@ -136,21 +136,25 @@ const Services = () => {
               style={{ transitionDelay: `${index * 150}ms` }}
               onClick={() => handleServiceClick(service.category)}
             >
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-luxury-taupe/10 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full">
-                <div className="text-luxury-dusty-rose mb-6 group-hover:text-luxury-maroon transition-colors duration-300">
-                  {service.icon}
-                </div>
-                <h3 className="font-luxury-serif font-bold text-2xl text-luxury-maroon mb-4 group-hover:text-luxury-dusty-rose transition-colors duration-300">
-                  {service.title}
-                </h3>
-                <p className="font-luxury-sans text-luxury-maroon/70 leading-relaxed mb-4">
-                  {service.description}
-                </p>
-                <div className="flex items-center text-luxury-dusty-rose group-hover:text-luxury-maroon transition-colors duration-300">
-                  <span className="font-luxury-sans text-sm font-medium">Shop Now</span>
-                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+              <div className="card-standard card-medium card-grid-item hover:-translate-y-2">
+                <div className="card-content-flex">
+                  <div>
+                    <div className="text-luxury-dusty-rose mb-6 group-hover:text-luxury-maroon transition-colors duration-300">
+                      {service.icon}
+                    </div>
+                    <h3 className="font-luxury-serif font-bold text-2xl text-luxury-maroon mb-4 group-hover:text-luxury-dusty-rose transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                    <p className="font-luxury-sans text-luxury-maroon/70 leading-relaxed mb-4">
+                      {service.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center text-luxury-dusty-rose group-hover:text-luxury-maroon transition-colors duration-300 mt-auto">
+                    <span className="font-luxury-sans text-sm font-medium">Shop Now</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
