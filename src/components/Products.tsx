@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Navigation from "./Navigation";
 import ProductDetailModal from "./ProductDetailModal";
 import WishlistModal from "./WishlistModal";
+import UnifiedCheckout from "./UnifiedCheckout";
 
 interface Product {
   id: number;

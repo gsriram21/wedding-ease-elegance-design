@@ -18,31 +18,33 @@
 - [x] In all product filters, add gender selection.
 - [x] Remove Brands filter.
 - [x] Add an option to select or create a custom package.
-- [x] Keep the filter sidebar sticky even when a product is opened.
+- [ ] Keep the filter sidebar sticky even when a product is opened.
 
 ## Chat & Consultation
-- [ ] Remove the video call option in chat.
-- [ ] Schedule Meeting in chat:
-  - [ ] First free consultation: redirect to calendar booking.
-  - [ ] Returning users (used free consultation): redirect to buy package page.
-  - [ ] Users with the package: redirect to calendar booking.
-- [ ] Remove right/left scroll in chat.
-- [ ] After sending a chat message, remove the scroll option for messages above.
-- [ ] Add a save/submit button to book a session.
-- [ ] Do not repeat action buttons after the first message in chat.
-- [ ] Allow users to see selected products to buy and all products in chat.
-- [ ] Add chat tickets for:
-  - [ ] Curated sets by stylers.
-  - [ ] Booked session details.
-  - [ ] Order approval (show order code, cost, status, with accept/reject buttons).
-  - [ ] Delivery tracking details.
-  - [ ] Final invoice.
-- [ ] Implement a unified checkout for both e-commerce products and products selected in chat.
-- [ ] Enable access to a consultation pre-requisite form after date and slot selection.
+- [x] Remove the video call option in chat.
+- [x] Schedule Meeting in chat:
+  - [x] First free consultation: redirect to calendar booking.
+  - [x] Returning users (used free consultation): redirect to buy package page.
+  - [x] Users with the package: redirect to calendar booking.
+- [x] Remove right/left scroll in chat.
+- [x] When I scroll all the way down the input text field scrolls a little up leaving some whitespace at the bottom fix that UI issue
+- [x] After sending a chat message, remove the scroll option for messages above.
+- [x] Add a save/submit button to book a session.
+- [x] Do not repeat action buttons after the first message in chat.
+- [x] Allow users to see selected products to buy and all products in chat.
+- [x] Add chat tickets for:
+  - [x] Curated sets by stylers.
+  - [x] Booked session details.
+  - [x] Order approval (show order code, cost, status, with accept/reject buttons).
+  - [x] Delivery tracking details.
+  - [x] Final invoice.
+- [x] Implement a unified checkout for both e-commerce products and products selected in chat compatible with stripe payments.
 
 ## Bookings & Sessions
 - [ ] Remove "Choose Consultant", "Dashboard", and "Platform" from bookings.
 - [ ] In Past Sessions, remove "Meeting Agenda" and "Session Transcript".
+- [ ] Enable access to a consultation pre-requisite form after date and slot selection.
+
 
 ## Account & Forms
 - [ ] On the Account page, add the button on the left for active and other related details.

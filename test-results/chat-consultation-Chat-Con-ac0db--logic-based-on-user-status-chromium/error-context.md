@@ -1,0 +1,91 @@
+# Page snapshot
+
+```yaml
+- region "Notifications (F8)":
+  - list
+- navigation:
+  - img "Wedding Ease Logo"
+  - button "Products"
+  - button "Packages"
+  - button "About"
+  - button "Contact"
+  - button "Account"
+  - button "Ease Bot AI"
+- button "Chat":
+  - img
+  - text: Chat
+- button "Wishlist":
+  - img
+  - text: Wishlist
+- button "Order":
+  - img
+  - text: Order
+- button "Bookings":
+  - img
+  - text: Bookings
+- button "Profile":
+  - img
+  - text: Profile
+- button "Logout":
+  - img
+  - text: Logout
+- button "Book Session":
+  - img
+  - text: Book Session
+- button "Dashboard":
+  - img
+  - text: Dashboard
+- button "Upcoming":
+  - img
+  - text: Upcoming
+- button "Past Sessions":
+  - img
+  - text: Past Sessions
+- heading "Book Your Wedding Consultation" [level=2]
+- paragraph: Select a time that works for you and get expert guidance for your special day
+- heading "Select Date" [level=3]
+- button:
+  - img
+- text: July 2025
+- button:
+  - img
+- button "Sun 13"
+- button "Mon 14"
+- button "Tue 15"
+- button "Wed 16"
+- button "Thu 17"
+- button "Fri 18"
+- button "Sat 19"
+- heading "Available Times" [level=3]
+- button "9:00 AM"
+- button "9:30 AM"
+- button "10:00 AM"
+- button "10:30 AM"
+- button "11:00 AM"
+- button "11:30 AM"
+- button "2:00 PM"
+- button "2:30 PM"
+- button "3:00 PM"
+- button "3:30 PM"
+- button "4:00 PM"
+- button "4:30 PM"
+- heading "Choose Your Consultant" [level=3]
+- button "Priya Sharma Priya Sharma Wedding Planning 4.9":
+  - img "Priya Sharma"
+  - heading "Priya Sharma" [level=4]
+  - paragraph: Wedding Planning
+  - img
+  - text: "4.9"
+- button "Rajesh Kumar Rajesh Kumar Venue Selection 4.8":
+  - img "Rajesh Kumar"
+  - heading "Rajesh Kumar" [level=4]
+  - paragraph: Venue Selection
+  - img
+  - text: "4.8"
+- button "Anjali Patel Anjali Patel Budget Planning 4.7":
+  - img "Anjali Patel"
+  - heading "Anjali Patel" [level=4]
+  - paragraph: Budget Planning
+  - img
+  - text: "4.7"
+```

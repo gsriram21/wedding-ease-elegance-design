@@ -1,0 +1,91 @@
+# Page snapshot
+
+```yaml
+- region "Notifications (F8)":
+  - list
+- navigation:
+  - img "Wedding Ease Logo"
+  - button "Products"
+  - button "Packages"
+  - button "About"
+  - button "Contact"
+  - button "Account"
+  - button "Ease Bot AI"
+- button "Chat":
+  - img
+  - text: Chat
+- button "Wishlist":
+  - img
+  - text: Wishlist
+- button "Order":
+  - img
+  - text: Order
+- button "Bookings":
+  - img
+  - text: Bookings
+- button "Profile":
+  - img
+  - text: Profile
+- button "Logout":
+  - img
+  - text: Logout
+- img
+- heading "Wedding Planning Assistant" [level=3]
+- text: Online • Typically replies instantly
+- button "Schedule Meeting"
+- text: W
+- paragraph: Welcome to WeddingEase! 🌸 I'm here to help you plan your perfect wedding.
+- paragraph: You can ask me about our services, book consultations, or get personalized recommendations!
+- text: Just now
+- button "Book Consultation Schedule a free consultation":
+  - img
+  - text: Book Consultation
+  - paragraph: Schedule a free consultation
+- button "View Packages Explore our packages":
+  - img
+  - text: View Packages
+  - paragraph: Explore our packages
+- button "Browse Products Discover our collection":
+  - img
+  - text: Browse Products
+  - paragraph: Discover our collection
+- button "Get Quote Get personalized pricing":
+  - img
+  - text: Get Quote
+  - paragraph: Get personalized pricing
+- text: W
+- paragraph: "Here are some questions I can help you with:"
+- button "What wedding packages do you offer?"
+- button "How do I book a venue consultation?"
+- button "Can you help with destination weddings?"
+- button "What's included in the premium package?"
+- text: Just now Y
+- paragraph: Hello, I need help with wedding planning
+- text: 01:44 PM W
+- paragraph: I'm here to help with all your wedding planning needs! Would you like to explore our services?
+- button "Book Consultation Schedule a free consultation":
+  - img
+  - text: Book Consultation
+  - paragraph: Schedule a free consultation
+- button "View Packages Explore our packages":
+  - img
+  - text: View Packages
+  - paragraph: Explore our packages
+- button "Browse Products Discover our collection":
+  - img
+  - text: Browse Products
+  - paragraph: Discover our collection
+- button "Get Quote Get personalized pricing":
+  - img
+  - text: Get Quote
+  - paragraph: Get personalized pricing
+- button "Save Booking Confirm your consultation":
+  - img
+  - text: Save Booking
+  - paragraph: Confirm your consultation
+- text: 01:44 PM
+- textbox "Type your message or question..."
+- button "→" [disabled]
+- button "📎 Attach"
+- text: Powered by AI • Responses are typically instant Press Enter to send
+```

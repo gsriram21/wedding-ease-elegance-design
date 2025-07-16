@@ -4,6 +4,7 @@ import { Heart, ShoppingBag, MessageCircle, User, Calendar, LogOut, ChevronLeft,
 import { useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 import Bookings from "./Bookings";
+import UnifiedCheckout from "./UnifiedCheckout";
 
 interface Product {
   id: number;
@@ -72,9 +73,19 @@ const Account = () => {
   const [newWishlistName, setNewWishlistName] = useState("");
   const [newWishlistDescription, setNewWishlistDescription] = useState("");
   const [chatInput, setChatInput] = useState("");
-  const [chatMessages, setChatMessages] = useState<Array<{id: string, type: 'user' | 'assistant', content: string, timestamp: Date, action?: string}>>([]);
+  const [chatMessages, setChatMessages] = useState<Array<{id: string, type: 'user' | 'assistant', content: string, timestamp: Date, action?: string, products?: any[]}>>([
+    {
+      id: '1',
+      type: 'assistant',
+      content: "Welcome to WeddingEase! 🌸 I'm here to help you plan your perfect wedding. You can ask me about our services, book consultations, or get personalized recommendations!",
+      timestamp: new Date(),
+      action: 'welcome'
+    }
+  ]);
+  const [selectedChatProducts, setSelectedChatProducts] = useState<number[]>([]);
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [showCheckout, setShowCheckout] = useState(false);
   const [wishlists, setWishlists] = useState<Wishlist[]>([
     {
       id: "1",
@@ -376,6 +387,110 @@ const Account = () => {
     }, 1500);
   };
 
+  // Mock user status for smart scheduling logic
+  const [userStatus] = useState<'new' | 'used-free' | 'has-package'>('new');
+
+  // Mock products for chat selection
+  const chatProducts = [
+    { id: 1, name: "Elegant Bridal Gown", price: "₹85,000", category: "Wedding Attire", image: "/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg" },
+    { id: 2, name: "Diamond Wedding Ring", price: "₹1,25,000", category: "Jewelry", image: "/images/accesories1.png" },
+    { id: 3, name: "Wedding Invitation Suite", price: "₹15,000", category: "Stationery", image: "/images/invites1.png" },
+    { id: 4, name: "Bridal Jewelry Set", price: "₹95,000", category: "Jewelry", image: "/images/awesome-sauce-creative-ZQJzMDWyqEI-unsplash.jpg" }
+  ];
+  
+  const handleScheduleMeeting = () => {
+    // Smart Schedule Meeting logic based on user status
+    switch (userStatus) {
+      case 'new':
+        // First free consultation: redirect to calendar booking
+        showToast('Redirecting to book your free consultation...');
+        setTimeout(() => setActiveSection('bookings'), 500);
+        break;
+      case 'used-free':
+        // Returning users who used free consultation: redirect to buy package page
+        showToast('Please select a package to book additional consultations...');
+        setTimeout(() => navigate('/?section=packages'), 1000);
+        break;
+      case 'has-package':
+        // Users with package: redirect to calendar booking
+        showToast('Redirecting to schedule your consultation...');
+        setTimeout(() => setActiveSection('bookings'), 500);
+        break;
+      default:
+        showToast('Redirecting to consultation booking...');
+        setTimeout(() => setActiveSection('bookings'), 500);
+    }
+  };
+
+  const handleBookingSubmit = () => {
+    showToast('Consultation booking saved! You will receive a confirmation email shortly.');
+    
+    // Add a confirmation message to chat
+    const confirmationMessage = {
+      id: Date.now().toString(),
+      type: 'assistant' as const,
+      content: "Perfect! Your consultation booking has been saved. You'll receive a confirmation email with all the details shortly. Is there anything else I can help you with?",
+      timestamp: new Date()
+    };
+    setChatMessages(prev => [...prev, confirmationMessage]);
+  };
+
+  const handleShowProducts = () => {
+    const productMessage = {
+      id: Date.now().toString(),
+      type: 'assistant' as const,
+      content: "Here are some of our featured products! You can select items you're interested in and I'll help you with pricing and availability.",
+      timestamp: new Date(),
+      action: 'show-products',
+      products: chatProducts
+    };
+    setChatMessages(prev => [...prev, productMessage]);
+  };
+
+  const handleProductSelect = (productId: number) => {
+    setSelectedChatProducts(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+    
+    const product = chatProducts.find(p => p.id === productId);
+    if (product) {
+      const isAdding = !selectedChatProducts.includes(productId);
+      showToast(`${product.name} ${isAdding ? 'added to' : 'removed from'} selection`);
+    }
+  };
+
+  const handleViewSelectedProducts = () => {
+    if (selectedChatProducts.length === 0) {
+      showToast('No products selected yet. Please select products from the list above.');
+      return;
+    }
+    
+    const selectedProducts = chatProducts.filter(p => selectedChatProducts.includes(p.id));
+    const totalPrice = selectedProducts.reduce((sum, product) => {
+      return sum + parseInt(product.price.replace(/[₹,]/g, ''));
+    }, 0);
+    
+    const selectionMessage = {
+      id: Date.now().toString(),
+      type: 'assistant' as const,
+      content: `You have selected ${selectedProducts.length} products with a total value of ₹${totalPrice.toLocaleString()}. Would you like to proceed to checkout or need more information about these items?`,
+      timestamp: new Date(),
+      action: 'show-selected-products',
+      products: selectedProducts
+    };
+    setChatMessages(prev => [...prev, selectionMessage]);
+  };
+
+  const handleProceedToCheckout = () => {
+    if (selectedChatProducts.length === 0) {
+      showToast('No products selected for checkout.');
+      return;
+    }
+    setShowCheckout(true);
+  };
+
   const handleMockAction = (action: string) => {
     const messages = {
       'book-consultation': 'Redirecting to calendar...',
@@ -386,17 +501,32 @@ const Account = () => {
       'upload-photo': 'Photo upload feature coming soon!',
       'change-password': 'Password change feature coming soon!',
       'browse-products': 'Redirecting to products...',
-      'track-order': 'Order tracking feature coming soon!'
+      'track-order': 'Order tracking feature coming soon!',
+      'save-booking': 'Booking saved successfully!',
+      'show-products': 'Showing product selection...',
+      'view-selected': 'Viewing selected products...'
     };
     
     showToast(messages[action as keyof typeof messages] || 'Feature coming soon!');
     
     if (action === 'browse-products') {
-      setTimeout(() => navigate('/products'), 1000);
+      setTimeout(() => handleShowProducts(), 500);
     }
     
     if (action === 'book-consultation') {
-      setTimeout(() => setActiveSection('bookings'), 500);
+      handleScheduleMeeting();
+    }
+    
+    if (action === 'save-booking') {
+      handleBookingSubmit();
+    }
+    
+    if (action === 'show-products') {
+      handleShowProducts();
+    }
+    
+    if (action === 'view-selected') {
+      handleViewSelectedProducts();
     }
   };
 
@@ -427,21 +557,24 @@ const Account = () => {
       let assistantContent = "Thank you for your message! I'm here to help you with your wedding planning.";
       let action = undefined;
       
+      // Check if this is the first message (only show options for first interaction)
+      const isFirstUserMessage = chatMessages.filter(msg => msg.type === 'user').length === 0;
+      
       if (userInput.includes('book') || userInput.includes('consultation') || userInput.includes('appointment') || userInput.includes('visit')) {
         assistantContent = "I'd be happy to help you book a consultation! We offer various consultation types to help plan your perfect wedding.";
-        action = 'show-options';
+        action = isFirstUserMessage ? 'show-options' : undefined;
       } else if (userInput.includes('package') || userInput.includes('pricing') || userInput.includes('cost') || userInput.includes('price')) {
         assistantContent = "Let me show you our wedding packages and services! We have options for every budget and style.";
-        action = 'show-options';
+        action = isFirstUserMessage ? 'show-options' : undefined;
       } else if (userInput.includes('product') || userInput.includes('dress') || userInput.includes('attire') || userInput.includes('shop')) {
         assistantContent = "Would you like to browse our exclusive collection of wedding attire and accessories? I can help you find the perfect items!";
-        action = 'show-options';
+        action = isFirstUserMessage ? 'show-options' : undefined;
       } else if (userInput.includes('quote') || userInput.includes('estimate') || userInput.includes('budget')) {
         assistantContent = "I can help you get a personalized quote for your wedding! Let me show you the available options.";
-        action = 'show-options';
+        action = isFirstUserMessage ? 'show-options' : undefined;
       } else {
         assistantContent = "I'm here to help with all your wedding planning needs! Would you like to explore our services?";
-        action = 'show-options';
+        action = isFirstUserMessage ? 'show-options' : undefined;
       }
       
       const assistantMessage = {
@@ -487,7 +620,7 @@ const Account = () => {
     switch (activeSection) {
       case "enquiries":
         return (
-          <div className="h-[calc(100vh-5rem)] flex flex-col">
+          <div className="h-full flex flex-col bg-gradient-to-b from-luxury-soft-pink/10 to-white/50">
             {/* Chat Interface Header - Fixed */}
             <div className="bg-white/95 backdrop-blur-sm border-b border-luxury-taupe/20 p-4 flex items-center gap-4 shadow-sm flex-shrink-0">
               <div className="w-12 h-12 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center">
@@ -498,7 +631,7 @@ const Account = () => {
                   Wedding Planning Assistant
                 </h3>
                 <div className="flex items-center gap-2 text-sm text-luxury-maroon/60">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="font-luxury-sans">Online • Typically replies instantly</span>
                 </div>
               </div>
@@ -506,229 +639,304 @@ const Account = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white"
-                >
-                  Video Call
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
                   className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white"
+                  onClick={handleScheduleMeeting}
                 >
                   Schedule Meeting
                 </Button>
               </div>
             </div>
 
-            {/* Chat Messages Area - Scrollable Only */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-luxury-soft-pink/10 to-white/50">
-              {/* Welcome Message */}
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm font-bold">W</span>
-                </div>
-                <div className="flex-1">
-                  <div className="bg-white rounded-2xl rounded-tl-md p-4 shadow-sm border border-luxury-taupe/10 max-w-md">
-                    <p className="font-luxury-sans text-luxury-maroon mb-2">
-                      Welcome to WeddingEase! 🌸 I'm here to help you plan your perfect wedding.
-                    </p>
-                    <p className="font-luxury-sans text-luxury-maroon/70 text-sm">
-                      You can ask me about our services, book consultations, or get personalized recommendations!
-                    </p>
-                  </div>
-                  <span className="text-xs text-luxury-maroon/50 font-luxury-sans mt-1 block">
-                    Just now
-                  </span>
-                </div>
-              </div>
-            
-              {/* Quick Action Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                <button 
-                  onClick={() => handleMockAction('book-consultation')}
-                  className="card-standard card-small text-left group"
-                >
-                  <div className="card-content-flex">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
-                        <Calendar className="w-5 h-5 text-luxury-dusty-rose group-hover:text-white transition-colors duration-300" />
-                      </div>
-                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Book Consultation</span>
+            {/* Chat Messages Area - Scrollable */}
+            <div className="flex-1 overflow-y-auto" style={{ minHeight: 0 }}>
+              <div className="p-6 space-y-4">
+                {/* Show initial actions only when there's just the welcome message */}
+                {chatMessages.length === 1 && (
+                  <>
+                    {/* Quick Action Cards */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-6">
+                      <button 
+                        onClick={() => handleMockAction('book-consultation')}
+                        className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left group"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
+                            <Calendar className="w-4 h-4 text-luxury-dusty-rose group-hover:text-white" />
+                          </div>
+                          <span className="font-luxury-serif font-bold text-luxury-maroon text-xs">Book Consultation</span>
+                        </div>
+                        <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          Schedule free consultation
+                        </p>
+                      </button>
+                      <button 
+                        onClick={() => handleMockAction('browse-packages')}
+                        className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left group"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
+                            <ShoppingBag className="w-4 h-4 text-luxury-maroon group-hover:text-white" />
+                          </div>
+                          <span className="font-luxury-serif font-bold text-luxury-maroon text-xs">View Packages</span>
+                        </div>
+                        <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          Explore our packages
+                        </p>
+                      </button>
+                      <button 
+                        onClick={() => navigate('/products')}
+                        className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left group"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
+                            <Heart className="w-4 h-4 text-luxury-dusty-rose group-hover:text-white" />
+                          </div>
+                          <span className="font-luxury-serif font-bold text-luxury-maroon text-xs">Browse Products</span>
+                        </div>
+                        <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          Discover collection
+                        </p>
+                      </button>
+                      <button 
+                        onClick={() => handleMockAction('get-quote')}
+                        className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left group"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
+                            <User className="w-4 h-4 text-luxury-maroon group-hover:text-white" />
+                          </div>
+                          <span className="font-luxury-serif font-bold text-luxury-maroon text-xs">Get Quote</span>
+                        </div>
+                        <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          Get personalized pricing
+                        </p>
+                      </button>
                     </div>
-                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                      Schedule a free consultation
-                    </p>
-                  </div>
-                </button>
-                <button 
-                  onClick={() => handleMockAction('browse-packages')}
-                  className="card-standard card-small text-left group"
-                >
-                  <div className="card-content-flex">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
-                        <ShoppingBag className="w-5 h-5 text-luxury-maroon group-hover:text-white transition-colors duration-300" />
-                      </div>
-                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">View Packages</span>
-                    </div>
-                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                      Explore our packages
-                    </p>
-                  </div>
-                </button>
-                <button 
-                  onClick={() => navigate('/products')}
-                  className="card-standard card-small text-left group"
-                >
-                  <div className="card-content-flex">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
-                        <Heart className="w-5 h-5 text-luxury-dusty-rose group-hover:text-white transition-colors duration-300" />
-                      </div>
-                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Browse Products</span>
-                    </div>
-                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                      Discover our collection
-                    </p>
-                  </div>
-                </button>
-                <button 
-                  onClick={() => handleMockAction('get-quote')}
-                  className="card-standard card-small text-left group"
-                >
-                  <div className="card-content-flex">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-luxury-dusty-rose/10 rounded-lg flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white transition-all duration-300">
-                        <User className="w-5 h-5 text-luxury-maroon group-hover:text-white transition-colors duration-300" />
-                      </div>
-                      <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Get Quote</span>
-                    </div>
-                    <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                      Get personalized pricing
-                    </p>
-                  </div>
-                </button>
-              </div>
 
-              {/* Suggested Questions */}
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm font-bold">W</span>
-                </div>
-                <div className="flex-1">
-                  <div className="bg-white rounded-2xl rounded-tl-md p-4 shadow-sm border border-luxury-taupe/10 max-w-md">
-                    <p className="font-luxury-sans text-luxury-maroon mb-3">
-                      Here are some questions I can help you with:
-                    </p>
-                    <div className="space-y-2">
-                      {[
-                        "What wedding packages do you offer?",
-                        "How do I book a venue consultation?",
-                        "Can you help with destination weddings?",
-                        "What's included in the premium package?"
-                      ].map((question, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleMockAction('ask-question')}
-                          className="block w-full text-left p-2 rounded-lg bg-luxury-soft-pink/20 hover:bg-luxury-dusty-rose/20 text-sm font-luxury-sans text-luxury-maroon/80 hover:text-luxury-maroon transition-all duration-200"
-                        >
-                          {question}
-                        </button>
-                      ))}
+                    {/* Suggested Questions */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white text-sm font-bold">W</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="bg-white rounded-2xl rounded-tl-md p-4 shadow-sm border border-luxury-taupe/10 max-w-md">
+                          <p className="font-luxury-sans text-luxury-maroon mb-3">
+                            Here are some questions I can help you with:
+                          </p>
+                          <div className="space-y-2">
+                            {[
+                              "What wedding packages do you offer?",
+                              "How do I book a venue consultation?",
+                              "Can you help with destination weddings?",
+                              "What's included in the premium package?"
+                            ].map((question, index) => (
+                              <button
+                                key={index}
+                                onClick={() => handleMockAction('ask-question')}
+                                className="block w-full text-left p-2 rounded-lg bg-luxury-soft-pink/20 hover:bg-luxury-dusty-rose/20 text-sm font-luxury-sans text-luxury-maroon/80 hover:text-luxury-maroon"
+                              >
+                                {question}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <span className="text-xs text-luxury-maroon/50 font-luxury-sans mt-1 block">
+                          Just now
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Chat Messages */}
+                {chatMessages.map((message) => (
+                  <div key={message.id} className={`flex items-start gap-3 ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      message.type === 'user' 
+                        ? 'bg-luxury-dusty-rose' 
+                        : 'bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon'
+                    }`}>
+                      <span className="text-white text-sm font-bold">
+                        {message.type === 'user' ? 'Y' : 'W'}
+                      </span>
+                    </div>
+                    <div className="flex-1">
+                      <div className={`rounded-2xl p-4 shadow-sm border max-w-md ${
+                        message.type === 'user'
+                          ? 'bg-luxury-dusty-rose text-white rounded-tr-md ml-auto'
+                          : 'bg-white border-luxury-taupe/10 rounded-tl-md'
+                      }`}>
+                        <p className={`font-luxury-sans ${
+                          message.type === 'user' ? 'text-white' : 'text-luxury-maroon'
+                        }`}>
+                          {message.content}
+                        </p>
+
+                        {/* Message Actions */}
+                        {message.action === 'show-options' && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                            <button 
+                              onClick={() => handleMockAction('book-consultation')}
+                              className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
+                            >
+                              <div className="flex items-center gap-2 mb-1">
+                                <Calendar className="w-4 h-4 text-luxury-dusty-rose" />
+                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Book Consultation</span>
+                              </div>
+                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                                Schedule a free consultation
+                              </p>
+                            </button>
+                            <button 
+                              onClick={() => handleMockAction('browse-packages')}
+                              className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
+                            >
+                              <div className="flex items-center gap-2 mb-1">
+                                <ShoppingBag className="w-4 h-4 text-luxury-maroon" />
+                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">View Packages</span>
+                              </div>
+                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                                Explore our packages
+                              </p>
+                            </button>
+                            <button 
+                              onClick={() => handleMockAction('show-products')}
+                              className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
+                            >
+                              <div className="flex items-center gap-2 mb-1">
+                                <Heart className="w-4 h-4 text-luxury-dusty-rose" />
+                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Browse Products</span>
+                              </div>
+                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                                Discover our collection
+                              </p>
+                            </button>
+                            <button 
+                              onClick={() => handleMockAction('get-quote')}
+                              className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
+                            >
+                              <div className="flex items-center gap-2 mb-1">
+                                <User className="w-4 h-4 text-luxury-maroon" />
+                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Get Quote</span>
+                              </div>
+                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                                Get personalized pricing
+                              </p>
+                            </button>
+                          </div>
+                        )}
+
+                        {/* Product Display */}
+                        {message.action === 'show-products' && message.products && (
+                          <div className="mt-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                              {message.products.map((product: any) => (
+                                <div
+                                  key={product.id}
+                                  className={`bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 cursor-pointer ${
+                                    selectedChatProducts.includes(product.id) ? 'ring-2 ring-luxury-dusty-rose bg-luxury-dusty-rose/10' : ''
+                                  }`}
+                                  onClick={() => handleProductSelect(product.id)}
+                                >
+                                  <div className="flex items-start gap-3">
+                                    <img 
+                                      src={product.image} 
+                                      alt={product.name}
+                                      className="w-16 h-16 object-cover rounded-lg"
+                                    />
+                                    <div className="flex-1">
+                                      <h4 className="font-luxury-serif font-bold text-luxury-maroon text-sm mb-1">
+                                        {product.name}
+                                      </h4>
+                                      <p className="font-luxury-sans text-xs text-luxury-maroon/70 mb-1">
+                                        {product.category}
+                                      </p>
+                                      <p className="font-luxury-sans text-sm font-bold text-luxury-dusty-rose">
+                                        {product.price}
+                                      </p>
+                                    </div>
+                                    <div className={`w-6 h-6 rounded-full border-2 ${
+                                      selectedChatProducts.includes(product.id) 
+                                        ? 'bg-luxury-dusty-rose border-luxury-dusty-rose' 
+                                        : 'border-luxury-taupe/40'
+                                    }`}>
+                                      {selectedChatProducts.includes(product.id) && (
+                                        <Check className="w-4 h-4 text-white m-0.5" />
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            {selectedChatProducts.length > 0 && (
+                              <button 
+                                onClick={() => handleMockAction('view-selected')}
+                                className="w-full bg-luxury-dusty-rose text-white rounded-lg p-3 font-luxury-serif font-bold text-sm hover:bg-luxury-dusty-rose/90"
+                              >
+                                View Selected Items ({selectedChatProducts.length})
+                              </button>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Selected Products Summary */}
+                        {message.action === 'show-selected-products' && message.products && (
+                          <div className="mt-4">
+                            <div className="space-y-3 mb-4">
+                              {message.products.map((product: any) => (
+                                <div
+                                  key={product.id}
+                                  className="bg-luxury-dusty-rose/10 backdrop-blur-sm rounded-lg p-3 border border-luxury-dusty-rose/30"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <img 
+                                      src={product.image} 
+                                      alt={product.name}
+                                      className="w-12 h-12 object-cover rounded-lg"
+                                    />
+                                    <div className="flex-1">
+                                      <h4 className="font-luxury-serif font-bold text-luxury-maroon text-sm">
+                                        {product.name}
+                                      </h4>
+                                      <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                                        {product.category}
+                                      </p>
+                                    </div>
+                                    <p className="font-luxury-sans text-sm font-bold text-luxury-dusty-rose">
+                                      {product.price}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                              <button 
+                                onClick={() => handleProceedToCheckout()}
+                                className="bg-luxury-maroon text-white rounded-lg p-3 font-luxury-serif font-bold text-sm hover:bg-luxury-maroon/90"
+                              >
+                                Proceed to Checkout
+                              </button>
+                              <button 
+                                onClick={() => handleMockAction('get-quote')}
+                                className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 font-luxury-serif font-bold text-luxury-maroon text-sm"
+                              >
+                                Get Custom Quote
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <span className="text-xs text-luxury-maroon/50 font-luxury-sans mt-1 block">
+                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
                     </div>
                   </div>
-                  <span className="text-xs text-luxury-maroon/50 font-luxury-sans mt-1 block">
-                    Just now
-                  </span>
-                </div>
+                ))}
+                
+                {/* Scroll to bottom reference */}
+                <div ref={chatMessagesEndRef} />
               </div>
             </div>
-
-            {/* User Messages */}
-            {chatMessages.map((message) => (
-              <div key={message.id} className={`flex items-start gap-3 ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  message.type === 'user' 
-                    ? 'bg-luxury-dusty-rose' 
-                    : 'bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon'
-                }`}>
-                  <span className="text-white text-sm font-bold">
-                    {message.type === 'user' ? 'Y' : 'W'}
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <div className={`rounded-2xl p-4 shadow-sm border max-w-md ${
-                    message.type === 'user'
-                      ? 'bg-luxury-dusty-rose text-white rounded-tr-md ml-auto'
-                      : 'bg-white border-luxury-taupe/10 rounded-tl-md'
-                  }`}>
-                    <p className={`font-luxury-sans ${
-                      message.type === 'user' ? 'text-white' : 'text-luxury-maroon'
-                    }`}>
-                      {message.content}
-                    </p>
-                    {message.action === 'show-options' && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-                        <button 
-                          onClick={() => handleMockAction('book-consultation')}
-                          className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 transition-all duration-300 text-left"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <Calendar className="w-4 h-4 text-luxury-dusty-rose" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Book Consultation</span>
-                          </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                            Schedule a free consultation
-                          </p>
-                        </button>
-                        <button 
-                          onClick={() => handleMockAction('browse-packages')}
-                          className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 transition-all duration-300 text-left"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <ShoppingBag className="w-4 h-4 text-luxury-maroon" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">View Packages</span>
-                          </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                            Explore our packages
-                          </p>
-                        </button>
-                        <button 
-                          onClick={() => navigate('/products')}
-                          className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 transition-all duration-300 text-left"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <Heart className="w-4 h-4 text-luxury-dusty-rose" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Browse Products</span>
-                          </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                            Discover our collection
-                          </p>
-                        </button>
-                        <button 
-                          onClick={() => handleMockAction('get-quote')}
-                          className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 transition-all duration-300 text-left"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <User className="w-4 h-4 text-luxury-maroon" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Get Quote</span>
-                          </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                            Get personalized pricing
-                          </p>
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  <span className="text-xs text-luxury-maroon/50 font-luxury-sans mt-1 block">
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                </div>
-              </div>
-            ))}
-            
-            {/* Scroll to bottom reference */}
-            <div ref={chatMessagesEndRef} />
 
             {/* Chat Input Area - Fixed at bottom */}
             <div className="bg-white/95 backdrop-blur-sm border-t border-luxury-taupe/20 p-4 shadow-lg flex-shrink-0">
@@ -740,12 +948,12 @@ const Account = () => {
                     onChange={(e) => setChatInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message or question..."
-                    className="w-full px-4 py-3 pr-12 rounded-2xl border border-luxury-taupe/30 focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/20 transition-all duration-300 font-luxury-sans text-luxury-maroon placeholder:text-luxury-maroon/50 outline-none"
+                    className="w-full px-4 py-3 pr-12 rounded-2xl border border-luxury-taupe/30 focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/20 font-luxury-sans text-luxury-maroon placeholder:text-luxury-maroon/50 outline-none"
                   />
                   <button 
                     onClick={handleSendMessage}
                     disabled={!chatInput.trim()}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-luxury-dusty-rose rounded-full flex items-center justify-center hover:bg-luxury-dusty-rose/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-luxury-dusty-rose rounded-full flex items-center justify-center hover:bg-luxury-dusty-rose/90 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span className="text-white text-lg">→</span>
                   </button>
@@ -753,7 +961,7 @@ const Account = () => {
                 <Button 
                   variant="outline"
                   size="sm"
-                  className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white px-4"
+                  className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white px-4 hidden md:flex"
                   onClick={() => showToast('Attach feature coming soon!')}
                 >
                   📎 Attach
@@ -761,14 +969,14 @@ const Account = () => {
               </div>
               <div className="flex items-center justify-between mt-2 text-xs text-luxury-maroon/50 font-luxury-sans">
                 <span>Powered by AI • Responses are typically instant</span>
-                <span>Press Enter to send</span>
+                <span className="hidden sm:block">Press Enter to send</span>
               </div>
             </div>
           </div>
         );
       case "profile":
         return (
-          <div className="h-full overflow-y-auto">
+          <div className="h-full">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Profile Settings</h2>
               <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
@@ -838,7 +1046,7 @@ const Account = () => {
         );
       case "wishlist":
         return (
-          <div className="h-full overflow-y-auto">
+          <div className="h-full">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Your Wishlists</h2>
               <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
@@ -1089,7 +1297,7 @@ const Account = () => {
         );
       case "order":
         return (
-          <div className="h-full overflow-y-auto">
+          <div className="h-full">
             <div className="space-y-6">
               {/* Orders Header */}
               <div className="flex items-center justify-between">
@@ -1291,7 +1499,7 @@ const Account = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-luxury-ivory via-white to-luxury-soft-pink">
+    <div className="min-h-screen bg-gradient-to-br from-luxury-ivory via-white to-luxury-soft-pink overflow-hidden">
       {/* Navigation - Keep main banner visible */}
       <Navigation />
       {/* Toast Notification */}
@@ -1302,11 +1510,11 @@ const Account = () => {
         </div>
       )}
 
-      <div className="flex h-screen pt-20">
+      <div className="flex h-screen pt-20 overflow-hidden">
         {/* Sidebar - Fixed height from top of viewport */}
-        <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col fixed top-20 bottom-0 left-0 z-30">
+        <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col fixed top-20 bottom-0 left-0 z-30 overflow-hidden">
           {/* Navigation Items */}
-          <div className="flex-1 p-6 space-y-2 overflow-y-auto">
+          <div className="flex-1 p-6 space-y-2 overflow-y-auto overflow-x-hidden">
             {sidebarItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -1319,7 +1527,7 @@ const Account = () => {
                       setActiveSection(item.id);
                     }
                   }}
-                  className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300 font-medium ${
+                  className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl font-medium ${
                     (item.id === "enquiries" && activeSection === "enquiries") || 
                     (item.id === activeSection)
                       ? "bg-luxury-dusty-rose text-white shadow-lg" 
@@ -1336,26 +1544,39 @@ const Account = () => {
 
         {/* Main Content - Offset by sidebar width */}
         <div className="flex-1 ml-80">
-          {/* Content Area - Each section handles its own scrolling */}
-          <div className={`relative h-[calc(100vh-5rem)] transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeSection === 'enquiries' ? '' : 'px-8 py-8'}`}>
-            {/* Background Floral Elements */}
-            <img 
-              src="/images/bg-flower.png" 
-              alt="" 
-              className="absolute top-1/4 right-0 translate-x-1/2 w-[30rem] opacity-10 transform rotate-45 pointer-events-none"
-            />
-            <img 
-              src="/images/bg-branch.png" 
-              alt="" 
-              className="absolute bottom-0 left-0 -translate-x-1/3 translate-y-1/4 w-[35rem] opacity-10 pointer-events-none"
-            />
+          {/* Content Area */}
+          <div className={`relative h-[calc(100vh-5rem)] ${activeSection === 'enquiries' ? '' : 'overflow-y-auto px-8 py-8'}`}>
+            {/* Background Floral Elements - Only for non-chat sections */}
+            {activeSection !== 'enquiries' && (
+              <>
+                <img 
+                  src="/images/bg-flower.png" 
+                  alt="" 
+                  className="absolute top-1/4 right-0 translate-x-1/2 w-[30rem] opacity-10 transform rotate-45 pointer-events-none"
+                />
+                <img 
+                  src="/images/bg-branch.png" 
+                  alt="" 
+                  className="absolute bottom-0 left-0 -translate-x-1/3 translate-y-1/4 w-[35rem] opacity-10 pointer-events-none"
+                />
+              </>
+            )}
             
-            <div className="relative z-10 max-w-7xl mx-auto">
+            <div className={`relative z-10 max-w-7xl mx-auto h-full ${activeSection === 'enquiries' ? '' : ''}`}>
               {renderContent()}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Unified Checkout Modal */}
+      {showCheckout && (
+        <UnifiedCheckout
+          products={chatProducts.filter(p => selectedChatProducts.includes(p.id))}
+          onClose={() => setShowCheckout(false)}
+          source="chat"
+        />
+      )}
     </div>
   );
 };
