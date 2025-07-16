@@ -87,6 +87,19 @@ const Products = () => {
       setActiveCategory(category);
     }
     
+    // Check if we came from wishlist with a specific product to show
+    const productIdParam = searchParams.get('product');
+    const productNameParam = searchParams.get('name');
+    if (productIdParam) {
+      const productId = parseInt(productIdParam);
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        setSelectedProduct(product);
+        setIsModalOpen(true);
+        return; // Don't close modal if we're opening a specific product
+      }
+    }
+    
     // Close modal when component mounts (navigation from other pages)
     setIsModalOpen(false);
     setSelectedProduct(null);

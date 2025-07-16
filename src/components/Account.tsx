@@ -113,6 +113,38 @@ const Account = () => {
     }
   ]);
 
+  // Address management state
+  const [addresses, setAddresses] = useState([
+    {
+      id: "1",
+      type: "Home",
+      street: "A-123, Green Park Extension",
+      city: "New Delhi",
+      state: "Delhi",
+      postalCode: "110016",
+      country: "India",
+      isDefault: true
+    },
+    {
+      id: "2",
+      type: "Wedding Venue",
+      street: "The Grand Palace Resort",
+      city: "Udaipur",
+      state: "Rajasthan",
+      postalCode: "313001",
+      country: "India",
+      isDefault: false
+    }
+  ]);
+  const [isAddingAddress, setIsAddingAddress] = useState(false);
+  const [editingAddress, setEditingAddress] = useState<any>(null);
+  const [newAddressType, setNewAddressType] = useState("");
+  const [newAddressStreet, setNewAddressStreet] = useState("");
+  const [newAddressCity, setNewAddressCity] = useState("");
+  const [newAddressState, setNewAddressState] = useState("");
+  const [newAddressPostalCode, setNewAddressPostalCode] = useState("");
+  const [newAddressCountry, setNewAddressCountry] = useState("");
+
   const [orders] = useState<Order[]>([
     {
       id: '1',
@@ -263,79 +295,99 @@ const Account = () => {
     showToast(`Created wishlist "${newWishlist.name}"`);
   };
 
-  // Sample products for demonstration
+  // Use the same products as Products.tsx to ensure consistency
   const sampleProducts: Product[] = [
     {
       id: 1,
-      name: "Elegant Bridal Gown",
-      category: "Attire",
-      subcategory: "Bridal Gowns",
-      price: "₹45,000",
-      originalPrice: "₹55,000",
-      rating: 4.8,
-      reviews: 124,
-      images: ["/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg"],
-      description: "A stunning floor-length gown with intricate lace detailing and a flowing train.",
-      features: ["Hand-embroidered lace", "Silk lining", "Custom sizing available"],
-      trending: true
-    },
-    {
-      id: 2,
-      name: "Pearl Wedding Shoes",
-      category: "Footwear",
-      subcategory: "Bridal Shoes",
-      price: "₹12,000",
-      originalPrice: "₹15,000",
-      rating: 4.6,
-      reviews: 89,
-      images: ["/images/awesome-sauce-creative-ZQJzMDWyqEI-unsplash.jpg"],
-      description: "Elegant pearl-adorned heels perfect for your special day.",
-      features: ["Pearl detailing", "Comfortable padding", "Non-slip sole"],
+      name: "Royal Maharani Lehenga",
+      category: "attire",
+      subcategory: "bridal-lehengas",
+      price: "₹1,25,000",
+      originalPrice: "₹1,50,000",
+      rating: 4.9,
+      reviews: 127,
+      images: [
+        "/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg",
+        "/images/khadija-yousaf-lKwp3-FQomY-unsplash.jpg",
+        "/images/awesome-sauce-creative-ZQJzMDWyqEI-unsplash.jpg"
+      ],
+      description: "Handcrafted silk lehenga with intricate gold embroidery and traditional motifs",
+      features: ["Pure Silk", "Hand Embroidered", "Custom Fitting", "Heritage Collection"],
+      trending: true,
+      newArrival: false,
       bestSeller: true
     },
     {
       id: 3,
-      name: "Vintage Veil",
-      category: "Accessories",
-      subcategory: "Veils",
-      price: "₹8,500",
-      originalPrice: "₹10,000",
-      rating: 4.9,
+      name: "Premium Sherwani Collection",
+      category: "attire",
+      subcategory: "grooms-sherwanis",
+      price: "₹45,000",
+      originalPrice: "₹55,000",
+      rating: 4.7,
       reviews: 156,
-      images: ["/images/celebration-new-1.jpg"],
-      description: "A timeless cathedral-length veil with delicate lace edging.",
-      features: ["Cathedral length", "Lace trim", "Handcrafted"],
-      newArrival: true
+      images: [
+        "/images/pablo-heimplatz-fVL0zZdk-R4-unsplash.jpg",
+        "/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg"
+      ],
+      description: "Elegant silk sherwani with detailed embroidery and perfect tailoring",
+      features: ["Silk Fabric", "Custom Tailoring", "Designer Embroidery", "Occasion Wear"],
+      trending: true,
+      newArrival: false,
+      bestSeller: true
+    },
+    {
+      id: 6,
+      name: "Elegant Bridal Maang Tikka",
+      category: "jewelry",
+      subcategory: "bridal-jewelry-sets",
+      price: "₹25,000",
+      originalPrice: "₹30,000",
+      rating: 4.6,
+      reviews: 78,
+      images: ["/images/accesories1.png"],
+      description: "Traditional gold maang tikka with intricate design",
+      features: ["22K Gold", "Traditional Design", "Lightweight", "Handcrafted"],
+      trending: false,
+      newArrival: true,
+      bestSeller: false
     }
   ];
 
   const jewelryProducts: Product[] = [
     {
-      id: 4,
-      name: "Diamond Necklace Set",
-      category: "Jewelry",
-      subcategory: "Necklaces",
+      id: 2,
+      name: "Heritage Gold Necklace Set",
+      category: "jewelry",
+      subcategory: "bridal-jewelry-sets",
       price: "₹85,000",
       originalPrice: "₹95,000",
-      rating: 4.9,
-      reviews: 67,
-      images: ["/images/accesories1.png"],
-      description: "Exquisite diamond necklace with matching earrings.",
-      features: ["18k Gold", "Natural diamonds", "Lifetime warranty"],
-      trending: true
+      rating: 4.8,
+      reviews: 89,
+      images: [
+        "/images/accesories1.png",
+        "/images/51CB7100-724A-4F77-9B92-753CB27F47F9.png"
+      ],
+      description: "Exquisite 22k gold necklace set with traditional kundan work",
+      features: ["22K Gold", "Kundan Work", "Handcrafted", "Traditional Design"],
+      trending: false,
+      newArrival: true,
+      bestSeller: false
     },
     {
       id: 5,
-      name: "Pearl Earrings",
-      category: "Jewelry",
-      subcategory: "Earrings",
-      price: "₹15,000",
-      originalPrice: "₹18,000",
-      rating: 4.7,
-      reviews: 43,
+      name: "Designer Pearl Bracelet",
+      category: "jewelry",
+      subcategory: "bridal-jewelry-sets",
+      price: "₹18,000",
+      originalPrice: "₹22,000",
+      rating: 4.6,
+      reviews: 45,
       images: ["/images/accesories1.png"],
-      description: "Classic pearl drop earrings for the elegant bride.",
-      features: ["Freshwater pearls", "Sterling silver", "Hypoallergenic"],
+      description: "Elegant pearl bracelet with gold accents",
+      features: ["Freshwater Pearls", "Gold Accents", "Adjustable Size", "Luxury Finish"],
+      trending: false,
+      newArrival: false,
       bestSeller: true
     }
   ];
@@ -369,8 +421,111 @@ const Account = () => {
     });
   };
 
-  const viewProductDetails = (productName: string) => {
-    showToast(`Viewing details for ${productName}`);
+  const viewProductDetails = (productId: number, productName: string) => {
+    // Navigate to specific product page instead of all products
+    navigate(`/products?product=${productId}&name=${encodeURIComponent(productName)}`);
+  };
+
+  // Address management functions
+  const handleEditAddress = (address: any) => {
+    setEditingAddress(address);
+    setNewAddressType(address.type);
+    setNewAddressStreet(address.street);
+    setNewAddressCity(address.city);
+    setNewAddressState(address.state);
+    setNewAddressPostalCode(address.postalCode);
+    setNewAddressCountry(address.country);
+    setIsAddingAddress(true); // Open the add/edit modal
+  };
+
+  const handleDeleteAddress = (addressId: string) => {
+    // Find the address to be deleted
+    const addressToDelete = addresses.find(addr => addr.id === addressId);
+    if (!addressToDelete) return;
+
+    // If it's the default address, set another address as default first
+    if (addressToDelete.isDefault && addresses.length > 1) {
+      const remainingAddresses = addresses.filter(addr => addr.id !== addressId);
+      setAddresses(prev => prev.map(addr => 
+        addr.id === remainingAddresses[0].id 
+          ? { ...addr, isDefault: true }
+          : addr.id === addressId 
+            ? null 
+            : addr
+      ).filter(Boolean) as any[]);
+    } else {
+      setAddresses(prev => prev.filter(addr => addr.id !== addressId));
+    }
+    showToast('Address deleted successfully!');
+  };
+
+  const handleSetDefaultAddress = (addressId: string) => {
+    setAddresses(prev => prev.map(addr => ({
+      ...addr,
+      isDefault: addr.id === addressId
+    })));
+    showToast('Default address updated!');
+  };
+
+  const handleSaveAddress = () => {
+    if (!newAddressType.trim() || !newAddressStreet.trim() || !newAddressCity.trim() || 
+        !newAddressState.trim() || !newAddressPostalCode.trim() || !newAddressCountry.trim()) {
+      showToast('Please fill all address fields');
+      return;
+    }
+
+    if (editingAddress) {
+      // Update existing address
+      setAddresses(prev => prev.map(addr => 
+        addr.id === editingAddress.id 
+          ? {
+              ...addr,
+              type: newAddressType.trim(),
+              street: newAddressStreet.trim(),
+              city: newAddressCity.trim(),
+              state: newAddressState.trim(),
+              postalCode: newAddressPostalCode.trim(),
+              country: newAddressCountry.trim()
+            }
+          : addr
+      ));
+      showToast('Address updated successfully!');
+    } else {
+      // Add new address
+      const newAddress = {
+        id: Date.now().toString(),
+        type: newAddressType.trim(),
+        street: newAddressStreet.trim(),
+        city: newAddressCity.trim(),
+        state: newAddressState.trim(),
+        postalCode: newAddressPostalCode.trim(),
+        country: newAddressCountry.trim(),
+        isDefault: addresses.length === 0 // Make first address default
+      };
+      setAddresses(prev => [...prev, newAddress]);
+      showToast('Address added successfully!');
+    }
+
+    // Clear form and close modal
+    setIsAddingAddress(false);
+    setEditingAddress(null);
+    setNewAddressType("");
+    setNewAddressStreet("");
+    setNewAddressCity("");
+    setNewAddressState("");
+    setNewAddressPostalCode("");
+    setNewAddressCountry("");
+  };
+
+  const handleCloseAddressModal = () => {
+    setIsAddingAddress(false);
+    setEditingAddress(null);
+    setNewAddressType("");
+    setNewAddressStreet("");
+    setNewAddressCity("");
+    setNewAddressState("");
+    setNewAddressPostalCode("");
+    setNewAddressCountry("");
   };
 
   const sidebarItems = [
@@ -389,10 +544,7 @@ const Account = () => {
   };
 
   const handleLogout = () => {
-    showToast("Logging out...");
-    setTimeout(() => {
-      navigate('/');
-    }, 1500);
+    navigate('/');
   };
 
   // Mock user status for smart scheduling logic
@@ -407,26 +559,22 @@ const Account = () => {
   ];
   
   const handleScheduleMeeting = () => {
-    // Smart Schedule Meeting logic based on user status
+    // Smart Schedule Meeting logic based on user status - direct redirect without alerts
     switch (userStatus) {
       case 'new':
         // First free consultation: redirect to calendar booking
-        showToast('Redirecting to book your free consultation...');
-        setTimeout(() => setActiveSection('bookings'), 500);
+        setActiveSection('bookings');
         break;
       case 'used-free':
         // Returning users who used free consultation: redirect to buy package page
-        showToast('Please select a package to book additional consultations...');
-        setTimeout(() => navigate('/?section=packages'), 1000);
+        navigate('/?section=packages');
         break;
       case 'has-package':
         // Users with package: redirect to calendar booking
-        showToast('Redirecting to schedule your consultation...');
-        setTimeout(() => setActiveSection('bookings'), 500);
+        setActiveSection('bookings');
         break;
       default:
-        showToast('Redirecting to consultation booking...');
-        setTimeout(() => setActiveSection('bookings'), 500);
+        setActiveSection('bookings');
     }
   };
 
@@ -533,42 +681,48 @@ const Account = () => {
   };
 
   const handleMockAction = (action: string) => {
-    const messages = {
-      'book-consultation': 'Redirecting to calendar...',
-      'browse-packages': 'Viewing packages - Redirecting to packages page...',
+    // Actions with actual functionality - execute directly without alerts
+    const functionalActions = {
+      'book-consultation': () => handleScheduleMeeting(),
+      'save-booking': () => {
+        showToast('Booking saved successfully!');
+        handleBookingSubmit();
+      },
+      'show-products': () => handleShowProducts(),
+      'view-selected': () => handleViewSelectedProducts(),
+      'browse-products': () => handleShowProducts(),
+      'save-profile': () => showToast('Profile saved successfully!')
+    };
+
+    // Actions without functionality - show alert
+    const nonFunctionalMessages = {
       'ask-question': 'AI assistant integration coming soon!',
       'get-quote': 'Custom quote generation coming soon!',
-      'save-profile': 'Profile saved successfully!',
       'upload-photo': 'Photo upload feature coming soon!',
       'change-password': 'Password change feature coming soon!',
-      'browse-products': 'Redirecting to products...',
+      'browse-packages': 'Package viewing coming soon!',
       'track-order': 'Order tracking feature coming soon!',
-      'save-booking': 'Booking saved successfully!',
-      'show-products': 'Showing product selection...',
-      'view-selected': 'Viewing selected products...'
+      'add-shopper': 'Add shopper feature coming soon!',
+      'add-address': 'Address management coming soon!',
+      'edit-address': 'Address editing coming soon!',
+      'delete-address': 'Address deletion coming soon!',
+      'two-factor': 'Two-factor authentication coming soon!'
     };
     
-    showToast(messages[action as keyof typeof messages] || 'Feature coming soon!');
-    
-    if (action === 'browse-products') {
-      setTimeout(() => handleShowProducts(), 500);
+    // Execute functional actions directly
+    if (functionalActions[action as keyof typeof functionalActions]) {
+      functionalActions[action as keyof typeof functionalActions]();
+      return;
     }
     
-    if (action === 'book-consultation') {
-      handleScheduleMeeting();
+    // Show alert for non-functional actions
+    if (nonFunctionalMessages[action as keyof typeof nonFunctionalMessages]) {
+      showToast(nonFunctionalMessages[action as keyof typeof nonFunctionalMessages]);
+      return;
     }
     
-    if (action === 'save-booking') {
-      handleBookingSubmit();
-    }
-    
-    if (action === 'show-products') {
-      handleShowProducts();
-    }
-    
-    if (action === 'view-selected') {
-      handleViewSelectedProducts();
-    }
+    // Default fallback
+    showToast('Feature coming soon!');
   };
 
   const scrollToBottom = () => {
@@ -1017,19 +1171,52 @@ const Account = () => {
               </p>
             </div>
             
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Personal Information */}
               <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-luxury-taupe/10">
+                <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Personal Information</h3>
                 <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                        First Name
+                      </label>
+                      <input 
+                        type="text" 
+                        className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                        placeholder="First name"
+                        defaultValue="Priya"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                        Last Name
+                      </label>
+                      <input 
+                        type="text" 
+                        className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                        placeholder="Last name"
+                        defaultValue="Sharma"
+                      />
+                    </div>
+                  </div>
+                  
                   <div>
                     <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
-                      Full Name
+                      Gender
                     </label>
-                    <input 
-                      type="text" 
-                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
-                      placeholder="Enter your full name"
-                    />
+                    <div className="relative">
+                      <select className="appearance-none w-full bg-white border border-luxury-taupe/30 rounded-xl px-4 py-3 pr-10 font-luxury-sans text-luxury-maroon focus:ring-2 focus:ring-luxury-dusty-rose focus:border-luxury-dusty-rose transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md bg-white/50">
+                        <option value="">Select Gender</option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                      </select>
+                      <User className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-luxury-maroon/50 pointer-events-none" />
+                    </div>
                   </div>
+
                   <div>
                     <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
                       Email Address
@@ -1038,8 +1225,10 @@ const Account = () => {
                       type="email" 
                       className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
                       placeholder="Enter your email"
+                      defaultValue="priya.sharma@example.com"
                     />
                   </div>
+                  
                   <div>
                     <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
                       Phone Number
@@ -1048,9 +1237,22 @@ const Account = () => {
                       type="tel" 
                       className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
                       placeholder="Enter your phone number"
+                      defaultValue="+91 98765 43210"
                     />
                   </div>
-                  <div className="flex gap-3">
+
+                  <div>
+                    <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                      Wedding Date
+                    </label>
+                    <input 
+                      type="date" 
+                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                      defaultValue="2024-12-15"
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
                     <Button 
                       onClick={() => handleMockAction('save-profile')}
                       className="flex-1 bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
@@ -1065,13 +1267,128 @@ const Account = () => {
                       Upload Photo
                     </Button>
                   </div>
-                  <Button 
-                    onClick={() => handleMockAction('change-password')}
-                    variant="outline"
-                    className="w-full border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300 mt-3"
-                  >
-                    Change Password
-                  </Button>
+                </div>
+              </div>
+
+              {/* Address Management */}
+              <div className="space-y-6">
+                {/* Current Package Details */}
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
+                  <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-4">Active Package Details</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="font-luxury-sans text-luxury-maroon/70">Package:</span>
+                      <span className="font-luxury-serif font-bold text-luxury-maroon">Royal Package</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-luxury-sans text-luxury-maroon/70">Gender:</span>
+                      <span className="font-luxury-sans text-luxury-maroon">Female</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-luxury-sans text-luxury-maroon/70">Services Included:</span>
+                      <span className="font-luxury-sans text-luxury-maroon">Full Planning</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-luxury-sans text-luxury-maroon/70">Consultant:</span>
+                      <span className="font-luxury-sans text-luxury-maroon">Meera Patel</span>
+                    </div>
+                    <Button 
+                      onClick={() => handleMockAction('add-shopper')}
+                      variant="outline"
+                      className="w-full mt-4 border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Shopper
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Address Management */}
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon">Addresses</h3>
+                    <Button 
+                      onClick={() => setIsAddingAddress(true)}
+                      size="sm"
+                      className="bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Address
+                    </Button>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {addresses.map((address) => (
+                      <div key={address.id} className="border border-luxury-taupe/20 rounded-lg p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <MapPin className="w-4 h-4 text-luxury-maroon" />
+                              <span className="font-luxury-serif font-bold text-luxury-maroon">{address.type}</span>
+                              {address.isDefault && (
+                                <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Default</span>
+                              )}
+                            </div>
+                            <p className="font-luxury-sans text-luxury-maroon/70 text-sm">
+                              {address.street}<br />
+                              {address.city}, {address.state} {address.postalCode}<br />
+                              {address.country}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button 
+                              onClick={() => handleEditAddress(address)}
+                              variant="outline" 
+                              size="sm"
+                              className="border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10"
+                            >
+                              Edit
+                            </Button>
+                            <Button 
+                              onClick={() => handleDeleteAddress(address.id)}
+                              variant="outline" 
+                              size="sm"
+                              className="border-red-200 text-red-600 hover:bg-red-50"
+                              disabled={address.isDefault && addresses.length === 1}
+                            >
+                              Delete
+                            </Button>
+                            {!address.isDefault && (
+                              <Button 
+                                onClick={() => handleSetDefaultAddress(address.id)}
+                                variant="outline" 
+                                size="sm"
+                                className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                              >
+                                Set Default
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Account Security */}
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
+                  <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-4">Account Security</h3>
+                  <div className="space-y-3">
+                    <Button 
+                      onClick={() => handleMockAction('change-password')}
+                      variant="outline"
+                      className="w-full border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm"
+                    >
+                      Change Password
+                    </Button>
+                    <Button 
+                      onClick={() => handleMockAction('two-factor')}
+                      variant="outline"
+                      className="w-full border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10 font-luxury-sans tracking-wide uppercase text-sm"
+                    >
+                      Enable Two-Factor Authentication
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1224,8 +1541,8 @@ const Account = () => {
 
             {/* Wishlist Detail Modal */}
             {selectedWishlist && (
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
+                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto">
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">
                       <div>
@@ -1287,10 +1604,7 @@ const Account = () => {
                               {/* Enhanced Action Buttons */}
                               <div className="flex gap-2">
                                 <Button 
-                                  onClick={() => {
-                                    navigate('/products');
-                                    // Could add specific product navigation here
-                                  }}
+                                  onClick={() => viewProductDetails(product.id, product.name)}
                                   className="flex-1 bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans text-sm py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg"
                                 >
                                   View Product
@@ -1546,6 +1860,43 @@ const Account = () => {
       <div className="flex h-screen pt-20 overflow-hidden">
         {/* Sidebar - Fixed height from top of viewport */}
         <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col fixed top-20 bottom-0 left-0 z-30 overflow-hidden">
+          {/* Active Package Information */}
+          <div className="p-6 border-b border-luxury-taupe/20">
+            <div className="bg-gradient-to-r from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-4 border border-luxury-taupe/20">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-luxury-serif font-bold text-luxury-maroon text-sm">Priya Sharma</h3>
+                  <p className="font-luxury-sans text-xs text-luxury-maroon/60">Active Member</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-luxury-sans text-xs text-luxury-maroon/70">Current Package:</span>
+                  <span className="font-luxury-serif font-bold text-xs text-luxury-maroon">Royal Package</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-luxury-sans text-xs text-luxury-maroon/70">Status:</span>
+                  <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Active</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-luxury-sans text-xs text-luxury-maroon/70">Wedding Date:</span>
+                  <span className="font-luxury-sans text-xs text-luxury-maroon">Dec 15, 2024</span>
+                </div>
+                <Button
+                  variant="outline" 
+                  size="sm"
+                  className="w-full mt-3 border-luxury-maroon/20 text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-xs"
+                  onClick={() => setActiveSection('profile')}
+                >
+                  View Package Details
+                </Button>
+              </div>
+            </div>
+          </div>
+          
           {/* Navigation Items */}
           <div className="flex-1 p-6 space-y-2 overflow-y-auto overflow-x-hidden">
             {sidebarItems.map((item) => {
@@ -1609,6 +1960,109 @@ const Account = () => {
           onClose={() => setShowCheckout(false)}
           source="chat"
         />
+      )}
+
+      {/* Add/Edit Address Modal */}
+      {isAddingAddress && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
+            <div className="p-6 border-b border-luxury-taupe/20">
+              <div className="flex items-center justify-between">
+                <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
+                  {editingAddress ? 'Edit Address' : 'Add New Address'}
+                </h3>
+                <button
+                  onClick={handleCloseAddressModal}
+                  className="w-8 h-8 bg-luxury-taupe/10 hover:bg-luxury-taupe/20 rounded-full flex items-center justify-center transition-colors"
+                >
+                  <X className="w-5 h-5 text-luxury-maroon" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-2">Address Type</label>
+                <input 
+                  type="text" 
+                  value={newAddressType}
+                  onChange={(e) => setNewAddressType(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent"
+                  placeholder="e.g., Home, Office, Wedding Venue"
+                />
+              </div>
+              <div>
+                <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-2">Street Address</label>
+                <input 
+                  type="text" 
+                  value={newAddressStreet}
+                  onChange={(e) => setNewAddressStreet(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent"
+                  placeholder="Enter street address"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-2">City</label>
+                  <input 
+                    type="text" 
+                    value={newAddressCity}
+                    onChange={(e) => setNewAddressCity(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent"
+                    placeholder="City"
+                  />
+                </div>
+                <div>
+                  <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-2">State</label>
+                  <input 
+                    type="text" 
+                    value={newAddressState}
+                    onChange={(e) => setNewAddressState(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent"
+                    placeholder="State"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-2">Postal Code</label>
+                  <input 
+                    type="text" 
+                    value={newAddressPostalCode}
+                    onChange={(e) => setNewAddressPostalCode(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent"
+                    placeholder="Postal Code"
+                  />
+                </div>
+                <div>
+                  <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-2">Country</label>
+                  <input 
+                    type="text" 
+                    value={newAddressCountry}
+                    onChange={(e) => setNewAddressCountry(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent"
+                    placeholder="Country"
+                    defaultValue="India"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-3 pt-4">
+                <Button 
+                  onClick={handleSaveAddress}
+                  className="flex-1 bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white"
+                >
+                  {editingAddress ? 'Update Address' : 'Add Address'}
+                </Button>
+                <Button 
+                  onClick={handleCloseAddressModal}
+                  variant="outline"
+                  className="border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

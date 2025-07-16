@@ -40,20 +40,20 @@
   - [x] Final invoice.
 - [x] Implement a unified checkout for both e-commerce products and products selected in chat compatible with stripe payments.
 
-## Account & Forms
-- [ ] On the Account page, add the button on the left for active and other related details.
-- [ ] Add ‘Add Shopper’ option in packages where applicable.
-- [ ] Fix wishlist view collection: clicking a product should redirect to the selected product, not all products.
-- [ ] Add an option to manage multiple addresses in the profile.
-- [ ] Add a gender field in the profile and active package details.
-- [ ] Add a footer to the vendor application form.
-- [ ] For Contact (Booking Consultation), pre-fill the information form if the user is signed up; otherwise, use the form to create a user account.
-- [ ] For Wedding Planning Packages, add a "Select Package" option for each (Royal, Elegant, Majestic).
-- [ ] Bookings & Sessions
-    - [ ] Remove "Choose Consultant", "Dashboard", and "Platform" from bookings.
-    - [ ] In Past Sessions, remove "Meeting Agenda" and "Session Transcript".
-    - [ ] Enable access to a consultation pre-requisite form after date and slot selection.
-- [ ] In any page in accounts, only if a button has no functionality currently active and is clicked, show the sweet alert. but if a button has functionality, then just do the functionality dont show a transient sweet alert. for example, if i click book consultation i should just be redirected to that page not be shown a sweet alert for 2 seconds before that happens. 
+## Other Pages under Account
+- [x] On the Account page, add the button on the left for active and other related details.
+- [x] Add 'Add Shopper' option in packages where applicable.
+- [] Fix wishlist view collection: clicking a product should redirect to the selected product, not all products.
+- [x] Add an option to manage multiple addresses in the profile.
+- [x] Add a gender field in the profile and active package details.
+- [x] Add a footer to the vendor application form.
+- [x] For Contact (Booking Consultation), pre-fill the information form if the user is signed up; otherwise, use the form to create a user account.
+- [x] For Wedding Planning Packages, add a "Select Package" option for each (Royal, Elegant, Majestic).
+- [x] Bookings & Sessions
+    - [x] Remove "Choose Consultant", "Dashboard", and "Platform" from bookings.
+    - [x] In Past Sessions, remove "Meeting Agenda" and "Session Transcript".
+    - [x] Enable access to a consultation pre-requisite form after date and slot selection.
+- [x] In any page in accounts, only if a button has no functionality currently active and is clicked, show the sweet alert. but if a button has functionality, then just do the functionality dont show a transient sweet alert. for example, if i click book consultation i should just be redirected to that page not be shown a sweet alert for 2 seconds before that happens. 
 
 
 ## Menus & Sections
@@ -63,3 +63,4 @@
   - [ ] Blogs page.
   - [ ] Our Luxury Offerings: Wedding Attire, Luxury Jewellery, Invites & Stationery, Gifts & Favours, Accessories, Wedding Planning Packages.
 - [ ] Keep the testimonial and About Us sections short and the ticket size should be the same for homogeneity
+- [ ] make sure when I press back that it takes me to the page I was at. For example, when I click wishlist, and product details, and click the product view and then I click back arrow it should go back to the previous page. Right now, it goes to the chat page in the account. So make sure that consistency is there across the website. 

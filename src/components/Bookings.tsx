@@ -25,7 +25,7 @@ interface Booking {
 }
 
 const Bookings = () => {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'upcoming' | 'past' | 'new'>('new');
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'past' | 'new'>('new');
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [selectedConsultant, setSelectedConsultant] = useState<string | null>(null);
@@ -172,150 +172,7 @@ const Bookings = () => {
     setSelectedBooking(null);
   };
 
-  const renderDashboard = () => (
-    <div className="space-y-6">
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Clock className="w-6 h-6 text-blue-600" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-luxury-maroon">{filterBookings('upcoming').length}</p>
-              <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Upcoming</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-green-600" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-luxury-maroon">{filterBookings('completed').length}</p>
-              <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Completed</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-purple-600" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-luxury-maroon">4.8</p>
-              <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Avg Rating</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-luxury-dusty-rose/20 rounded-lg flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-luxury-dusty-rose" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-luxury-maroon">{bookings.length}</p>
-              <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Total Sessions</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Analytics Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-          <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Satisfaction</h3>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-luxury-maroon mb-2">4.8</div>
-            <div className="flex items-center justify-center gap-1 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-              ))}
-            </div>
-            <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Average Rating</p>
-          </div>
-        </div>
-
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-          <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Preferences</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-luxury-maroon/70 font-luxury-sans">Video Calls:</span>
-              <span className="font-bold text-luxury-maroon">75%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-luxury-maroon/70 font-luxury-sans">Phone Calls:</span>
-              <span className="font-bold text-luxury-maroon">25%</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-luxury-maroon/70 font-luxury-sans">Avg Duration:</span>
-              <span className="font-bold text-luxury-maroon">65 min</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-          <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Session History</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-luxury-maroon/70 font-luxury-sans">Total Sessions:</span>
-              <span className="font-bold text-luxury-maroon">{bookings.length}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-luxury-maroon/70 font-luxury-sans">Completed:</span>
-              <span className="font-bold text-green-600">{filterBookings('completed').length}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-luxury-maroon/70 font-luxury-sans">Upcoming:</span>
-              <span className="font-bold text-blue-600">{filterBookings('upcoming').length}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Bookings */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-luxury-taupe/20">
-        <div className="p-6 border-b border-luxury-taupe/20">
-          <div className="flex items-center justify-between">
-            <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon">Recent Sessions</h3>
-            <Button
-              onClick={() => setActiveTab('new')}
-              className="bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Book New Session
-            </Button>
-          </div>
-        </div>
-        <div className="p-6">
-          {bookings.slice(0, 3).map((booking) => (
-            <div key={booking.id} className="flex items-center justify-between p-4 hover:bg-luxury-soft-pink/20 rounded-lg transition-all duration-200 cursor-pointer" onClick={() => setSelectedBooking(booking)}>
-              <div className="flex items-center gap-4">
-                <img
-                  src={booking.consultantImage}
-                  alt={booking.consultant}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-luxury-serif font-semibold text-luxury-maroon">{booking.title}</h4>
-                  <p className="text-sm text-luxury-maroon/60 font-luxury-sans">
-                    {booking.consultant} • {booking.date.toLocaleDateString()} at {booking.time}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
-                  {booking.status}
-                </span>
-                {booking.type === 'video' ? <Video className="w-4 h-4 text-luxury-maroon/60" /> : <Phone className="w-4 h-4 text-luxury-maroon/60" />}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 
   const renderNewBooking = () => (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -680,7 +537,6 @@ const Bookings = () => {
         <div className="flex gap-1 overflow-x-auto scrollbar-hide">
           {[
             { id: 'new', label: 'Book Session', icon: Plus },
-            { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'upcoming', label: 'Upcoming', icon: Clock },
             { id: 'past', label: 'Past Sessions', icon: CheckCircle }
           ].map((tab) => {
@@ -705,7 +561,6 @@ const Bookings = () => {
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto">
-        {activeTab === 'dashboard' && renderDashboard()}
         {activeTab === 'upcoming' && renderBookingsList('upcoming')}
         {activeTab === 'past' && renderBookingsList('completed')}
         {activeTab === 'new' && renderNewBooking()}
