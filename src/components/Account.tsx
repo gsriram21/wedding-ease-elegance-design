@@ -1439,7 +1439,7 @@ const Account = () => {
                 onClick={() => setIsCreatingWishlist(true)}
                 className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden p-6"
               >
-                <div className="card-content-flex items-center justify-center">
+                <div className="h-full flex items-center justify-center">
                   <div>
                     <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
                       <Plus className="w-8 h-8 text-luxury-dusty-rose" />
@@ -1504,7 +1504,7 @@ const Account = () => {
 
             {/* Create Wishlist Modal */}
             {isCreatingWishlist && (
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
                 <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">
@@ -1753,7 +1753,7 @@ const Account = () => {
 
             {/* Order Detail Modal */}
             {selectedOrder && (
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
                 <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">

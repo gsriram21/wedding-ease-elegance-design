@@ -134,15 +134,19 @@ const WishlistModal = ({
                   onClick={() => setIsCreating(true)}
                   className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden"
                 >
-                  <div className="w-12 h-12 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
-                    <Plus className="w-6 h-6 text-luxury-dusty-rose" />
+                  <div className="h-full flex items-center justify-center">
+                    <div>
+                      <div className="w-12 h-12 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
+                        <Plus className="w-6 h-6 text-luxury-dusty-rose" />
+                      </div>
+                      <h3 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-1">
+                        Create New Wishlist
+                      </h3>
+                      <p className="font-luxury-sans text-luxury-maroon/60 text-sm">
+                        Start a new collection
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-1">
-                    Create New Wishlist
-                  </h3>
-                  <p className="font-luxury-sans text-luxury-maroon/60 text-sm">
-                    Start a new collection
-                  </p>
                 </div>
 
                 {/* Existing Wishlists - Matching Account Style */}
