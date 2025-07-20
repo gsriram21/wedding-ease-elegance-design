@@ -22,6 +22,7 @@ interface Product {
   trending?: boolean;
   newArrival?: boolean;
   bestSeller?: boolean;
+  quantity?: number;
 }
 
 interface Wishlist {
@@ -60,6 +61,8 @@ const Products = () => {
   const [wishlistSelectedProduct, setWishlistSelectedProduct] = useState<Product | null>(null);
   const [isPackageMode, setIsPackageMode] = useState(false);
   const [selectedPackageItems, setSelectedPackageItems] = useState<number[]>([]);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [checkoutProducts, setCheckoutProducts] = useState<any[]>([]);
   const [activeFilters, setActiveFilters] = useState<{
     priceRange: [number, number];
     ratings: number[];
@@ -573,8 +576,23 @@ const Products = () => {
   };
 
   const handleBuyNow = (product: Product) => {
-    showToast(`Proceeding to checkout for ${product.name}`);
+    // Close modal and open checkout directly
     setIsModalOpen(false);
+    setSelectedProduct(null);
+    
+    // Set checkout products and show checkout
+    const checkoutProduct = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0], // Use first image for checkout
+      category: product.category,
+      quantity: 1
+    };
+    setCheckoutProducts([checkoutProduct]);
+    setShowCheckout(true);
+    
+    showToast(`Opening secure checkout for ${product.name}`);
   };
 
   const handleGetPrice = (product: Product) => {
@@ -1332,6 +1350,18 @@ const Products = () => {
         existingWishlists={wishlists}
         onNavigateToAccount={() => navigate('/account?section=wishlist')}
       />
+
+      {/* Unified Checkout Modal */}
+      {showCheckout && (
+        <UnifiedCheckout
+          products={checkoutProducts}
+          onClose={() => {
+            setShowCheckout(false);
+            setCheckoutProducts([]);
+          }}
+          source="ecommerce"
+        />
+      )}
     </div>
   );
 };

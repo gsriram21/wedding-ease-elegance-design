@@ -1,9 +1,11 @@
 import Navigation from "../components/Navigation";
 import { Heart, Star, Users, Award, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuthNavigation } from "../hooks/useAuthNavigation";
 
 const FounderStory = () => {
   const navigate = useNavigate();
+  const { navigateToBooking } = useAuthNavigation();
 
   const milestones = [
     {
@@ -251,7 +253,7 @@ const FounderStory = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
-                  onClick={() => navigate('/account?section=bookings')}
+                  onClick={navigateToBooking}
                   className="bg-luxury-maroon text-white px-8 py-3 rounded-lg hover:bg-luxury-burgundy transition-colors duration-300 font-luxury-sans font-medium"
                 >
                   Book Consultation

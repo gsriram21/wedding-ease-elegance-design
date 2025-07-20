@@ -34,6 +34,21 @@ const Bookings = () => {
   const [isCanceling, setIsCanceling] = useState(false);
   const [newRescheduleDate, setNewRescheduleDate] = useState<Date | null>(null);
   const [newRescheduleTime, setNewRescheduleTime] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const getWeekDates = (weekOffset: number = 0) => {
+    const today = new Date();
+    const currentWeekStart = new Date(today.setDate(today.getDate() - today.getDay() + (weekOffset * 7)));
+    const dates = [];
+    
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(currentWeekStart);
+      date.setDate(currentWeekStart.getDate() + i);
+      dates.push(date);
+    }
+    
+    return dates;
+  };
 
   // Mock data for bookings
   const bookings: Booking[] = [
@@ -103,18 +118,6 @@ const Bookings = () => {
     '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM'
   ];
 
-  const getWeekDates = (weekOffset: number) => {
-    const today = new Date();
-    const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + (weekOffset * 7)));
-    const dates = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(startOfWeek);
-      date.setDate(startOfWeek.getDate() + i);
-      dates.push(date);
-    }
-    return dates;
-  };
-
   const filterBookings = (status: 'upcoming' | 'completed' | 'canceled') => {
     return bookings.filter(booking => booking.status === status);
   };
@@ -172,8 +175,6 @@ const Bookings = () => {
     setSelectedBooking(null);
   };
 
-
-
   const renderNewBooking = () => (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Calendly-style Header */}
@@ -196,6 +197,7 @@ const Bookings = () => {
               <button
                 onClick={() => setSelectedWeek(selectedWeek - 1)}
                 className="p-2 hover:bg-luxury-taupe/10 rounded-lg transition-colors"
+                disabled={selectedWeek <= 0}
               >
                 <ArrowLeft className="w-5 h-5 text-luxury-maroon" />
               </button>
@@ -213,7 +215,12 @@ const Bookings = () => {
               {getWeekDates(selectedWeek).map((date, index) => (
                 <button
                   key={index}
-                  className="p-3 text-center hover:bg-luxury-dusty-rose/20 rounded-lg transition-all duration-200 group"
+                  onClick={() => setSelectedDate(date)}
+                  className={`p-3 text-center hover:bg-luxury-dusty-rose/20 rounded-lg transition-all duration-200 group ${
+                    selectedDate?.toDateString() === date.toDateString()
+                      ? 'bg-luxury-dusty-rose/10 border border-luxury-dusty-rose'
+                      : 'border border-transparent hover:border-luxury-dusty-rose/30'
+                  }`}
                 >
                   <div className="text-xs text-luxury-maroon/60 font-luxury-sans mb-1">
                     {date.toLocaleDateString('en-US', { weekday: 'short' })}
@@ -226,9 +233,14 @@ const Bookings = () => {
             </div>
           </div>
 
-          {/* Time Selection */}
+          {/* Time Selection - Always shown */}
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
             <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Available Times</h3>
+            {!selectedDate ? (
+              <p className="text-luxury-maroon/60 font-luxury-sans text-center py-8">
+                Please select a date to view available times
+              </p>
+            ) : (
             <div className="grid grid-cols-2 gap-3">
               {timeSlots.map((time) => (
                 <button
@@ -244,55 +256,20 @@ const Bookings = () => {
                 </button>
               ))}
             </div>
+            )}
           </div>
         </div>
 
-        {/* Right: Consultant Selection and Booking Details */}
+        {/* Right: Booking Summary */}
         <div className="space-y-6">
-          {/* Consultant Selection */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-            <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Choose Your Consultant</h3>
-            <div className="space-y-3">
-              {consultants.map((consultant) => (
-                <button
-                  key={consultant.id}
-                  onClick={() => setSelectedConsultant(consultant.id)}
-                  className={`w-full p-4 rounded-lg border transition-all duration-200 text-left ${
-                    selectedConsultant === consultant.id
-                      ? 'bg-luxury-dusty-rose/10 border-luxury-dusty-rose'
-                      : 'bg-white border-luxury-taupe/30 hover:border-luxury-dusty-rose/50'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={consultant.image}
-                      alt={consultant.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div className="flex-1">
-                      <h4 className="font-luxury-serif font-semibold text-luxury-maroon">{consultant.name}</h4>
-                      <p className="text-sm text-luxury-maroon/60 font-luxury-sans">{consultant.specialty}</p>
-                      <div className="flex items-center gap-1 mt-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm text-luxury-maroon/60">{consultant.rating}</span>
-                      </div>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Booking Summary */}
-          {selectedTimeSlot && selectedConsultant && (
+          {selectedTimeSlot && selectedDate && (
             <div className="bg-luxury-dusty-rose/10 backdrop-blur-sm rounded-xl p-6 border border-luxury-dusty-rose/30">
               <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Booking Summary</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-luxury-maroon/70 font-luxury-sans">Consultant:</span>
-                  <span className="font-medium text-luxury-maroon">
-                    {consultants.find(c => c.id === selectedConsultant)?.name}
-                  </span>
+                  <span className="text-luxury-maroon/70 font-luxury-sans">Date:</span>
+                  <span className="font-medium text-luxury-maroon">{selectedDate.toLocaleDateString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-luxury-maroon/70 font-luxury-sans">Time:</span>
@@ -568,8 +545,8 @@ const Bookings = () => {
 
       {/* Booking Detail Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
-          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto" style={{ marginLeft: '160px', marginRight: '0px', marginTop: '40px' }}>
             <div className="p-6 border-b border-luxury-taupe/20">
               <div className="flex items-center justify-between">
                 <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
@@ -617,10 +594,7 @@ const Bookings = () => {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <div>
-                    <label className="text-sm font-medium text-luxury-maroon/70 font-luxury-sans">Platform</label>
-                    <p className="text-luxury-maroon font-luxury-sans">{selectedBooking.platform}</p>
-                  </div>
+
                   <div>
                     <label className="text-sm font-medium text-luxury-maroon/70 font-luxury-sans">Package</label>
                     <p className="text-luxury-maroon font-luxury-sans">{selectedBooking.packageType}</p>
@@ -660,20 +634,7 @@ const Bookings = () => {
                     </div>
                   )}
 
-                  {/* Agenda */}
-                  {selectedBooking.agenda && (
-                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
-                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Meeting Agenda</h5>
-                      <ul className="space-y-2">
-                        {selectedBooking.agenda.map((item, index) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <span className="text-luxury-dusty-rose font-bold text-sm mt-1">{index + 1}.</span>
-                            <span className="text-luxury-maroon/70 font-luxury-sans text-sm">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+
                 </div>
 
                 {/* Right Column */}
@@ -724,18 +685,6 @@ const Bookings = () => {
                     </div>
                   )}
 
-                  {/* Transcript Section */}
-                  {selectedBooking.transcript && selectedBooking.status === 'completed' && (
-                    <div className="bg-white border border-luxury-taupe/20 rounded-lg p-4">
-                      <h5 className="font-luxury-serif font-semibold text-luxury-maroon mb-3">Session Transcript</h5>
-                      <div className="bg-gray-50 rounded-lg p-3 max-h-32 overflow-y-auto">
-                        <p className="text-luxury-maroon/70 font-luxury-sans text-sm">{selectedBooking.transcript}</p>
-                      </div>
-                      <Button variant="outline" className="w-full mt-3 border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10">
-                        View Full Transcript
-                      </Button>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -776,7 +725,7 @@ const Bookings = () => {
 
       {/* Reschedule Modal */}
       {isRescheduling && selectedBooking && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: '80px', bottom: 0 }}>
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
             <div className="p-6 border-b border-luxury-taupe/20">
               <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">

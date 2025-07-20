@@ -1,15 +1,28 @@
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 300);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleBookConsultation = () => {
+    if (user) {
+      // User is logged in, go to bookings page
+      navigate('/account?section=bookings');
+    } else {
+      // User is not logged in, go to sign-in page
+      navigate('/auth?mode=signin');
+    }
+  };
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden">
@@ -43,7 +56,7 @@ const Hero = () => {
             <div className="flex justify-center gap-6 flex-wrap">
               <Button 
                 size="lg" 
-                onClick={() => navigate('/account?section=bookings')}
+                onClick={handleBookConsultation}
                 className="text-white font-luxury-sans tracking-wide uppercase text-lg px-8 py-4 rounded-xl border-2 border-white bg-transparent hover:bg-white hover:text-black shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 group"
               >
                 <span>Book Consultation</span>

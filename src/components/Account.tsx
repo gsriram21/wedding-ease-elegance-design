@@ -55,6 +55,9 @@ interface Order {
   trackingNumber?: string;
   paymentMethod: string;
   shippingMethod: string;
+  orderCode?: string;
+  quoteValid?: Date;
+  specialInstructions?: string;
 }
 
 const Account = () => {
@@ -146,6 +149,72 @@ const Account = () => {
   const [newAddressCountry, setNewAddressCountry] = useState("");
 
   const [orders] = useState<Order[]>([
+    // Pending Orders (not yet placed but in process)
+    {
+      id: 'pending-1',
+      orderNumber: 'WE-QUOTE-2024-004',
+      date: new Date('2024-01-27'),
+      status: 'pending',
+      total: '₹1,15,000',
+      items: [
+        {
+          id: 8,
+          name: 'Complete Wedding Decoration Package',
+          price: '₹75,000',
+          quantity: 1,
+          image: '/images/celebration-new-3.jpg',
+          category: 'Decor'
+        },
+        {
+          id: 9,
+          name: 'Photography & Videography',
+          price: '₹40,000',
+          quantity: 1,
+          image: '/images/pablo-heimplatz-fVL0zZdk-R4-unsplash.jpg',
+          category: 'Services'
+        }
+      ],
+      shippingAddress: '123 Wedding Lane, Mumbai, Maharashtra 400001',
+      estimatedDelivery: new Date('2024-02-10'),
+      paymentMethod: 'Pending',
+      shippingMethod: 'To be decided',
+      orderCode: 'WE-Q-2024-004',
+      quoteValid: new Date('2024-02-05'),
+      specialInstructions: 'Please confirm vendor availability for the selected dates'
+    },
+    {
+      id: 'pending-2',
+      orderNumber: 'WE-QUOTE-2024-005',
+      date: new Date('2024-01-28'),
+      status: 'pending',
+      total: '₹45,000',
+      items: [
+        {
+          id: 10,
+          name: 'Bridal Makeup & Hair Styling',
+          price: '₹25,000',
+          quantity: 1,
+          image: '/images/awesome-sauce-creative-N7BP10VHivU-unsplash.jpg',
+          category: 'Beauty Services'
+        },
+        {
+          id: 11,
+          name: 'Mehendi Artist',
+          price: '₹20,000',
+          quantity: 1,
+          image: '/images/celebration-new-4.jpg',
+          category: 'Beauty Services'
+        }
+      ],
+      shippingAddress: '456 Celebration Street, Delhi, Delhi 110001',
+      estimatedDelivery: new Date('2024-02-08'),
+      paymentMethod: 'Pending',
+      shippingMethod: 'Service delivery',
+      orderCode: 'WE-Q-2024-005',
+      quoteValid: new Date('2024-02-03'),
+      specialInstructions: 'Trial session required before wedding day'
+    },
+    // Regular Orders
     {
       id: '1',
       orderNumber: 'WE-2024-001',
@@ -252,6 +321,32 @@ const Account = () => {
   ]);
   
   const navigate = useNavigate();
+
+  // Add handlers for pending orders
+  const handleAcceptOrder = (orderId: string) => {
+    console.log('Accepting order:', orderId);
+    // Here you would typically make an API call to accept the order
+    // For now, we'll just show a notification
+    setNotificationMessage('Order accepted! Proceeding to payment...');
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
+  };
+
+  const handleRejectOrder = (orderId: string) => {
+    console.log('Rejecting order:', orderId);
+    // Here you would typically make an API call to reject the order
+    setNotificationMessage('Order quote declined. You can request a new quote anytime.');
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
+  };
+
+  const handleViewInvoice = (orderId: string) => {
+    console.log('Viewing invoice for order:', orderId);
+    // Here you would typically generate/download the invoice
+    setNotificationMessage('Invoice downloaded successfully!');
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
+  };
 
   // Update URL when section changes and handle browser navigation
   useEffect(() => {
@@ -561,8 +656,8 @@ const Account = () => {
     { id: "wishlist", label: "Wishlist", title: "Wishlist", icon: Heart, active: false },
     { id: "order", label: "Order", title: "Orders", icon: ShoppingBag, active: false },
     { id: "bookings", label: "Bookings", title: "Bookings", icon: Calendar, active: false },
-    { id: "profile", label: "Profile", title: "Profile", icon: User, active: false },
-    { id: "logout", label: "Logout", title: "Logout", icon: LogOut, active: false }
+    { id: "packages", label: "My Package", title: "My Package", icon: Package, active: false },
+    { id: "profile", label: "Profile", title: "Profile", icon: User, active: false }
   ];
 
   const currentPageTitle = sidebarItems.find(item => item.id === activeSection)?.title || "Account";
@@ -572,7 +667,7 @@ const Account = () => {
   };
 
   const handleLogout = () => {
-    navigate('/');
+      navigate('/');
   };
 
   // Mock user status for smart scheduling logic
@@ -705,7 +800,8 @@ const Account = () => {
       showToast('No products selected for checkout.');
       return;
     }
-    setShowCheckout(true);
+    // Navigate to checkout section instead of showing modal
+    setActiveSection('checkout');
   };
 
   const handleMockAction = (action: string) => {
@@ -884,8 +980,8 @@ const Account = () => {
                       <span className="text-white text-sm font-bold">
                         {message.type === 'user' ? 'Y' : 'W'}
                       </span>
-                    </div>
-                    <div className="flex-1">
+                </div>
+                <div className="flex-1">
                       <div className={`rounded-2xl p-4 shadow-sm border max-w-md ${
                         message.type === 'user'
                           ? 'bg-luxury-dusty-rose text-white rounded-tr-md ml-auto'
@@ -902,63 +998,63 @@ const Account = () => {
                           <div className="mt-4 space-y-3">
                             {/* Quick Action Cards - Compact Design */}
                             <div className="grid grid-cols-2 gap-2">
-                              <button 
-                                onClick={() => handleMockAction('book-consultation')}
+                <button 
+                  onClick={() => handleMockAction('book-consultation')}
                                 className="bg-white/30 backdrop-blur-sm rounded-lg p-2 border border-luxury-taupe/20 hover:bg-white/40 text-left group transition-all"
                               >
                                 <div className="flex items-center gap-2">
                                   <div className="w-6 h-6 bg-luxury-dusty-rose/20 rounded-md flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
                                     <Calendar className="w-3 h-3 text-luxury-dusty-rose group-hover:text-white" />
-                                  </div>
+                    </div>
                                   <div>
                                     <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">Book Consultation</span>
                                     <span className="font-luxury-sans text-xs text-luxury-maroon/60">Free consultation</span>
-                                  </div>
+                  </div>
                                 </div>
-                              </button>
-                              <button 
-                                onClick={() => handleMockAction('browse-packages')}
+                </button>
+                <button 
+                  onClick={() => handleMockAction('browse-packages')}
                                 className="bg-white/30 backdrop-blur-sm rounded-lg p-2 border border-luxury-taupe/20 hover:bg-white/40 text-left group transition-all"
                               >
                                 <div className="flex items-center gap-2">
                                   <div className="w-6 h-6 bg-luxury-dusty-rose/20 rounded-md flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
                                     <ShoppingBag className="w-3 h-3 text-luxury-maroon group-hover:text-white" />
-                                  </div>
+                    </div>
                                   <div>
                                     <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">View Packages</span>
                                     <span className="font-luxury-sans text-xs text-luxury-maroon/60">Explore options</span>
-                                  </div>
+                  </div>
                                 </div>
-                              </button>
-                              <button 
-                                onClick={() => navigate('/products')}
+                </button>
+                <button 
+                  onClick={() => navigate('/products')}
                                 className="bg-white/30 backdrop-blur-sm rounded-lg p-2 border border-luxury-taupe/20 hover:bg-white/40 text-left group transition-all"
                               >
                                 <div className="flex items-center gap-2">
                                   <div className="w-6 h-6 bg-luxury-dusty-rose/20 rounded-md flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
                                     <Heart className="w-3 h-3 text-luxury-dusty-rose group-hover:text-white" />
-                                  </div>
+                    </div>
                                   <div>
                                     <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">Browse Products</span>
                                     <span className="font-luxury-sans text-xs text-luxury-maroon/60">View collection</span>
-                                  </div>
+                  </div>
                                 </div>
-                              </button>
-                              <button 
-                                onClick={() => handleMockAction('get-quote')}
+                </button>
+                <button 
+                  onClick={() => handleMockAction('get-quote')}
                                 className="bg-white/30 backdrop-blur-sm rounded-lg p-2 border border-luxury-taupe/20 hover:bg-white/40 text-left group transition-all"
                               >
                                 <div className="flex items-center gap-2">
                                   <div className="w-6 h-6 bg-luxury-dusty-rose/20 rounded-md flex items-center justify-center group-hover:bg-luxury-dusty-rose group-hover:text-white">
                                     <User className="w-3 h-3 text-luxury-maroon group-hover:text-white" />
-                                  </div>
+                    </div>
                                   <div>
                                     <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">Get Quote</span>
                                     <span className="font-luxury-sans text-xs text-luxury-maroon/60">Custom pricing</span>
-                                  </div>
+                  </div>
                                 </div>
-                              </button>
-                            </div>
+                </button>
+              </div>
 
                             {/* Suggested Questions - Compact */}
                             <div className="border-t border-luxury-taupe/20 pt-3">
@@ -966,77 +1062,77 @@ const Account = () => {
                                 💬 Quick questions:
                               </p>
                               <div className="space-y-1">
-                                {[
-                                  "What wedding packages do you offer?",
-                                  "How do I book a venue consultation?",
+                      {[
+                        "What wedding packages do you offer?",
+                        "How do I book a venue consultation?",
                                   "Can you help with destination weddings?"
-                                ].map((question, index) => (
-                                  <button
-                                    key={index}
+                      ].map((question, index) => (
+                        <button
+                          key={index}
                                     onClick={() => handleQuickQuestion(question)}
                                     className="block w-full text-left p-2 rounded-md bg-luxury-soft-pink/20 hover:bg-luxury-dusty-rose/20 text-xs font-luxury-sans text-luxury-maroon/80 hover:text-luxury-maroon transition-all"
-                                  >
-                                    {question}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
+                        >
+                          {question}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
                         )}
 
                         {/* Message Actions */}
-                        {message.action === 'show-options' && (
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-                            <button 
-                              onClick={() => handleMockAction('book-consultation')}
+                    {message.action === 'show-options' && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                        <button 
+                          onClick={() => handleMockAction('book-consultation')}
                               className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
-                            >
-                              <div className="flex items-center gap-2 mb-1">
-                                <Calendar className="w-4 h-4 text-luxury-dusty-rose" />
-                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Book Consultation</span>
-                              </div>
-                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                                Schedule a free consultation
-                              </p>
-                            </button>
-                            <button 
-                              onClick={() => handleMockAction('browse-packages')}
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <Calendar className="w-4 h-4 text-luxury-dusty-rose" />
+                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Book Consultation</span>
+                          </div>
+                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                            Schedule a free consultation
+                          </p>
+                        </button>
+                        <button 
+                          onClick={() => handleMockAction('browse-packages')}
                               className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
-                            >
-                              <div className="flex items-center gap-2 mb-1">
-                                <ShoppingBag className="w-4 h-4 text-luxury-maroon" />
-                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">View Packages</span>
-                              </div>
-                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                                Explore our packages
-                              </p>
-                            </button>
-                            <button 
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <ShoppingBag className="w-4 h-4 text-luxury-maroon" />
+                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">View Packages</span>
+                          </div>
+                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                            Explore our packages
+                          </p>
+                        </button>
+                        <button 
                               onClick={() => handleMockAction('show-products')}
                               className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
-                            >
-                              <div className="flex items-center gap-2 mb-1">
-                                <Heart className="w-4 h-4 text-luxury-dusty-rose" />
-                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Browse Products</span>
-                              </div>
-                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                                Discover our collection
-                              </p>
-                            </button>
-                            <button 
-                              onClick={() => handleMockAction('get-quote')}
-                              className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
-                            >
-                              <div className="flex items-center gap-2 mb-1">
-                                <User className="w-4 h-4 text-luxury-maroon" />
-                                <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Get Quote</span>
-                              </div>
-                              <p className="font-luxury-sans text-xs text-luxury-maroon/70">
-                                Get personalized pricing
-                              </p>
-                            </button>
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <Heart className="w-4 h-4 text-luxury-dusty-rose" />
+                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Browse Products</span>
                           </div>
-                        )}
+                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                            Discover our collection
+                          </p>
+                        </button>
+                        <button 
+                          onClick={() => handleMockAction('get-quote')}
+                              className="bg-white/20 backdrop-blur-sm rounded-lg p-3 border border-luxury-taupe/20 hover:bg-white/30 text-left"
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <User className="w-4 h-4 text-luxury-maroon" />
+                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Get Quote</span>
+                          </div>
+                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                            Get personalized pricing
+                          </p>
+                        </button>
+                      </div>
+                    )}
 
                         {/* Product Display */}
                         {message.action === 'show-products' && message.products && (
@@ -1135,21 +1231,21 @@ const Account = () => {
                                 Get Custom Quote
                               </button>
                             </div>
-                          </div>
-                        )}
                       </div>
-                      <span className="text-xs text-luxury-maroon/50 font-luxury-sans mt-1 block">
+                    )}
+                  </div>
+                  <span className="text-xs text-luxury-maroon/50 font-luxury-sans mt-1 block">
                         {typeof message.timestamp === 'string' 
                           ? new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                           : message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                         }
-                      </span>
-                    </div>
-                  </div>
-                ))}
-                
-                {/* Scroll to bottom reference */}
-                <div ref={chatMessagesEndRef} />
+                  </span>
+                </div>
+              </div>
+            ))}
+            
+            {/* Scroll to bottom reference */}
+            <div ref={chatMessagesEndRef} />
               </div>
             </div>
 
@@ -1205,17 +1301,17 @@ const Account = () => {
                 <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Personal Information</h3>
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                  <div>
+                    <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
                         First Name
-                      </label>
-                      <input 
-                        type="text" 
-                        className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                    </label>
+                    <input 
+                      type="text" 
+                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
                         placeholder="First name"
                         defaultValue="Priya"
-                      />
-                    </div>
+                    />
+                  </div>
                     <div>
                       <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
                         Last Name
@@ -1319,7 +1415,7 @@ const Account = () => {
                     <div className="flex justify-between items-center">
                       <span className="font-luxury-sans text-luxury-maroon/70">Consultant:</span>
                       <span className="font-luxury-sans text-luxury-maroon">Meera Patel</span>
-                    </div>
+                  </div>
                     <Button 
                       onClick={() => handleMockAction('add-shopper')}
                       variant="outline"
@@ -1402,20 +1498,20 @@ const Account = () => {
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
                   <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-4">Account Security</h3>
                   <div className="space-y-3">
-                    <Button 
-                      onClick={() => handleMockAction('change-password')}
-                      variant="outline"
+                  <Button 
+                    onClick={() => handleMockAction('change-password')}
+                    variant="outline"
                       className="w-full border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm"
-                    >
-                      Change Password
-                    </Button>
+                  >
+                    Change Password
+                  </Button>
                     <Button 
                       onClick={() => handleMockAction('two-factor')}
                       variant="outline"
                       className="w-full border-luxury-taupe/20 text-luxury-maroon hover:bg-luxury-taupe/10 font-luxury-sans tracking-wide uppercase text-sm"
                     >
                       Enable Two-Factor Authentication
-                    </Button>
+                  </Button>
                   </div>
                 </div>
               </div>
@@ -1441,15 +1537,15 @@ const Account = () => {
               >
                 <div className="h-full flex items-center justify-center">
                   <div>
-                    <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
-                      <Plus className="w-8 h-8 text-luxury-dusty-rose" />
-                    </div>
-                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-2">
-                      Create New Wishlist
-                    </h3>
-                    <p className="font-luxury-sans text-luxury-maroon/60 text-sm">
-                      Start a new collection for your special day
-                    </p>
+                <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
+                  <Plus className="w-8 h-8 text-luxury-dusty-rose" />
+                </div>
+                <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-2">
+                  Create New Wishlist
+                </h3>
+                <p className="font-luxury-sans text-luxury-maroon/60 text-sm">
+                  Start a new collection for your special day
+                </p>
                   </div>
                 </div>
               </div>
@@ -1504,7 +1600,7 @@ const Account = () => {
 
             {/* Create Wishlist Modal */}
             {isCreatingWishlist && (
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: '80px', bottom: 0 }}>
                 <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">
@@ -1569,7 +1665,7 @@ const Account = () => {
 
             {/* Wishlist Detail Modal */}
             {selectedWishlist && (
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: '80px', bottom: 0 }}>
                 <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto">
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">
@@ -1686,9 +1782,102 @@ const Account = () => {
                 </Button>
               </div>
 
-              {/* Orders List */}
+              {/* Pending Orders Section */}
+              {orders.filter(order => order.status === 'pending').length > 0 && (
               <div className="space-y-4">
-              {orders.map((order) => (
+                  <div className="flex items-center gap-3">
+                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon">Pending Orders & Quotes</h3>
+                    <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">
+                      {orders.filter(order => order.status === 'pending').length} awaiting response
+                    </span>
+                  </div>
+                  
+                  {orders.filter(order => order.status === 'pending').map((order) => (
+                    <div key={order.id} className="bg-white/80 backdrop-blur-sm rounded-xl border border-luxury-taupe/20 overflow-hidden hover:shadow-lg transition-all duration-300">
+                      {/* Pending Order Header */}
+                                              <div className="p-6 border-b border-luxury-taupe/20 bg-luxury-soft-pink/10">
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-4">
+                              <h3 className="font-luxury-serif font-bold text-luxury-maroon">Quote #{order.orderCode}</h3>
+                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-orange-200 text-orange-800">
+                                <Clock className="w-3 h-3" />
+                                Pending Approval
+                              </span>
+                              {order.quoteValid && (
+                                <span className="text-xs text-red-600 font-medium">
+                                  Valid until {order.quoteValid.toLocaleDateString()}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-4 text-sm text-luxury-maroon/60 font-luxury-sans">
+                              <span>Created on {order.date.toLocaleDateString()}</span>
+                              <span>•</span>
+                              <span>Total Cost: {order.total}</span>
+                              <span>•</span>
+                              <span>Order Code: {order.orderCode}</span>
+                            </div>
+                            {order.specialInstructions && (
+                              <p className="text-sm text-luxury-maroon/70 bg-luxury-dusty-rose/10 p-2 rounded-lg">
+                                📝 {order.specialInstructions}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              onClick={() => handleAcceptOrder(order.id)}
+                              className="bg-green-600 hover:bg-green-700 text-white"
+                            >
+                              <Check className="w-4 h-4 mr-2" />
+                              Accept
+                            </Button>
+                            <Button
+                              onClick={() => handleRejectOrder(order.id)}
+                              variant="outline"
+                              className="border-red-300 text-red-600 hover:bg-red-50"
+                            >
+                              <X className="w-4 h-4 mr-2" />
+                              Reject
+                            </Button>
+                            <Button
+                              onClick={() => handleViewInvoice(order.id)}
+                              variant="outline"
+                              className="border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white"
+                            >
+                              📄 Invoice
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Pending Order Items */}
+                      <div className="p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {order.items.map((item) => (
+                            <div key={item.id} className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-16 h-16 rounded-lg object-cover"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-luxury-sans font-medium text-luxury-maroon truncate">{item.name}</h4>
+                                <p className="text-sm text-luxury-maroon/60">Qty: {item.quantity}</p>
+                                <p className="text-sm font-bold text-green-600">{item.price}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Regular Orders Section */}
+              <div className="space-y-4">
+                <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon">Order History</h3>
+                {orders.filter(order => order.status !== 'pending').map((order) => (
                 <div key={order.id} className="bg-white/80 backdrop-blur-sm rounded-xl border border-luxury-taupe/20 overflow-hidden hover:shadow-lg transition-all duration-300">
                   {/* Order Header */}
                   <div className="p-6 border-b border-luxury-taupe/20 bg-luxury-soft-pink/10">
@@ -1753,8 +1942,8 @@ const Account = () => {
 
             {/* Order Detail Modal */}
             {selectedOrder && (
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: 0, bottom: 0 }}>
-                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center">
+                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto" style={{ marginLeft: '160px', marginRight: '0px', marginTop: '40px' }}>
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">
                       <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
@@ -1868,6 +2057,125 @@ const Account = () => {
             <Bookings />
           </div>
         );
+      case "packages":
+        return (
+          <div className="h-full">
+            <div className="mb-8">
+              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">My Package</h2>
+              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
+                Manage your wedding planning package, view included services, and explore upgrade options.
+              </p>
+            </div>
+
+            {/* Current Package */}
+            <div className="bg-gradient-to-br from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-8 mb-8 border border-luxury-dusty-rose/30">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-2">Royal Package</h3>
+                  <p className="font-luxury-sans text-luxury-maroon/70">Premium wedding planning experience</p>
+                </div>
+                <div className="text-right">
+                  <div className="font-luxury-serif text-3xl font-bold text-luxury-maroon">₹2,50,000</div>
+                  <div className="font-luxury-sans text-sm text-luxury-maroon/60">Current Plan</div>
+                </div>
+              </div>
+
+              {/* Package Features */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <div className="bg-white/50 rounded-lg p-4">
+                  <h4 className="font-luxury-serif font-bold text-luxury-maroon mb-2">Complete Planning</h4>
+                  <ul className="space-y-1 text-sm text-luxury-maroon/70 font-luxury-sans">
+                    <li>• Full-service coordination</li>
+                    <li>• Timeline management</li>
+                    <li>• Vendor coordination</li>
+                  </ul>
+                </div>
+                <div className="bg-white/50 rounded-lg p-4">
+                  <h4 className="font-luxury-serif font-bold text-luxury-maroon mb-2">Design & Decor</h4>
+                  <ul className="space-y-1 text-sm text-luxury-maroon/70 font-luxury-sans">
+                    <li>• Custom theme design</li>
+                    <li>• Floral arrangements</li>
+                    <li>• Lighting setup</li>
+                  </ul>
+                </div>
+                <div className="bg-white/50 rounded-lg p-4">
+                  <h4 className="font-luxury-serif font-bold text-luxury-maroon mb-2">Personal Support</h4>
+                  <ul className="space-y-1 text-sm text-luxury-maroon/70 font-luxury-sans">
+                    <li>• Dedicated planner</li>
+                    <li>• 24/7 support</li>
+                    <li>• Emergency assistance</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <Button className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans">
+                  View Full Details
+                </Button>
+                <Button variant="outline" className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white font-luxury-sans">
+                  Download Contract
+                </Button>
+              </div>
+            </div>
+
+            {/* Upgrade Options */}
+            <div className="mb-8">
+              <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Upgrade Options</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white/80 rounded-xl p-6 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 transition-all duration-300">
+                  <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-2">Platinum Package</h4>
+                  <p className="font-luxury-sans text-luxury-maroon/70 mb-4">Everything in Royal plus luxury transportation and premium venues</p>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-luxury-serif text-xl font-bold text-luxury-maroon">₹4,50,000</span>
+                    <span className="font-luxury-sans text-sm text-green-600">Save ₹50,000</span>
+                  </div>
+                  <Button className="w-full bg-luxury-dusty-rose hover:bg-luxury-maroon text-white font-luxury-sans">
+                    Upgrade Now
+                  </Button>
+                </div>
+                <div className="bg-white/80 rounded-xl p-6 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 transition-all duration-300">
+                  <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-2">Add-On Services</h4>
+                  <p className="font-luxury-sans text-luxury-maroon/70 mb-4">Enhance your package with additional services</p>
+                  <ul className="space-y-2 text-sm font-luxury-sans text-luxury-maroon/70 mb-4">
+                    <li>• Professional photography</li>
+                    <li>• Live streaming setup</li>
+                    <li>• Additional decor themes</li>
+                  </ul>
+                  <Button variant="outline" className="w-full border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white font-luxury-sans">
+                    Browse Add-Ons
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case "checkout":
+        // Only show checkout if there are products selected
+        if (selectedChatProducts.length === 0) {
+          return (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <h2 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-4">No Products Selected</h2>
+                <p className="font-luxury-sans text-luxury-maroon/70 mb-6">Please select products from the chat to proceed with checkout.</p>
+                <Button 
+                  onClick={() => setActiveSection('enquiries')}
+                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans"
+                >
+                  Return to Chat
+                </Button>
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div className="h-full w-full">
+            <UnifiedCheckout
+              products={chatProducts.filter(p => selectedChatProducts.includes(p.id))}
+              onClose={() => setActiveSection('enquiries')}
+              source="chat"
+            />
+          </div>
+        );
       default:
         return null;
     }
@@ -1890,37 +2198,13 @@ const Account = () => {
         <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col fixed top-20 bottom-0 left-0 z-30 overflow-hidden">
           {/* Active Package Information */}
           <div className="p-6 border-b border-luxury-taupe/20">
-            <div className="bg-gradient-to-r from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-4 border border-luxury-taupe/20">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center">
-                  <User className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-luxury-serif font-bold text-luxury-maroon text-sm">Shilpa Parikh</h3>
-                  <p className="font-luxury-sans text-xs text-luxury-maroon/60">Active Member</p>
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-luxury-dusty-rose to-luxury-maroon rounded-full flex items-center justify-center">
+                <User className="w-5 h-5 text-white" />
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-luxury-sans text-xs text-luxury-maroon/70">Current Package:</span>
-                  <span className="font-luxury-serif font-bold text-xs text-luxury-maroon">Royal Package</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-luxury-sans text-xs text-luxury-maroon/70">Status:</span>
-                  <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Active</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-luxury-sans text-xs text-luxury-maroon/70">Wedding Date:</span>
-                  <span className="font-luxury-sans text-xs text-luxury-maroon">Dec 15, 2024</span>
-                </div>
-                <Button
-                  variant="outline" 
-                  size="sm"
-                  className="w-full mt-3 border-luxury-maroon/20 text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-xs"
-                  onClick={() => handleSectionChange('profile')}
-                >
-                  View Package Details
-                </Button>
+              <div>
+                <h3 className="font-luxury-serif font-bold text-luxury-maroon text-sm">Shilpa Parikh</h3>
+                <p className="font-luxury-sans text-xs text-luxury-maroon/60">Active Member</p>
               </div>
             </div>
           </div>
@@ -1961,16 +2245,16 @@ const Account = () => {
             {/* Background Floral Elements - Only for non-chat sections */}
             {activeSection !== 'enquiries' && (
               <>
-                <img 
-                  src="/images/bg-flower.png" 
-                  alt="" 
-                  className="absolute top-1/4 right-0 translate-x-1/2 w-[30rem] opacity-10 transform rotate-45 pointer-events-none"
-                />
-                <img 
-                  src="/images/bg-branch.png" 
-                  alt="" 
-                  className="absolute bottom-0 left-0 -translate-x-1/3 translate-y-1/4 w-[35rem] opacity-10 pointer-events-none"
-                />
+            <img 
+              src="/images/bg-flower.png" 
+              alt="" 
+              className="absolute top-1/4 right-0 translate-x-1/2 w-[30rem] opacity-10 transform rotate-45 pointer-events-none"
+            />
+            <img 
+              src="/images/bg-branch.png" 
+              alt="" 
+              className="absolute bottom-0 left-0 -translate-x-1/3 translate-y-1/4 w-[35rem] opacity-10 pointer-events-none"
+            />
               </>
             )}
             
@@ -1981,18 +2265,9 @@ const Account = () => {
         </div>
       </div>
 
-      {/* Unified Checkout Modal */}
-      {showCheckout && (
-        <UnifiedCheckout
-          products={chatProducts.filter(p => selectedChatProducts.includes(p.id))}
-          onClose={() => setShowCheckout(false)}
-          source="chat"
-        />
-      )}
-
       {/* Add/Edit Address Modal */}
       {isAddingAddress && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: '80px', bottom: 0 }}>
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
             <div className="p-6 border-b border-luxury-taupe/20">
               <div className="flex items-center justify-between">
