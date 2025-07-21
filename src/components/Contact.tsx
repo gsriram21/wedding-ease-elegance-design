@@ -1,10 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Form state management
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    weddingDate: '',
+    message: ''
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,12 +41,49 @@ const Contact = () => {
     };
   }, []);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Thank you for your inquiry!",
-      description: "We'll get back to you within 24 hours to schedule your consultation.",
-    });
+    
+    // Check if user is already authenticated
+    if (user) {
+      // User is already signed in, just show success message and handle booking
+      toast({
+        title: "Thank you for your inquiry!",
+        description: "We'll get back to you within 24 hours to schedule your consultation.",
+      });
+      // Could redirect to account/bookings or open booking modal here
+      navigate('/account?section=bookings');
+    } else {
+      // User is not signed in, store form data and redirect to signup
+      const signupData = {
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        weddingDate: formData.weddingDate,
+        message: formData.message,
+        source: 'contact_consultation' // To identify this came from contact form
+      };
+
+      // Store in localStorage for the signup process to pick up
+      localStorage.setItem('weddingease_contact_data', JSON.stringify(signupData));
+      
+      // Show transitional message
+      toast({
+        title: "Almost there!",
+        description: "We'll help you create an account to schedule your consultation.",
+      });
+
+      // Redirect to signup with a special parameter
+      navigate('/auth?mode=signup&source=contact');
+    }
   };
 
   return (
@@ -97,24 +147,22 @@ const Contact = () => {
               </h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
-                    required
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
+                  required
+                />
                 
                 <input
                   type="email"
                   placeholder="Email Address"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                   required
                 />
@@ -122,17 +170,26 @@ const Contact = () => {
                 <input
                   type="tel"
                   placeholder="Phone Number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
                   className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                 />
                 
                 <input
                   type="date"
                   placeholder="Wedding Date"
+                  name="weddingDate"
+                  value={formData.weddingDate}
+                  onChange={handleInputChange}
                   className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                 />
                 
                 <textarea
                   placeholder="Tell us about your dream wedding..."
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
                   rows={4}
                   className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 resize-none transition-colors duration-300"
                 ></textarea>

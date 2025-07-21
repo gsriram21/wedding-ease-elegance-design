@@ -10,14 +10,25 @@ interface BookingStepProps {
   };
   onNext: () => void;
   onPrevious: () => void;
+  bookingContext?: {
+    weddingDate?: string;
+    message?: string;
+    source?: string;
+  } | null;
 }
 
-const BookingStep: React.FC<BookingStepProps> = ({ formData, onNext, onPrevious }) => {
+const BookingStep: React.FC<BookingStepProps> = ({ formData, onNext, onPrevious, bookingContext }) => {
   const [selectedConsultationType, setSelectedConsultationType] = useState('');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    // Pre-populate with wedding date from contact form if available
+    bookingContext?.weddingDate ? new Date(bookingContext.weddingDate) : null
+  );
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
   const [selectedConsultant, setSelectedConsultant] = useState('');
-  const [specialRequests, setSpecialRequests] = useState('');
+  const [specialRequests, setSpecialRequests] = useState(
+    // Pre-populate with message from contact form if available
+    bookingContext?.message || ''
+  );
   const [selectedWeek, setSelectedWeek] = useState(0);
 
   // DEBUGGING: This will show in browser console

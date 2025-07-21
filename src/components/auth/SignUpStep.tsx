@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Mail, Eye, EyeOff, User, Chrome, Calendar, MessageSquare, Camera, Upload, Phone, Lock } from 'lucide-react';
+import { Mail, Eye, EyeOff, User, Chrome, Calendar, MessageSquare, Camera, Upload, Phone, Lock, CheckCircle } from 'lucide-react';
 import GoogleConsentModal from './GoogleConsentModal';
 import PhoneInput from '../ui/PhoneInput';
 
@@ -11,13 +11,16 @@ interface SignUpStepProps {
     name: string;
     authMethod: 'email' | 'phone' | 'google';
     profileImage: File | null;
+    weddingVision?: string;
   };
   updateFormData: (data: Partial<SignUpStepProps['formData']>) => void;
   onNext: () => void;
   onSwitchToSignIn?: () => void;
+  isPrePopulated?: boolean;
+  prePopulatedSource?: string | null;
 }
 
-const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNext, onSwitchToSignIn }) => {
+const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNext, onSwitchToSignIn, isPrePopulated, prePopulatedSource }) => {
   const { signUp, signInWithGoogle, signInWithPhone, loading, error } = useAuth();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -116,6 +119,25 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
           Join us to plan your perfect wedding
         </p>
       </div>
+
+      {/* Pre-populated Data Indicator */}
+      {isPrePopulated && prePopulatedSource === 'contact' && (
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-green-800">
+                Information Pre-filled
+              </h3>
+              <p className="text-sm text-green-700 mt-1">
+                We've filled in your details from your consultation request. You can review and modify them below.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Step Preview - REMOVED: Now shown in main progress banner */}
       
@@ -280,6 +302,20 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
             </div>
           </div>
         )}
+
+        {/* Wedding Vision - Optional */}
+        <div className="relative">
+          <textarea
+            value={formData.weddingVision || ''}
+            onChange={(e) => updateFormData({ weddingVision: e.target.value })}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-luxury-maroon focus:border-luxury-maroon text-luxury-form-input resize-none"
+            placeholder="Tell us about your dream wedding... (optional)"
+            rows={3}
+          />
+          <p className="text-luxury-caption text-xs text-gray-500 mt-1">
+            Share your vision to help us personalize your experience
+          </p>
+        </div>
 
                  {/* Terms Agreement */}
          <div className="flex items-start gap-3">

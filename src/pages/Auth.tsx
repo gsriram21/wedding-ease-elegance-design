@@ -19,19 +19,91 @@ const Auth = () => {
   // Get mode from URL parameters (signin or signup)
   const mode = searchParams.get('mode') || 'signup';
   const isSignInMode = mode === 'signin';
+  const source = searchParams.get('source'); // Check if coming from contact form
   
   // Start at booking step if test mode is enabled
   const isTestMode = searchParams.get('test') === 'true';
-  const [currentStep, setCurrentStep] = useState<AuthStep>(
-    isTestMode ? 'booking' : 'auth'
-  );
-  const [formData, setFormData] = useState({
-    email: '',
-    phone: '',
-    name: '',
-    authMethod: 'email' as 'email' | 'phone' | 'google',
-    profileImage: null as File | null
+  
+  // Check for pre-populated contact form data
+  const [contactData] = useState(() => {
+    if (source === 'contact') {
+      const stored = localStorage.getItem('weddingease_contact_data');
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (error) {
+          console.error('Error parsing contact data:', error);
+        }
+      }
+    }
+    return null;
   });
+
+  // Determine initial step based on contact data
+  const getInitialStep = (): AuthStep => {
+    if (isTestMode) return 'booking';
+    
+    // If we have complete contact data and this is signup from contact form,
+    // we can potentially skip to verification step since we have basic info
+    if (contactData && contactData.email && contactData.name && source === 'contact') {
+      // Still start at auth step but with pre-populated data
+      // User will see their info is already filled and can proceed quickly
+      return 'auth';
+    }
+    
+    return 'auth';
+  };
+
+  const [currentStep, setCurrentStep] = useState<AuthStep>(getInitialStep());
+  
+  // Initialize form data with contact data if available
+  const [formData, setFormData] = useState(() => {
+    const baseData = {
+      email: '',
+      phone: '',
+      name: '',
+      authMethod: 'email' as 'email' | 'phone' | 'google',
+      profileImage: null as File | null,
+      weddingVision: ''
+    };
+
+    // Pre-populate with contact data if available
+    if (contactData) {
+      return {
+        ...baseData,
+        email: contactData.email || '',
+        phone: contactData.phone || '',
+        name: contactData.name || '',
+        weddingVision: contactData.message || '',
+        // Default to email auth if email is provided, phone if only phone is provided
+        authMethod: contactData.email ? 'email' : (contactData.phone ? 'phone' : 'email') as 'email' | 'phone' | 'google'
+      };
+    }
+
+    return baseData;
+  });
+
+  // Store additional contact data for later use in booking step
+  const [bookingContext, setBookingContext] = useState(() => {
+    if (contactData) {
+      return {
+        weddingDate: contactData.weddingDate,
+        message: contactData.message,
+        source: contactData.source
+      };
+    }
+    return null;
+  });
+
+  // Update booking context with wedding vision from signup form
+  const updateBookingContext = (weddingVision: string) => {
+    setBookingContext(prev => ({
+      ...prev,
+      weddingDate: prev?.weddingDate || '',
+      message: weddingVision || prev?.message || '',
+      source: prev?.source || 'signup_form'
+    }));
+  };
 
   // If user is already authenticated, redirect to account (unless testing or in signup flow)
   React.useEffect(() => {
@@ -46,6 +118,16 @@ const Auth = () => {
     // Don't auto-redirect from success step - let user manually proceed
   }, [user, navigate, searchParams, mode, currentStep]);
 
+  // Clean up contact data when component unmounts or signup is complete
+  React.useEffect(() => {
+    return () => {
+      if (source === 'contact') {
+        // Clean up stored contact data when leaving auth flow
+        localStorage.removeItem('weddingease_contact_data');
+      }
+    };
+  }, [source]);
+
   const steps = [
     { id: 'auth', title: isSignInMode ? 'Sign In' : 'Create Account' },
     { id: 'verification', title: 'Verify Identity' },
@@ -58,6 +140,11 @@ const Auth = () => {
   };
 
   const handleNext = () => {
+    // Update booking context with wedding vision before moving to next step
+    if (currentStep === 'auth' && formData.weddingVision) {
+      updateBookingContext(formData.weddingVision);
+    }
+    
     const currentIndex = getCurrentStepIndex();
     if (currentIndex < steps.length - 1) {
       const nextStep = steps[currentIndex + 1];
@@ -98,6 +185,8 @@ const Auth = () => {
             updateFormData={updateFormData}
             onNext={handleNext}
             onSwitchToSignIn={handleSwitchToSignIn}
+            isPrePopulated={!!contactData}
+            prePopulatedSource={source}
           />
         );
       case 'verification':
@@ -114,6 +203,7 @@ const Auth = () => {
             formData={formData}
             onNext={handleNext}
             onPrevious={handlePrevious}
+            bookingContext={bookingContext}
           />
         );
       case 'success':
