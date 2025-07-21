@@ -721,8 +721,35 @@ const Account = () => {
       navigate('/');
   };
 
-  // Mock user status for smart scheduling logic
-  const [userStatus] = useState<'new' | 'used-free' | 'has-package'>('new');
+  // Mock consultation history for user status determination
+  const [consultationHistory] = useState([
+    // Mock data - in real app this would come from user's actual booking history
+    // Uncomment one of these scenarios to test different user states:
+    
+    // Scenario 1: New user (no consultations) - default state
+    // []
+    
+    // Scenario 2: User who has used free consultation - ACTIVE FOR TESTING
+    { id: 1, type: 'free', date: '2024-01-15', completed: true }
+    
+    // Scenario 3: User with package (can book more consultations)  
+    // [
+    //   { id: 1, type: 'free', date: '2024-01-15', completed: true },
+    //   { id: 2, type: 'package', date: '2024-02-10', completed: true }
+    // ]
+  ]);
+
+  // Mock user package status
+  const [hasActivePackage] = useState(false); // Set to true to simulate user with package
+
+  // Determine user status based on consultation history and package status
+  const getUserStatus = (): 'new' | 'used-free' | 'has-package' => {
+    if (hasActivePackage) return 'has-package';
+    if (consultationHistory.length > 0) return 'used-free';
+    return 'new';
+  };
+
+  const userStatus = getUserStatus();
 
   // Mock products for chat selection
   const chatProducts = [

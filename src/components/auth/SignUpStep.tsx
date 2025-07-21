@@ -312,9 +312,6 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
             placeholder="Tell us about your dream wedding... (optional)"
             rows={3}
           />
-          <p className="text-luxury-caption text-xs text-gray-500 mt-1">
-            Share your vision to help us personalize your experience
-          </p>
         </div>
 
                  {/* Terms Agreement */}
