@@ -55,10 +55,10 @@ const Contact = () => {
     // Check if user is already authenticated
     if (user) {
       // User is already signed in, just show success message and handle booking
-      toast({
-        title: "Thank you for your inquiry!",
-        description: "We'll get back to you within 24 hours to schedule your consultation.",
-      });
+    toast({
+      title: "Thank you for your inquiry!",
+      description: "We'll get back to you within 24 hours to schedule your consultation.",
+    });
       // Could redirect to account/bookings or open booking modal here
       navigate('/account?section=bookings');
     } else {
@@ -147,15 +147,15 @@ const Contact = () => {
               </h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <input
-                  type="text"
+                  <input
+                    type="text"
                   placeholder="Full Name"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
                   className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
-                  required
-                />
+                    required
+                  />
                 
                 <input
                   type="email"

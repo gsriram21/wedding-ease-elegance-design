@@ -351,8 +351,8 @@ const Account = () => {
       handleSectionChange('checkout');
       
       setNotificationMessage('Proceeding to payment for your order...');
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
     }
   };
 
@@ -1478,7 +1478,7 @@ const Account = () => {
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
                   <h3 className="text-luxury-subheading mb-4">Active Package Details</h3>
                   <div className="space-y-3">
-                                        <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center">
                       <span className="text-luxury-data-supporting">Package:</span>
                       <span className="text-luxury-data-secondary">Royal Package</span>
                     </div>
@@ -1493,7 +1493,7 @@ const Account = () => {
                     <div className="flex justify-between items-center">
                       <span className="text-luxury-data-supporting">Consultant:</span>
                       <span className="text-luxury-data-secondary">Meera Patel</span>
-                    </div>
+                  </div>
                     <Button 
                       onClick={() => handleMockAction('add-shopper')}
                       variant="outline"
@@ -2035,7 +2035,7 @@ const Account = () => {
                       </button>
                     </div>
                   </div>
-                                      <div className="p-6 space-y-6">
+                  <div className="p-6 space-y-6">
                     {/* Order Status and Info */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
@@ -2139,7 +2139,7 @@ const Account = () => {
               </p>
             </div>
             <div className="h-[calc(100vh-12rem)] w-full overflow-hidden">
-              <Bookings />
+            <Bookings />
             </div>
           </div>
         );
@@ -2164,8 +2164,8 @@ const Account = () => {
                   <div className="text-luxury-price-large">₹12,00,000</div>
                   <div className="text-luxury-caption text-luxury-maroon/60">Current Plan</div>
                 </div>
+                </div>
               </div>
-            </div>
 
             {/* Package Options */}
             <div className="mb-8 w-full">
@@ -2181,16 +2181,16 @@ const Account = () => {
                     <div>
                       <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
                         <Plus className="w-8 h-8 text-luxury-dusty-rose" />
-                      </div>
+                </div>
                       <h3 className="text-luxury-emphasis-strong text-xl mb-2">
                         Create Custom Package
                       </h3>
                       <p className="text-luxury-body-secondary text-sm">
                         Design your perfect wedding experience
                       </p>
-                    </div>
-                  </div>
                 </div>
+                </div>
+              </div>
 
                 {/* India Heritage Package */}
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-taupe/20 hover:shadow-xl transition-all duration-300 overflow-hidden">
@@ -2204,15 +2204,15 @@ const Account = () => {
                     <div className="absolute bottom-3 left-4 right-4">
                       <h4 className="font-luxury-serif text-lg font-bold text-white">India Heritage</h4>
                       <p className="text-white/90 text-sm">Traditional celebrations</p>
-                    </div>
-                  </div>
+              </div>
+            </div>
 
                   <div className="p-5">
-                    <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-4">
                       <div className="text-luxury-price-medium text-luxury-maroon">₹25,00,000</div>
                       <div className="text-xs text-luxury-maroon bg-luxury-soft-pink px-2 py-1 rounded-full">
                         7-day India visit
-                      </div>
+                  </div>
                     </div>
 
                     <div className="space-y-2 mb-5">
@@ -2235,8 +2235,8 @@ const Account = () => {
                       className="w-full bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans text-sm"
                     >
                       Explore Heritage
-                    </Button>
-                  </div>
+                  </Button>
+                </div>
                 </div>
 
                 {/* India Luxury Package */}
@@ -2287,7 +2287,7 @@ const Account = () => {
                       className="w-full bg-luxury-dusty-rose hover:bg-luxury-maroon text-white font-luxury-sans text-sm"
                     >
                       Discover Luxury
-                    </Button>
+                  </Button>
                   </div>
                 </div>
               </div>
@@ -2295,7 +2295,7 @@ const Account = () => {
           </div>
         );
       case "checkout":
-        return (
+          return (
           <div className="h-full overflow-y-auto w-full overflow-x-hidden">
             <div className="mb-8">
               <div className="flex items-center gap-4 mb-4">
