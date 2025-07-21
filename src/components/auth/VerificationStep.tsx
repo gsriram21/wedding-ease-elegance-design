@@ -97,17 +97,17 @@ const VerificationStep: React.FC<VerificationStepProps> = ({ formData, onNext, o
 
   if (formData.authMethod === 'google') {
     return (
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-luxury-taupe/20 p-8 text-center">
+      <div className="max-w-2xl mx-auto text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-2">
+        <h2 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-3">
           Google Account Verified
         </h2>
-        <p className="text-luxury-maroon/70 mb-4">
+        <p className="text-luxury-data-supporting text-lg mb-6">
           Your Google account has been successfully verified.
         </p>
         <div className="flex items-center justify-center">
           <div className="w-6 h-6 border-2 border-luxury-maroon/30 border-t-luxury-maroon rounded-full animate-spin mr-2" />
-          <span className="text-luxury-maroon/70">Proceeding to next step...</span>
+          <span className="text-luxury-data-supporting">Proceeding to next step...</span>
         </div>
       </div>
     );
@@ -115,12 +115,12 @@ const VerificationStep: React.FC<VerificationStepProps> = ({ formData, onNext, o
 
   if (isVerified) {
     return (
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-luxury-taupe/20 p-8 text-center">
+      <div className="max-w-2xl mx-auto text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-2">
+        <h2 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-3">
           Verification Successful!
         </h2>
-        <p className="text-luxury-maroon/70 mb-4">
+        <p className="text-luxury-data-supporting text-lg mb-6">
           {formData.authMethod === 'phone' 
             ? 'Your phone number has been verified.'
             : 'Your email has been verified.'
@@ -128,14 +128,14 @@ const VerificationStep: React.FC<VerificationStepProps> = ({ formData, onNext, o
         </p>
         <div className="flex items-center justify-center">
           <div className="w-6 h-6 border-2 border-luxury-maroon/30 border-t-luxury-maroon rounded-full animate-spin mr-2" />
-          <span className="text-luxury-maroon/70">Proceeding to next step...</span>
+          <span className="text-luxury-data-supporting">Proceeding to next step...</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-luxury-taupe/20 p-8">
+    <div className="max-w-2xl mx-auto">
       <div className="text-center mb-8">
         <div className="w-16 h-16 bg-luxury-maroon/10 rounded-full flex items-center justify-center mx-auto mb-4">
           {formData.authMethod === 'phone' ? (

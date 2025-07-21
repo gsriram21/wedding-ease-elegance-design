@@ -12,10 +12,29 @@ const Navigation = () => {
   const { user, signOut } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const userDropdownRef = useRef<HTMLDivElement>(null);
+  const aboutDropdownRef = useRef<HTMLDivElement>(null);
 
   // Don't show user profile if we're in signup mode
   const isSignupMode = location.pathname === '/auth' && location.search.includes('mode=signup');
   const shouldShowProfile = user && !isSignupMode;
+
+  // Handle click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
+        setAboutDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const aboutMenuItems = [
     {
@@ -101,7 +120,7 @@ const Navigation = () => {
               </button>
               
               {/* About Dropdown */}
-              <div className="relative">
+              <div className="relative" ref={aboutDropdownRef}>
                 <button 
                   onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
                   className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm flex items-center gap-1"
@@ -170,7 +189,7 @@ const Navigation = () => {
           <div className="flex justify-end flex-1 items-center gap-6">
             {shouldShowProfile ? (
               // Authenticated user
-              <div className="relative">
+              <div className="relative" ref={userDropdownRef}>
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className="flex items-center gap-2 p-1.5 rounded-full hover:bg-luxury-dusty-rose/10 transition-colors duration-200"

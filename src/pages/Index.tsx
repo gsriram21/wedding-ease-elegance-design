@@ -8,7 +8,7 @@ import Navigation from "@/components/Navigation";
 
 const Index = () => {
   return (
-    <div className="min-h-screen luxury-gradient">
+    <div className="luxury-gradient">
       <Navigation />
       <Hero />
       <Services />

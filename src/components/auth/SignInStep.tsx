@@ -78,12 +78,12 @@ const SignInStep: React.FC<SignInStepProps> = ({ onSwitchToSignUp }) => {
 
 
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-luxury-taupe/20 p-6 max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <h1 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-2">
+    <div className="max-w-2xl mx-auto">
+      <div className="text-center mb-8">
+        <h1 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-3">
           Welcome Back
         </h1>
-        <p className="text-luxury-data-supporting">
+        <p className="text-luxury-data-supporting text-lg">
           Sign in to continue with your consultation
         </p>
       </div>
@@ -165,7 +165,7 @@ const SignInStep: React.FC<SignInStepProps> = ({ onSwitchToSignUp }) => {
       )}
 
       {/* Form Fields */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email Fields */}
         {authMethod === 'email' && (
           <>

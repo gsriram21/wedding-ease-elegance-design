@@ -8,37 +8,8 @@ interface SuccessStepProps {
 }
 
 const SuccessStep: React.FC<SuccessStepProps> = ({ onNext, formData }) => {
-  const [showConfetti, setShowConfetti] = useState(false);
-
-  useEffect(() => {
-    // Trigger confetti animation
-    setShowConfetti(true);
-    const timer = setTimeout(() => setShowConfetti(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <div className="relative min-h-[500px] flex items-center justify-center">
-      {/* Simple Confetti Animation */}
-      {showConfetti && (
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute animate-pulse"
-              style={{
-                left: `${20 + Math.random() * 60}%`,
-                top: `${20 + Math.random() * 60}%`,
-                animationDelay: `${i * 0.3}s`,
-                animationDuration: `2s`
-              }}
-            >
-              <Sparkles className="w-6 h-6 text-luxury-dusty-rose opacity-40" />
-            </div>
-          ))}
-        </div>
-      )}
-
+    <div className="min-h-[500px] flex items-center justify-center">
       {/* Main Content */}
       <div className="text-center max-w-md mx-auto px-6">
         {/* Success Icon */}
@@ -46,21 +17,16 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ onNext, formData }) => {
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
-          <div className="flex items-center justify-center gap-2 text-luxury-dusty-rose">
-            <Heart className="w-5 h-5 fill-current" />
-            <span className="text-luxury-data-supporting">Welcome to the family!</span>
-            <Heart className="w-5 h-5 fill-current" />
-          </div>
+
         </div>
 
         {/* Welcome Message */}
-        <h1 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-4">
-          Welcome to Wedding Ease!
+        <h1 className="font-luxury-serif text-2xl sm:text-3xl font-bold text-luxury-maroon mb-4 text-center">
+          Welcome to Wedding&nbsp;Ease!
         </h1>
         
-        <p className="text-luxury-data-supporting text-lg mb-8 leading-relaxed">
-          Your journey to the perfect wedding starts here, {formData.name?.split(' ')[0] || 'there'}! 
-          Let's create something magical together.
+        <p className="text-luxury-data-supporting text-base sm:text-lg mb-8 text-center max-w-md mx-auto">
+          Your journey to the perfect wedding starts&nbsp;here, {formData.name?.split(' ')[0] || 'there'}!
         </p>
 
         {/* Beautiful Visual Elements */}
@@ -89,10 +55,7 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ onNext, formData }) => {
           ✨ Enter My Account ✨
         </Button>
 
-        {/* Subtle footer message */}
-        <p className="font-luxury-sans text-xs text-luxury-maroon/50 mt-6">
-          Your dream wedding awaits inside
-        </p>
+
       </div>
     </div>
   );

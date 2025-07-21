@@ -120,7 +120,7 @@ const Auth = () => {
         return (
           <SuccessStep
             formData={formData}
-            onComplete={() => navigate('/account')}
+            onNext={() => navigate('/account')}
           />
         );
       default:
@@ -133,48 +133,52 @@ const Auth = () => {
       <Navigation />
       
       <div className={`px-4 min-h-screen flex flex-col ${currentStep === 'booking' ? 'pt-24 pb-8' : 'pt-32 pb-16 justify-center'}`}>
-        <div className="max-w-4xl mx-auto w-full">
-          {/* Progress Bar - Show for all signup flow steps */}
-          {!isSignInMode && (
-            <div className="mb-0 bg-white/80 backdrop-blur-sm rounded-t-xl border border-luxury-taupe/20 border-b-0 p-6">
-              <div className="flex justify-between items-center mb-4">
-                {steps.map((step, index) => (
-                  <div key={step.id} className="flex flex-col items-center flex-1 relative">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-2 transition-all duration-300 ${
-                      index <= getCurrentStepIndex()
-                        ? 'bg-luxury-dusty-rose text-white shadow-md'
-                        : 'bg-luxury-taupe/30 text-luxury-maroon/60 border-2 border-luxury-taupe/40'
-                    }`}>
-                      {index + 1}
+        <div className="max-w-5xl mx-auto w-full">
+          {/* Unified Single Container */}
+          <div className="relative bg-white/80 backdrop-blur-sm rounded-xl border border-luxury-taupe/20 shadow-xl p-8 lg:p-12">
+            
+            {/* Progress Bar - Show for all signup flow steps */}
+            {!isSignInMode && (
+              <div className="mb-8">
+                <div className="flex justify-between items-center mb-6">
+                  {steps.map((step, index) => (
+                    <div key={step.id} className="flex flex-col items-center flex-1 relative">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm mb-3 transition-all duration-300 ${
+                        index <= getCurrentStepIndex()
+                          ? 'bg-luxury-dusty-rose text-white shadow-lg'
+                          : 'bg-luxury-taupe/30 text-luxury-maroon/60 border-2 border-luxury-taupe/40'
+                      }`}>
+                        {index + 1}
+                      </div>
+                      <span className={`font-luxury-sans text-sm font-medium text-center transition-all duration-300 ${
+                        index <= getCurrentStepIndex()
+                          ? 'text-luxury-maroon'
+                          : 'text-luxury-maroon/50'
+                      }`}>
+                        {step.title}
+                      </span>
+                      {/* Connecting line between steps */}
+                      {index < steps.length - 1 && (
+                        <div className="absolute left-[calc(50%+24px)] top-6 w-[calc(100%-48px)] h-0.5 bg-luxury-taupe/20"></div>
+                      )}
                     </div>
-                    <span className={`font-luxury-sans text-sm font-medium text-center transition-all duration-300 ${
-                      index <= getCurrentStepIndex()
-                        ? 'text-luxury-maroon'
-                        : 'text-luxury-maroon/50'
-                    }`}>
-                      {step.title}
-                    </span>
-                    {/* Connecting line between steps */}
-                    {index < steps.length - 1 && (
-                      <div className="absolute left-[calc(50%+20px)] top-5 w-[calc(100%-40px)] h-0.5 bg-luxury-taupe/20"></div>
-                    )}
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="w-full bg-luxury-taupe/20 rounded-full h-2 overflow-hidden mb-8">
+                  <div 
+                    className="h-full bg-gradient-to-r from-luxury-dusty-rose to-luxury-maroon transition-all duration-500 ease-out rounded-full"
+                    style={{ width: `${((getCurrentStepIndex() + 1) / steps.length) * 100}%` }}
+                  ></div>
+                </div>
               </div>
-              <div className="w-full bg-luxury-taupe/20 rounded-full h-2 overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-luxury-dusty-rose to-luxury-maroon transition-all duration-500 ease-out rounded-full"
-                  style={{ width: `${((getCurrentStepIndex() + 1) / steps.length) * 100}%` }}
-                ></div>
-              </div>
+            )}
+
+            {/* Step Content */}
+            <div className="relative">
+              {renderStep()}
             </div>
-          )}
 
-          {/* Step Content - Unified with progress bar */}
-          <div className={`relative ${!isSignInMode ? 'bg-white/80 backdrop-blur-sm rounded-b-xl border border-luxury-taupe/20 border-t-0 p-8' : ''}`}>
-            {renderStep()}
-
-            {/* Back Button - Only show for multi-step signup flow */}
+            {/* Navigation Buttons - Outside the main container for better positioning */}
             {!isSignInMode && currentStep !== 'auth' && currentStep !== 'success' && (
               <button
                 onClick={handlePrevious}
@@ -184,7 +188,6 @@ const Auth = () => {
               </button>
             )}
 
-            {/* Forward Button - Only show for multi-step signup flow */}
             {!isSignInMode && currentStep !== 'success' && (
               <button
                 onClick={handleNext}

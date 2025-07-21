@@ -48,6 +48,8 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
     if (!formData.name) errors.push('Full name is required');
     else if (formData.name.length < 2) errors.push('Name must be at least 2 characters');
 
+    if (!agreeToTerms) errors.push('Please agree to the Terms of Service and Privacy Policy');
+
     setValidationErrors(errors);
     return errors.length === 0;
   };
@@ -102,16 +104,15 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
   };
 
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email');
-  const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
 
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-luxury-taupe/20 p-6 max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <h1 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-2">
+    <div className="max-w-2xl mx-auto">
+      <div className="text-center mb-8">
+        <h1 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-3">
           Create Your Account
         </h1>
-        <p className="text-luxury-data-supporting">
+        <p className="text-luxury-data-supporting text-lg">
           Join us to plan your perfect wedding
         </p>
       </div>
@@ -119,7 +120,7 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
       {/* Step Preview - REMOVED: Now shown in main progress banner */}
       
       {/* Main Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Full Name */}
         <div className="relative">
           <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -142,13 +143,29 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
           <div className="text-center">
-            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <User className="w-6 h-6 text-gray-400" />
-            </div>
-            <p className="text-luxury-data-secondary">
-              {profilePicture ? profilePicture.name : 'Click to upload profile picture'}
-            </p>
-            <p className="text-luxury-caption mt-1">Optional • PNG, JPG up to 5MB</p>
+            {formData.profileImage ? (
+              <div className="flex flex-col items-center">
+                <img 
+                  src={URL.createObjectURL(formData.profileImage)} 
+                  alt="Profile preview" 
+                  className="w-16 h-16 rounded-full object-cover mx-auto mb-2 border-2 border-luxury-dusty-rose"
+                />
+                <p className="text-luxury-data-secondary text-sm">
+                  {formData.profileImage.name}
+                </p>
+                <p className="text-luxury-caption text-xs text-green-600 mt-1">✓ Image uploaded successfully</p>
+              </div>
+            ) : (
+              <div>
+                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <User className="w-6 h-6 text-gray-400" />
+                </div>
+                <p className="text-luxury-data-secondary">
+                  Click to upload profile picture
+                </p>
+                <p className="text-luxury-caption mt-1">Optional • PNG, JPG up to 5MB</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -221,46 +238,48 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
           </div>
         )}
 
-        {/* Password Fields */}
-        <div className="space-y-3">
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-luxury-maroon focus:border-luxury-maroon text-sm font-luxury-sans"
-              placeholder="Create a password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
-          </div>
+        {/* Password Fields - Only show for email auth */}
+        {authMethod === 'email' && (
+          <div className="space-y-3">
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-luxury-maroon focus:border-luxury-maroon text-sm font-luxury-sans"
+                placeholder="Create a password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
 
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-luxury-maroon focus:border-luxury-maroon text-sm font-luxury-sans"
-              placeholder="Confirm your password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-luxury-maroon focus:border-luxury-maroon text-sm font-luxury-sans"
+                placeholder="Confirm your password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
                  {/* Terms Agreement */}
          <div className="flex items-start gap-3">
@@ -287,7 +306,7 @@ const SignUpStep: React.FC<SignUpStepProps> = ({ formData, updateFormData, onNex
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || !agreeToTerms}
           className="w-full bg-luxury-maroon hover:bg-luxury-burgundy text-white text-luxury-button-primary py-3 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
         >
           {loading ? 'Creating Account...' : 'Create Account'}

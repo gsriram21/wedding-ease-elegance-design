@@ -37,15 +37,15 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="luxury-spacing bg-luxury-dark-brown text-luxury-ivory">
+    <section id="contact" className="pt-24 lg:pt-32 pb-0 bg-white text-luxury-maroon">
       <div className="luxury-container">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
-            <h2 className="font-luxury-serif font-bold text-5xl md:text-6xl mb-8 tracking-tight">
+            <h2 className="font-luxury-serif font-bold text-5xl md:text-6xl mb-8 tracking-tight text-luxury-maroon">
               Let's Create Your Perfect Wedding
             </h2>
             <div className="w-24 h-px bg-luxury-dusty-rose mb-8" />
-            <p className="font-luxury-sans text-xl md:text-2xl mb-12 leading-relaxed-luxury text-luxury-ivory/80">
+            <p className="font-luxury-sans text-xl md:text-2xl mb-12 leading-relaxed-luxury text-luxury-maroon/80">
               Ready to begin planning the wedding of your dreams? Contact us today 
               for a complimentary consultation and let's start bringing your vision to life.
             </p>
@@ -58,8 +58,8 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-luxury-sans font-semibold text-luxury-ivory tracking-wide uppercase text-sm mb-1">Phone</p>
-                  <p className="font-luxury-sans text-luxury-ivory/80 text-lg">+1 (555) 123-4567</p>
+                  <p className="font-luxury-sans font-semibold text-luxury-maroon tracking-wide uppercase text-sm mb-1">Phone</p>
+                  <p className="font-luxury-sans text-luxury-maroon/80 text-lg">+1 (555) 123-4567</p>
                 </div>
               </div>
               
@@ -70,8 +70,8 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-luxury-sans font-semibold text-luxury-ivory tracking-wide uppercase text-sm mb-1">Email</p>
-                  <p className="font-luxury-sans text-luxury-ivory/80 text-lg">hello@weddingease.com</p>
+                  <p className="font-luxury-sans font-semibold text-luxury-maroon tracking-wide uppercase text-sm mb-1">Email</p>
+                  <p className="font-luxury-sans text-luxury-maroon/80 text-lg">hello@weddingease.com</p>
                 </div>
               </div>
               
@@ -83,16 +83,16 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-luxury-sans font-semibold text-luxury-ivory tracking-wide uppercase text-sm mb-1">Office</p>
-                  <p className="font-luxury-sans text-luxury-ivory/80 text-lg">Beverly Hills, California</p>
+                  <p className="font-luxury-sans font-semibold text-luxury-maroon tracking-wide uppercase text-sm mb-1">Office</p>
+                  <p className="font-luxury-sans text-luxury-maroon/80 text-lg">Beverly Hills, California</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
-            <div className="bg-luxury-ivory/10 backdrop-blur-sm rounded-lg p-12 border border-luxury-dusty-rose/20">
-              <h3 className="font-luxury-serif font-bold text-3xl md:text-4xl text-luxury-ivory mb-8 tracking-tight">
+            <div className="bg-white/60 backdrop-blur-sm rounded-lg p-12 border border-luxury-dusty-rose/20 shadow-xl">
+              <h3 className="font-luxury-serif font-bold text-3xl md:text-4xl text-luxury-maroon mb-8 tracking-tight">
                 Book Your Consultation
               </h3>
               
@@ -101,13 +101,13 @@ const Contact = () => {
                   <input
                     type="text"
                     placeholder="First Name"
-                    className="w-full px-6 py-4 bg-luxury-ivory/10 border border-luxury-ivory/20 rounded-lg placeholder-luxury-ivory/70 text-luxury-ivory font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose/50 transition-colors duration-300"
+                    className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                     required
                   />
                   <input
                     type="text"
                     placeholder="Last Name"
-                    className="w-full px-6 py-4 bg-luxury-ivory/10 border border-luxury-ivory/20 rounded-lg placeholder-luxury-ivory/70 text-luxury-ivory font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose/50 transition-colors duration-300"
+                    className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                     required
                   />
                 </div>
@@ -115,26 +115,26 @@ const Contact = () => {
                 <input
                   type="email"
                   placeholder="Email Address"
-                  className="w-full px-6 py-4 bg-luxury-ivory/10 border border-luxury-ivory/20 rounded-lg placeholder-luxury-ivory/70 text-luxury-ivory font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose/50 transition-colors duration-300"
+                  className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                   required
                 />
                 
                 <input
                   type="tel"
                   placeholder="Phone Number"
-                  className="w-full px-6 py-4 bg-luxury-ivory/10 border border-luxury-ivory/20 rounded-lg placeholder-luxury-ivory/70 text-luxury-ivory font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose/50 transition-colors duration-300"
+                  className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                 />
                 
                 <input
                   type="date"
                   placeholder="Wedding Date"
-                  className="w-full px-6 py-4 bg-luxury-ivory/10 border border-luxury-ivory/20 rounded-lg placeholder-luxury-ivory/70 text-luxury-ivory font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose/50 transition-colors duration-300"
+                  className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 transition-colors duration-300"
                 />
                 
                 <textarea
                   placeholder="Tell us about your dream wedding..."
                   rows={4}
-                  className="w-full px-6 py-4 bg-luxury-ivory/10 border border-luxury-ivory/20 rounded-lg placeholder-luxury-ivory/70 text-luxury-ivory font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose/50 resize-none transition-colors duration-300"
+                  className="w-full px-6 py-4 bg-white/80 border border-luxury-maroon/20 rounded-lg placeholder-luxury-maroon/60 text-luxury-maroon font-luxury-sans focus:outline-none focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/30 resize-none transition-colors duration-300"
                 ></textarea>
                 
                 <Button 
@@ -149,13 +149,13 @@ const Contact = () => {
         </div>
       </div>
       
-      <footer className="mt-24 pt-12 border-t border-luxury-ivory/20 text-center relative overflow-hidden">
-        {/* Elegant Wedding Rings Watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      <footer className="mt-24 pt-16 pb-8 mb-0 bg-gradient-to-br from-luxury-ivory via-luxury-soft-pink to-luxury-blush relative overflow-hidden border-t border-luxury-maroon/10">
+        {/* Elegant Wedding Rings Watermark - Positioned at top */}
+        <div className="absolute top-8 right-8 pointer-events-none overflow-hidden opacity-15">
           <div className="relative">
             {/* Main Ring Composition */}
             <svg 
-              className="w-96 h-96 text-luxury-dusty-rose/30" 
+              className="w-48 h-48 text-luxury-maroon/60" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 300 300"
@@ -205,52 +205,304 @@ const Contact = () => {
                 />
                 <circle cx="130" cy="115" r="2" fill="currentColor" className="opacity-90" />
               </g>
-              
-              {/* Subtle Sparkle Effects */}
-              <g className="opacity-50">
-                <path d="M110,130 L115,135 L110,140 L105,135 Z" fill="currentColor" className="opacity-60" />
-                <path d="M190,130 L195,135 L190,140 L185,135 Z" fill="currentColor" className="opacity-60" />
-                <path d="M150,110 L155,115 L150,120 L145,115 Z" fill="currentColor" className="opacity-40" />
-                <path d="M150,180 L155,185 L150,190 L145,185 Z" fill="currentColor" className="opacity-40" />
-              </g>
-              
-              {/* Delicate Flourishes */}
-              <g className="opacity-30" strokeWidth="1">
-                <path d="M80,150 Q100,130 120,150" stroke="currentColor" fill="none" />
-                <path d="M180,150 Q200,130 220,150" stroke="currentColor" fill="none" />
-                <path d="M150,100 Q130,120 150,140" stroke="currentColor" fill="none" />
-                <path d="M150,160 Q170,180 150,200" stroke="currentColor" fill="none" />
-              </g>
             </svg>
+          </div>
+        </div>
+
+        {/* Main Footer Content */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-12 relative z-10">
+          {/* Newsletter Signup Section */}
+          <div className="mb-16 text-center bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-luxury-maroon/10 shadow-xl">
+            <h3 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">
+              Stay Connected with Wedding Ease
+            </h3>
+            <p className="font-luxury-sans text-lg text-luxury-maroon/80 mb-6 max-w-2xl mx-auto">
+              Get exclusive wedding inspiration, vendor spotlights, and early access to new products delivered to your inbox.
+            </p>
+            <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+              <input 
+                type="email"
+                placeholder="Enter your email address"
+                className="flex-1 px-4 py-3 rounded-lg text-luxury-maroon placeholder:text-luxury-maroon/60 border border-luxury-maroon/20 focus:ring-2 focus:ring-luxury-dusty-rose/30 focus:border-luxury-dusty-rose"
+              />
+              <button className="bg-luxury-maroon text-white px-6 py-3 rounded-lg hover:bg-luxury-burgundy transition-colors duration-300 font-luxury-sans font-medium">
+                Subscribe Now
+              </button>
+            </div>
+          </div>
+
+          {/* Footer Links Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
             
-            {/* Secondary decorative elements */}
-            <div className="absolute top-0 left-0 w-full h-full">
-              <svg 
-                className="w-full h-full text-luxury-dusty-rose/20" 
-                fill="none" 
-                viewBox="0 0 300 300"
-              >
-                {/* Corner Ornamental Details */}
-                <g className="opacity-40">
-                  <circle cx="50" cy="50" r="3" fill="currentColor" />
-                  <circle cx="250" cy="50" r="3" fill="currentColor" />
-                  <circle cx="50" cy="250" r="3" fill="currentColor" />
-                  <circle cx="250" cy="250" r="3" fill="currentColor" />
-                </g>
-                
-                {/* Delicate connecting lines */}
-                <g className="opacity-20" strokeWidth="0.5">
-                  <path d="M50,50 Q150,100 250,50" stroke="currentColor" fill="none" />
-                  <path d="M50,250 Q150,200 250,250" stroke="currentColor" fill="none" />
-                </g>
-              </svg>
+            {/* Get to Know Us */}
+            <div>
+              <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-6">
+                Get to Know Us
+              </h4>
+              <ul className="space-y-4">
+                <li>
+                  <a 
+                    href="/about/founder-story" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    About Wedding Ease
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/about/founder-story" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Founder's Story
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/blog" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Wedding Blog
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="mailto:careers@weddingease.com" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="mailto:press@weddingease.com" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Press & Media
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/sustainability" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Sustainability
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Connect with Us */}
+            <div>
+              <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-6">
+                Connect with Us
+              </h4>
+              <ul className="space-y-4">
+                <li>
+                  <a 
+                    href="https://www.facebook.com/weddingease.io" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Facebook
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://instagram.com/weddingease" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Instagram
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://x.com/TheWeddingEase" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    X (Twitter)
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://tiktok.com/@weddingease" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    TikTok
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Sell with Wedding Ease */}
+            <div>
+              <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-6">
+                Sell with Wedding Ease
+              </h4>
+              <ul className="space-y-4">
+                <li>
+                  <a 
+                    href="/vendor/apply" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Become a Vendor
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/vendor/marketplace" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Marketplace Program
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/vendor/accelerator" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Vendor Accelerator
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/vendor/fulfillment" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Fulfillment Services
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/vendor/advertising" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Advertise Your Products
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/vendor/support" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Vendor Support Center
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Help & Support */}
+            <div>
+              <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-6">
+                Help & Support
+              </h4>
+              <ul className="space-y-4">
+                <li>
+                  <a 
+                    href="/account" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Your Account
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/account?section=order" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Order History
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/returns" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Returns & Exchanges
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/shipping" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Shipping Information
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/help" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    FAQ & Help Center
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="/contact" 
+                    className="font-luxury-sans text-luxury-maroon/70 hover:text-luxury-maroon transition-colors duration-300 text-sm"
+                  >
+                    Contact Customer Care
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-luxury-maroon/20 pt-8">
+            {/* Legal Links & Copyright */}
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+              <div className="flex flex-wrap gap-6">
+                <a 
+                  href="/terms" 
+                  className="font-luxury-sans text-luxury-maroon/60 hover:text-luxury-maroon text-xs transition-colors duration-300"
+                >
+                  Terms of Service
+                </a>
+                <a 
+                  href="/privacy" 
+                  className="font-luxury-sans text-luxury-maroon/60 hover:text-luxury-maroon text-xs transition-colors duration-300"
+                >
+                  Privacy Policy
+                </a>
+                <a 
+                  href="/cookies" 
+                  className="font-luxury-sans text-luxury-maroon/60 hover:text-luxury-maroon text-xs transition-colors duration-300"
+                >
+                  Cookie Policy
+                </a>
+                <a 
+                  href="/accessibility" 
+                  className="font-luxury-sans text-luxury-maroon/60 hover:text-luxury-maroon text-xs transition-colors duration-300"
+                >
+                  Accessibility
+                </a>
+                <a 
+                  href="/intellectual-property" 
+                  className="font-luxury-sans text-luxury-maroon/60 hover:text-luxury-maroon text-xs transition-colors duration-300"
+                >
+                  Intellectual Property
+                </a>
+              </div>
+
+              <div className="text-center lg:text-right">
+                <p className="font-luxury-sans text-luxury-maroon/60 text-xs mb-1">
+                  © 2024 Wedding Ease. All rights reserved.
+                </p>
+                <p className="font-luxury-sans text-luxury-maroon/50 text-xs">
+                  Creating luxury weddings worldwide with love and dedication.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        
-        <p className="font-luxury-sans text-luxury-ivory/70 tracking-wide relative z-10">
-          © 2024 Wedding Ease. All rights reserved. Creating luxury weddings worldwide.
-        </p>
       </footer>
     </section>
   );

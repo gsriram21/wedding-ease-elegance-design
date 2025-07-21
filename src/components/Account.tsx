@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingBag, MessageCircle, User, Calendar, LogOut, ChevronLeft, ChevronRight, Plus, X, Check, Truck, Package, Clock, MapPin, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import Navigation from "./Navigation";
 import Bookings from "./Bookings";
 import UnifiedCheckout from "./UnifiedCheckout";
@@ -61,6 +62,8 @@ interface Order {
 }
 
 const Account = () => {
+  const { user } = useAuth();
+  
   // Check URL params for section to activate
   const urlParams = new URLSearchParams(window.location.search);
   const initialSection = urlParams.get('section') || "enquiries";
@@ -2203,8 +2206,8 @@ const Account = () => {
                 <User className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="text-luxury-profile-name">Shilpa Parikh</h3>
-                <p className="text-luxury-caption text-luxury-maroon/60">Active Member</p>
+                <h3 className="text-luxury-profile-name">{user?.displayName || 'Guest User'}</h3>
+                <p className="text-luxury-caption text-luxury-maroon/60">Premium Package</p>
               </div>
             </div>
           </div>
