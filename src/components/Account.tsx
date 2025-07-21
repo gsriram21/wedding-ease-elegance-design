@@ -2091,15 +2091,23 @@ const Account = () => {
         );
       case "bookings":
         return (
-          <div className="h-[calc(100vh-5rem)]">
-            <Bookings />
+          <div className="h-full">
+            <div className="mb-8">
+              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Bookings</h2>
+              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
+                Schedule consultations with our expert wedding planners and manage your upcoming sessions.
+              </p>
+            </div>
+            <div className="h-[calc(100vh-12rem)]">
+              <Bookings />
+            </div>
           </div>
         );
       case "packages":
         return (
           <div className="h-full overflow-y-auto">
             <div className="mb-8">
-              <h2 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-4">My Package</h2>
+              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">My Package</h2>
               <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
                 Experience authentic Indian weddings with our exclusive packages featuring personal planning visits to India.
               </p>
