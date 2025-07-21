@@ -694,7 +694,7 @@ const Account = () => {
     { id: "wishlist", label: "Wishlist", title: "Wishlist", icon: Heart, active: false },
     { id: "order", label: "Order", title: "Orders", icon: ShoppingBag, active: false },
     { id: "bookings", label: "Bookings", title: "Bookings", icon: Calendar, active: false },
-    { id: "packages", label: "My Package", title: "My Package", icon: Package, active: false },
+    { id: "packages", label: "Package", title: "Package", icon: Package, active: false },
     { id: "profile", label: "Profile", title: "Profile", icon: User, active: false }
   ];
 
@@ -2107,7 +2107,7 @@ const Account = () => {
         return (
           <div className="h-full overflow-y-auto">
             <div className="mb-8">
-              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">My Package</h2>
+              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Package</h2>
               <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
                 Experience authentic Indian weddings with our exclusive packages featuring personal planning visits to India.
               </p>

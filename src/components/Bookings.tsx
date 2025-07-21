@@ -176,47 +176,37 @@ const Bookings = () => {
   };
 
   const renderNewBooking = () => (
-    <div className="max-w-4xl mx-auto space-y-8">
-      {/* Calendly-style Header */}
-      <div className="text-center">
-        <h2 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-4">
-          Book Your Wedding Consultation
-        </h2>
-        <p className="font-luxury-sans text-luxury-maroon/70 text-lg max-w-2xl mx-auto">
-          Select a time that works for you and get expert guidance for your special day
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Left: Calendar and Time Selection */}
-        <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-4">
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Left: Date Selection - Compact */}
+        <div className="lg:col-span-1 space-y-4">
           {/* Date Selection */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-            <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Select Date</h3>
-            <div className="flex items-center justify-between mb-4">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20">
+            <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-3">Select Date</h3>
+            <div className="flex items-center justify-between mb-3">
               <button
                 onClick={() => setSelectedWeek(selectedWeek - 1)}
                 className="p-2 hover:bg-luxury-taupe/10 rounded-lg transition-colors"
                 disabled={selectedWeek <= 0}
               >
-                <ArrowLeft className="w-5 h-5 text-luxury-maroon" />
+                <ArrowLeft className="w-4 h-4 text-luxury-maroon" />
               </button>
-              <span className="font-luxury-sans font-medium text-luxury-maroon">
+              <span className="font-luxury-sans font-medium text-luxury-maroon text-sm">
                 {getWeekDates(selectedWeek)[0].toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
               </span>
               <button
                 onClick={() => setSelectedWeek(selectedWeek + 1)}
                 className="p-2 hover:bg-luxury-taupe/10 rounded-lg transition-colors"
               >
-                <ArrowRight className="w-5 h-5 text-luxury-maroon" />
+                <ArrowRight className="w-4 h-4 text-luxury-maroon" />
               </button>
             </div>
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1">
               {getWeekDates(selectedWeek).map((date, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedDate(date)}
-                  className={`p-3 text-center hover:bg-luxury-dusty-rose/20 rounded-lg transition-all duration-200 group ${
+                  className={`p-2 text-center hover:bg-luxury-dusty-rose/20 rounded-lg transition-all duration-200 group ${
                     selectedDate?.toDateString() === date.toDateString()
                       ? 'bg-luxury-dusty-rose/10 border border-luxury-dusty-rose'
                       : 'border border-transparent hover:border-luxury-dusty-rose/30'
@@ -232,21 +222,23 @@ const Bookings = () => {
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Time Selection - Always shown */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-luxury-taupe/20">
-            <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Available Times</h3>
+        {/* Center: Time Selection */}
+        <div className="lg:col-span-1 space-y-4">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20">
+            <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-3">Available Times</h3>
             {!selectedDate ? (
-              <p className="text-luxury-maroon/60 font-luxury-sans text-center py-8">
+              <p className="text-luxury-maroon/60 font-luxury-sans text-center py-6 text-sm">
                 Please select a date to view available times
               </p>
             ) : (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-2">
               {timeSlots.map((time) => (
                 <button
                   key={time}
                   onClick={() => setSelectedTimeSlot(time)}
-                  className={`p-3 rounded-lg border transition-all duration-200 font-luxury-sans ${
+                  className={`p-3 rounded-lg border transition-all duration-200 font-luxury-sans text-sm ${
                     selectedTimeSlot === time
                       ? 'bg-luxury-dusty-rose text-white border-luxury-dusty-rose'
                       : 'bg-white border-luxury-taupe/30 text-luxury-maroon hover:border-luxury-dusty-rose/50'
@@ -261,30 +253,29 @@ const Bookings = () => {
         </div>
 
         {/* Right: Booking Summary */}
-        <div className="space-y-6">
-          {/* Booking Summary */}
+        <div className="lg:col-span-1 space-y-4">
           {selectedTimeSlot && selectedDate && (
-            <div className="bg-luxury-dusty-rose/10 backdrop-blur-sm rounded-xl p-6 border border-luxury-dusty-rose/30">
-              <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-4">Booking Summary</h3>
-              <div className="space-y-3">
+            <div className="bg-luxury-dusty-rose/10 backdrop-blur-sm rounded-xl p-4 border border-luxury-dusty-rose/30">
+              <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-3">Booking Summary</h3>
+              <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-luxury-maroon/70 font-luxury-sans">Date:</span>
-                  <span className="font-medium text-luxury-maroon">{selectedDate.toLocaleDateString()}</span>
+                  <span className="text-luxury-maroon/70 font-luxury-sans text-sm">Date:</span>
+                  <span className="font-medium text-luxury-maroon text-sm">{selectedDate.toLocaleDateString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-luxury-maroon/70 font-luxury-sans">Time:</span>
-                  <span className="font-medium text-luxury-maroon">{selectedTimeSlot}</span>
+                  <span className="text-luxury-maroon/70 font-luxury-sans text-sm">Time:</span>
+                  <span className="font-medium text-luxury-maroon text-sm">{selectedTimeSlot}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-luxury-maroon/70 font-luxury-sans">Duration:</span>
-                  <span className="font-medium text-luxury-maroon">60 minutes</span>
+                  <span className="text-luxury-maroon/70 font-luxury-sans text-sm">Duration:</span>
+                  <span className="font-medium text-luxury-maroon text-sm">60 minutes</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-luxury-maroon/70 font-luxury-sans">Type:</span>
-                  <span className="font-medium text-luxury-maroon">Video Call</span>
+                  <span className="text-luxury-maroon/70 font-luxury-sans text-sm">Type:</span>
+                  <span className="font-medium text-luxury-maroon text-sm">Video Call</span>
                 </div>
               </div>
-              <Button className="w-full mt-6 bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white">
+              <Button className="w-full mt-4 bg-luxury-dusty-rose hover:bg-luxury-dusty-rose/90 text-white">
                 Confirm Booking
               </Button>
             </div>
