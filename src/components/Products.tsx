@@ -576,11 +576,11 @@ const Products = () => {
   };
 
   const handleBuyNow = (product: Product) => {
-    // Close modal and open checkout directly
+    // Close modal and navigate to account checkout
     setIsModalOpen(false);
     setSelectedProduct(null);
     
-    // Set checkout products and show checkout
+    // Navigate to account checkout with product data
     const checkoutProduct = {
       id: product.id,
       name: product.name,
@@ -589,10 +589,14 @@ const Products = () => {
       category: product.category,
       quantity: 1
     };
-    setCheckoutProducts([checkoutProduct]);
-    setShowCheckout(true);
     
-    showToast(`Opening secure checkout for ${product.name}`);
+    // Store product data in localStorage for account page to access
+    localStorage.setItem('weddingease_checkout_product', JSON.stringify(checkoutProduct));
+    
+    // Navigate to account checkout
+    navigate('/account?section=checkout');
+    
+    showToast(`Proceeding to secure checkout for ${product.name}`);
   };
 
   const handleGetPrice = (product: Product) => {

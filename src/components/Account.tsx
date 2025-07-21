@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingBag, MessageCircle, User, Calendar, LogOut, ChevronLeft, ChevronRight, Plus, X, Check, Truck, Package, Clock, MapPin, CreditCard } from "lucide-react";
+import { Heart, ShoppingBag, MessageCircle, User, Calendar, LogOut, ChevronLeft, ChevronRight, Plus, X, Check, Truck, Package, Clock, MapPin, CreditCard, Sparkles, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Navigation from "./Navigation";
 import Bookings from "./Bookings";
-import UnifiedCheckout from "./UnifiedCheckout";
 
 interface Product {
   id: number;
@@ -99,7 +98,15 @@ const Account = () => {
   const [selectedChatProducts, setSelectedChatProducts] = useState<number[]>([]);
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [showCheckout, setShowCheckout] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<{
+    id: number;
+    name: string;
+    price: string;
+    image: string;
+    category: string;
+    quantity?: number;
+  } | null>(null);
+
   const [wishlists, setWishlists] = useState<Wishlist[]>([
     {
       id: "1",
@@ -327,12 +334,26 @@ const Account = () => {
 
   // Add handlers for pending orders
   const handleAcceptOrder = (orderId: string) => {
-    console.log('Accepting order:', orderId);
-    // Here you would typically make an API call to accept the order
-    // For now, we'll just show a notification
-    setNotificationMessage('Order accepted! Proceeding to payment...');
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
+    // Find the order to get product details
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+      // Create checkout product from order
+      const orderProduct = {
+        id: parseInt(orderId),
+        name: order.items[0]?.name || `Order #${orderId}`,
+        price: order.total,
+        image: order.items[0]?.image || '/images/celebration-new-1.jpg',
+        category: 'Order Payment',
+        quantity: 1
+      };
+      
+      setSelectedPackage(orderProduct);
+      handleSectionChange('checkout');
+      
+      setNotificationMessage('Proceeding to payment for your order...');
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000);
+    }
   };
 
   const handleRejectOrder = (orderId: string) => {
@@ -355,6 +376,20 @@ const Account = () => {
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 300);
     
+    // Check for product data from localStorage when accessing checkout
+    if (initialSection === 'checkout') {
+      const productData = localStorage.getItem('weddingease_checkout_product');
+      if (productData) {
+        try {
+          const product = JSON.parse(productData);
+          setSelectedPackage(product);
+          localStorage.removeItem('weddingease_checkout_product'); // Clean up
+        } catch (error) {
+          console.error('Error parsing checkout product data:', error);
+        }
+      }
+    }
+    
     // Listen for browser navigation (back/forward buttons)
     const handlePopState = () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -368,7 +403,7 @@ const Account = () => {
       clearTimeout(timer);
       window.removeEventListener('popstate', handlePopState);
     };
-  }, []);
+  }, [initialSection]);
 
   // Update URL when activeSection changes
   const handleSectionChange = (newSection: string) => {
@@ -1832,7 +1867,7 @@ const Account = () => {
                               className="bg-green-600 hover:bg-green-700 text-white"
                             >
                               <Check className="w-4 h-4 mr-2" />
-                              Accept
+                              Pay Now
                             </Button>
                             <Button
                               onClick={() => handleRejectOrder(order.id)}
@@ -2062,126 +2097,368 @@ const Account = () => {
         );
       case "packages":
         return (
-          <div className="h-full">
+          <div className="h-full overflow-y-auto">
             <div className="mb-8">
-              <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">My Package</h2>
+              <h2 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-4">My Package</h2>
               <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
-                Manage your wedding planning package, view included services, and explore upgrade options.
+                Experience authentic Indian weddings with our exclusive packages featuring personal planning visits to India.
               </p>
             </div>
 
-            {/* Current Package */}
-            <div className="bg-gradient-to-br from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-8 mb-8 border border-luxury-dusty-rose/30">
-              <div className="flex items-center justify-between mb-6">
+            {/* Current Package Status */}
+            <div className="bg-gradient-to-br from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-6 mb-8 border border-luxury-dusty-rose/30">
+              <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-luxury-package-title mb-2">Royal Package</h3>
-                  <p className="text-luxury-package-description">Premium wedding planning experience</p>
+                  <h3 className="text-luxury-package-title mb-1">Premium Package</h3>
+                  <p className="text-luxury-package-description">Active plan with unlimited consultations</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-luxury-price-large">₹2,50,000</div>
+                  <div className="text-luxury-price-large">₹12,00,000</div>
                   <div className="text-luxury-caption text-luxury-maroon/60">Current Plan</div>
                 </div>
               </div>
-
-              {/* Package Features */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                <div className="bg-white/50 rounded-lg p-4">
-                  <h4 className="text-luxury-emphasis mb-2">Complete Planning</h4>
-                  <ul className="space-y-1 text-luxury-package-feature">
-                    <li>• Full-service coordination</li>
-                    <li>• Timeline management</li>
-                    <li>• Vendor coordination</li>
-                  </ul>
-                </div>
-                <div className="bg-white/50 rounded-lg p-4">
-                  <h4 className="text-luxury-emphasis mb-2">Design & Decor</h4>
-                  <ul className="space-y-1 text-luxury-package-feature">
-                    <li>• Custom theme design</li>
-                    <li>• Floral arrangements</li>
-                    <li>• Lighting setup</li>
-                  </ul>
-                </div>
-                <div className="bg-white/50 rounded-lg p-4">
-                  <h4 className="text-luxury-emphasis mb-2">Personal Support</h4>
-                  <ul className="space-y-1 text-luxury-package-feature">
-                    <li>• Dedicated planner</li>
-                    <li>• 24/7 support</li>
-                    <li>• Emergency assistance</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <Button className="bg-luxury-maroon hover:bg-luxury-burgundy text-white text-luxury-button-primary">
-                  View Full Details
-                </Button>
-                <Button variant="outline" className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-luxury-button-secondary">
-                  Download Contract
-                </Button>
-              </div>
             </div>
 
-            {/* Upgrade Options */}
+            {/* Package Options */}
             <div className="mb-8">
-              <h3 className="text-luxury-subheading mb-6">Upgrade Options</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-white/80 rounded-xl p-6 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 transition-all duration-300">
-                  <h4 className="text-luxury-emphasis-strong mb-2">Platinum Package</h4>
-                  <p className="text-luxury-package-description mb-4">Everything in Royal plus luxury transportation and premium venues</p>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-luxury-price-large">₹4,50,000</span>
-                    <span className="text-luxury-data-secondary text-green-600">Save ₹50,000</span>
+              <h3 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-6">Exclusive India Packages</h3>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* India Heritage Package */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-taupe/20 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                  <div className="relative h-40 bg-gradient-to-br from-luxury-ivory to-luxury-soft-pink/30">
+                    <img 
+                      src="/images/celebration-new-1.jpg" 
+                      alt="Traditional Indian Wedding" 
+                      className="w-full h-full object-cover opacity-90"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <h4 className="font-luxury-serif text-lg font-bold text-white">India Heritage</h4>
+                      <p className="text-white/90 text-sm">Traditional celebrations</p>
+                    </div>
                   </div>
-                  <Button className="w-full bg-luxury-dusty-rose hover:bg-luxury-maroon text-white text-luxury-button-primary">
-                    Upgrade Now
-                  </Button>
+
+                  <div className="p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="text-luxury-price-medium text-luxury-maroon">₹25,00,000</div>
+                      <div className="text-xs text-luxury-maroon bg-luxury-soft-pink px-2 py-1 rounded-full">
+                        7-day India visit
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 mb-5">
+                      <div className="flex items-center gap-2 text-sm text-luxury-maroon/80">
+                        <Check className="w-3 h-3 text-luxury-dusty-rose" />
+                        Personal India planning visit
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-luxury-maroon/80">
+                        <Check className="w-3 h-3 text-luxury-dusty-rose" />
+                        Royal palace venues
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-luxury-maroon/80">
+                        <Check className="w-3 h-3 text-luxury-dusty-rose" />
+                        Cultural coordination
+                      </div>
+                    </div>
+
+                    <Button 
+                      onClick={() => handlePackagePurchase('India Heritage Experience', '₹25,00,000', '1')}
+                      className="w-full bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans text-sm"
+                    >
+                      Explore Heritage
+                    </Button>
+                  </div>
                 </div>
-                <div className="bg-white/80 rounded-xl p-6 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 transition-all duration-300">
-                  <h4 className="text-luxury-emphasis-strong mb-2">Add-On Services</h4>
-                  <p className="text-luxury-package-description mb-4">Enhance your package with additional services</p>
-                  <ul className="space-y-2 text-luxury-package-feature mb-4">
-                    <li>• Professional photography</li>
-                    <li>• Live streaming setup</li>
-                    <li>• Additional decor themes</li>
-                  </ul>
-                  <Button variant="outline" className="w-full border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-luxury-button-secondary">
-                    Browse Add-Ons
-                  </Button>
+
+                {/* India Luxury Package */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-taupe/20 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                  <div className="relative h-40 bg-gradient-to-br from-luxury-ivory to-luxury-soft-pink/30">
+                    <img 
+                      src="/images/wedding-portrait.jpg" 
+                      alt="Luxury Indian Wedding" 
+                      className="w-full h-full object-cover opacity-90"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <h4 className="font-luxury-serif text-lg font-bold text-white">India Luxury</h4>
+                      <p className="text-white/90 text-sm">Premium experience</p>
+                    </div>
+                    <div className="absolute top-3 right-3">
+                      <div className="bg-luxury-dusty-rose/90 rounded-full px-2 py-1">
+                        <span className="text-white text-xs font-medium">Popular</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="text-luxury-price-medium text-luxury-maroon">₹45,00,000</div>
+                      <div className="text-xs text-luxury-maroon bg-luxury-soft-pink px-2 py-1 rounded-full">
+                        10-day India visit
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 mb-5">
+                      <div className="flex items-center gap-2 text-sm text-luxury-maroon/80">
+                        <Check className="w-3 h-3 text-luxury-dusty-rose" />
+                        Luxury India journey
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-luxury-maroon/80">
+                        <Check className="w-3 h-3 text-luxury-dusty-rose" />
+                        Private palace venues
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-luxury-maroon/80">
+                        <Check className="w-3 h-3 text-luxury-dusty-rose" />
+                        Celebrity vendor access
+                      </div>
+                    </div>
+
+                    <Button 
+                      onClick={() => handlePackagePurchase('India Luxury Experience', '₹45,00,000', '2')}
+                      className="w-full bg-luxury-dusty-rose hover:bg-luxury-maroon text-white font-luxury-sans text-sm"
+                    >
+                      Discover Luxury
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Create Your Own Package */}
+                <div 
+                  onClick={() => handleSectionChange('bookings')}
+                  className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden p-6"
+                >
+                  <div className="h-full flex items-center justify-center">
+                    <div>
+                      <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
+                        <Plus className="w-8 h-8 text-luxury-dusty-rose" />
+                      </div>
+                      <h3 className="text-luxury-emphasis-strong text-xl mb-2">
+                        Create Custom Package
+                      </h3>
+                      <p className="text-luxury-body-secondary text-sm">
+                        Design your perfect wedding experience
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         );
       case "checkout":
-        // Only show checkout if there are products selected
-        if (selectedChatProducts.length === 0) {
-          return (
-            <div className="h-full flex items-center justify-center">
-              <div className="text-center">
-                <h2 className="text-luxury-subheading mb-4">No Products Selected</h2>
-                <p className="text-luxury-body-secondary mb-6">Please select products from the chat to proceed with checkout.</p>
-                <Button 
-                  onClick={() => setActiveSection('enquiries')}
-                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white text-luxury-button-primary"
+        return (
+          <div className="h-full overflow-y-auto">
+            <div className="mb-8">
+              <div className="flex items-center gap-4 mb-4">
+                <button
+                  onClick={() => {
+                    // Smart back navigation based on the item category
+                    if (selectedPackage?.category === 'Wedding Package') {
+                      handleSectionChange('packages');
+                    } else if (selectedPackage?.category === 'Order Payment') {
+                      handleSectionChange('order');
+                    } else {
+                      // For products, go back to products page
+                      navigate('/products');
+                    }
+                  }}
+                  className="flex items-center gap-2 text-luxury-maroon hover:text-luxury-dusty-rose transition-colors"
                 >
-                  Return to Chat
+                  <ChevronLeft className="w-5 h-5" />
+                  <span className="font-luxury-sans font-medium">
+                    {selectedPackage?.category === 'Wedding Package' ? 'Back to Packages' :
+                     selectedPackage?.category === 'Order Payment' ? 'Back to Orders' : 'Back to Products'}
+                  </span>
+                </button>
+              </div>
+              <h2 className="font-luxury-serif text-3xl font-bold text-luxury-maroon mb-2">Secure Checkout</h2>
+              <p className="text-luxury-body-secondary">
+                {selectedPackage?.category === 'Order Payment' ? 'Complete Your Order Payment' : 'Your Wedding Selection'}
+              </p>
+            </div>
+
+            {selectedPackage ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Contact Information */}
+                <div className="space-y-6">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/20">
+                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Contact Information</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-luxury-profile-label mb-2">Email Address</label>
+                        <input
+                          type="email"
+                          placeholder="your@email.com"
+                          className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-luxury-profile-label mb-2">First Name</label>
+                          <input
+                            type="text"
+                            className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-luxury-profile-label mb-2">Last Name</label>
+                          <input
+                            type="text"
+                            className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {selectedPackage.category !== 'Order Payment' && (
+                    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/20">
+                      <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Shipping Address</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="text-luxury-profile-label mb-2">Street Address</label>
+                          <input
+                            type="text"
+                            className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-luxury-profile-label mb-2">City</label>
+                            <input
+                              type="text"
+                              className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-luxury-profile-label mb-2">Postal Code</label>
+                            <input
+                              type="text"
+                              className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Order Summary */}
+                <div className="space-y-6">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/20">
+                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">
+                      {selectedPackage.category === 'Order Payment' ? 'Payment Summary' : 'Order Summary'}
+                    </h3>
+                    <p className="text-luxury-body-secondary mb-6">1 item {selectedPackage.category === 'Order Payment' ? 'to pay' : 'in your order'}</p>
+                    
+                    <div className="flex items-center gap-4 p-4 bg-luxury-soft-pink/20 rounded-lg mb-6">
+                      <img 
+                        src={selectedPackage.image} 
+                        alt={selectedPackage.name}
+                        className="w-16 h-16 object-cover rounded-lg"
+                      />
+                      <div className="flex-1">
+                        <h4 className="font-luxury-sans font-semibold text-luxury-maroon">{selectedPackage.name}</h4>
+                        <p className="text-luxury-body-secondary text-sm">{selectedPackage.category}</p>
+                      </div>
+                      <div className="text-luxury-price-medium text-luxury-maroon">
+                        {selectedPackage.price}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3 pb-4 border-b border-luxury-taupe/20">
+                      <div className="flex justify-between">
+                        <span className="text-luxury-body-secondary">
+                          {selectedPackage.category === 'Order Payment' ? 'Amount Due' : 'Subtotal'}
+                        </span>
+                        <span className="text-luxury-maroon">{selectedPackage.price}</span>
+                      </div>
+                      {selectedPackage.category !== 'Order Payment' && (
+                        <>
+                          <div className="flex justify-between">
+                            <span className="text-luxury-body-secondary">Shipping (Free)</span>
+                            <span className="text-luxury-maroon">Free</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-luxury-body-secondary">GST (18%)</span>
+                            <span className="text-luxury-maroon">
+                              ₹{Math.floor(parseInt(selectedPackage.price.replace(/[₹,]/g, '')) * 0.18).toLocaleString('en-IN')}
+                            </span>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    <div className="flex justify-between items-center pt-4 mb-6">
+                      <span className="font-luxury-serif text-xl font-bold text-luxury-maroon">Total</span>
+                      <span className="font-luxury-serif text-xl font-bold text-luxury-maroon">
+                        {selectedPackage.category === 'Order Payment' ? 
+                          selectedPackage.price : 
+                          `₹${Math.floor(parseInt(selectedPackage.price.replace(/[₹,]/g, '')) * 1.18).toLocaleString('en-IN')}`
+                        }
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4 mb-6 text-center">
+                      <div>
+                        <Shield className="w-6 h-6 text-luxury-dusty-rose mx-auto mb-2" />
+                        <p className="text-luxury-body-secondary text-xs">Secure Payment</p>
+                      </div>
+                      <div>
+                        <CreditCard className="w-6 h-6 text-luxury-dusty-rose mx-auto mb-2" />
+                        <p className="text-luxury-body-secondary text-xs">Cards Accepted</p>
+                      </div>
+                      <div>
+                        <Truck className="w-6 h-6 text-luxury-dusty-rose mx-auto mb-2" />
+                        <p className="text-luxury-body-secondary text-xs">
+                          {selectedPackage.category === 'Order Payment' ? 'Fast Processing' : 'Fast Delivery'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Button className="w-full bg-luxury-dusty-rose hover:bg-luxury-maroon text-white py-4 font-luxury-sans font-semibold text-lg">
+                      <CreditCard className="w-5 h-5 mr-2" />
+                      {selectedPackage.category === 'Order Payment' ? 'Complete Payment' : 'Proceed to Payment'}
+                    </Button>
+
+                    <p className="text-luxury-body-secondary text-xs text-center mt-4">
+                      Your payment information is processed securely by Stripe. We never store your card details.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <h3 className="text-luxury-subheading mb-4">No Item Selected</h3>
+                <p className="text-luxury-body-secondary mb-6">Please select an item to proceed with checkout.</p>
+                <Button 
+                  onClick={() => handleSectionChange('packages')}
+                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white"
+                >
+                  Browse Packages
                 </Button>
               </div>
-            </div>
-          );
-        }
-        return (
-          <div className="h-full w-full">
-            <UnifiedCheckout
-              products={chatProducts.filter(p => selectedChatProducts.includes(p.id))}
-              onClose={() => setActiveSection('enquiries')}
-              source="chat"
-            />
+            )}
           </div>
         );
       default:
         return null;
     }
+  };
+
+  // Package purchase handler
+  const handlePackagePurchase = (packageName: string, price: string, packageId: string) => {
+    const packageProduct = {
+      id: parseInt(packageId),
+      name: packageName,
+      price: price,
+      image: packageName.includes('Heritage') ? '/images/celebration-new-1.jpg' : '/images/wedding-portrait.jpg',
+      category: 'Wedding Package',
+      quantity: 1
+    };
+    setSelectedPackage(packageProduct);
+    handleSectionChange('checkout');
   };
 
   return (
