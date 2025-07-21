@@ -419,6 +419,19 @@ const Account = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Prevent page-level scrolling when Account page is active
+  useEffect(() => {
+    // Add class to body to prevent page scrolling
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
+    // Cleanup: restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
+
   const showToast = (message: string) => {
     setNotificationMessage(message);
     setShowNotification(true);
@@ -1806,8 +1819,8 @@ const Account = () => {
         );
       case "order":
         return (
-          <div className="h-full w-full overflow-x-hidden">
-            <div className="space-y-6 w-full">
+          <div className="h-full w-full overflow-x-hidden overflow-y-auto">
+            <div className="space-y-6 w-full max-h-full">
               {/* Orders Header */}
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon">Your Orders</h2>
@@ -2470,7 +2483,7 @@ const Account = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-luxury-ivory via-white to-luxury-soft-pink overflow-hidden">
+    <div className="h-screen bg-gradient-to-br from-luxury-ivory via-white to-luxury-soft-pink overflow-hidden">
       {/* Navigation - Keep main banner visible */}
       <Navigation />
       {/* Toast Notification */}
@@ -2481,7 +2494,7 @@ const Account = () => {
         </div>
       )}
 
-      <div className="flex h-screen pt-20 overflow-hidden">
+      <div className="flex h-full pt-20 overflow-hidden">
         {/* Sidebar - Fixed height from top of viewport */}
         <div className="w-80 bg-white/80 backdrop-blur-md shadow-xl border-r border-luxury-taupe/20 flex flex-col fixed top-20 bottom-0 left-0 z-30 overflow-hidden">
           {/* Active Package Information */}
@@ -2527,9 +2540,9 @@ const Account = () => {
         </div>
 
         {/* Main Content - Properly constrained */}
-        <div className="flex-1 ml-80 w-[calc(100vw-20rem)] overflow-hidden">
+        <div className="flex-1 ml-80 w-[calc(100vw-20rem)] h-[calc(100vh-5rem)] overflow-hidden">
           {/* Content Area */}
-          <div className={`relative h-[calc(100vh-5rem)] w-full ${activeSection === 'enquiries' ? '' : 'overflow-y-auto px-8 py-8'} overflow-x-hidden`}>
+          <div className={`relative h-full w-full ${activeSection === 'enquiries' ? '' : 'overflow-y-auto px-8 py-8'} overflow-x-hidden`}>
             {/* Background Floral Elements - Only for non-chat sections */}
             {activeSection !== 'enquiries' && (
               <>
@@ -2546,7 +2559,7 @@ const Account = () => {
               </>
             )}
             
-            <div className={`relative z-10 w-full max-w-6xl mx-auto h-full ${activeSection === 'enquiries' ? '' : ''}`}>
+            <div className={`relative z-10 w-full max-w-6xl mx-auto ${activeSection === 'enquiries' ? 'h-full' : 'min-h-full'}`}>
               {renderContent()}
             </div>
           </div>
