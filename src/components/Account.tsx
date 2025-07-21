@@ -1980,8 +1980,8 @@ const Account = () => {
 
             {/* Order Detail Modal */}
             {selectedOrder && (
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center">
-                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto" style={{ marginLeft: '160px', marginRight: '0px', marginTop: '40px' }}>
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[80] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: '80px', bottom: 0 }}>
+                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto">
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">
                       <h3 className="text-luxury-modal-title">
@@ -2132,6 +2132,26 @@ const Account = () => {
               <h3 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-6">Exclusive India Packages</h3>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
+                {/* Create Your Own Package - MOVED TO FIRST */}
+                <div 
+                  onClick={() => handleSectionChange('bookings')}
+                  className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden p-6"
+                >
+                  <div className="h-full flex items-center justify-center">
+                    <div>
+                      <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
+                        <Plus className="w-8 h-8 text-luxury-dusty-rose" />
+                      </div>
+                      <h3 className="text-luxury-emphasis-strong text-xl mb-2">
+                        Create Custom Package
+                      </h3>
+                      <p className="text-luxury-body-secondary text-sm">
+                        Design your perfect wedding experience
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* India Heritage Package */}
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-taupe/20 hover:shadow-xl transition-all duration-300 overflow-hidden">
                   <div className="relative h-40 bg-gradient-to-br from-luxury-ivory to-luxury-soft-pink/30">
@@ -2228,26 +2248,6 @@ const Account = () => {
                     >
                       Discover Luxury
                     </Button>
-                  </div>
-                </div>
-
-                {/* Create Your Own Package */}
-                <div 
-                  onClick={() => handleSectionChange('bookings')}
-                  className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden p-6"
-                >
-                  <div className="h-full flex items-center justify-center">
-                    <div>
-                      <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
-                        <Plus className="w-8 h-8 text-luxury-dusty-rose" />
-                      </div>
-                      <h3 className="text-luxury-emphasis-strong text-xl mb-2">
-                        Create Custom Package
-                      </h3>
-                      <p className="text-luxury-body-secondary text-sm">
-                        Design your perfect wedding experience
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>

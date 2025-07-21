@@ -536,8 +536,8 @@ const Bookings = () => {
 
       {/* Booking Detail Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto" style={{ marginLeft: '160px', marginRight: '0px', marginTop: '40px' }}>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4" style={{ left: '320px', right: 0, top: '80px', bottom: 0 }}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto">
             <div className="p-6 border-b border-luxury-taupe/20">
               <div className="flex items-center justify-between">
                 <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
