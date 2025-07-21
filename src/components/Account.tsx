@@ -1325,15 +1325,15 @@ const Account = () => {
         );
       case "profile":
         return (
-          <div className="h-full">
+          <div className="h-full w-full overflow-x-hidden">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Profile Settings</h2>
-              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
+              <p className="text-luxury-body-secondary max-w-4xl leading-relaxed">
                 Manage your personal information and preferences to enhance your wedding planning experience.
               </p>
             </div>
             
-            <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
               {/* Personal Information */}
               <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-luxury-taupe/10">
                 <h3 className="text-luxury-subheading mb-6">Personal Information</h3>
@@ -1558,20 +1558,20 @@ const Account = () => {
         );
       case "wishlist":
         return (
-          <div className="h-full">
+          <div className="h-full w-full overflow-x-hidden">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Your Wishlists</h2>
-              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
+              <p className="text-luxury-body-secondary max-w-4xl leading-relaxed">
                 Curate your perfect wedding collection. Save your favorite items and create themed wishlists for different aspects of your special day.
               </p>
             </div>
             
             {/* Wishlist Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8 w-full">
               {/* Create New Wishlist Card - Elegant Style */}
               <div 
                 onClick={() => setIsCreatingWishlist(true)}
-                className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden p-6"
+                className="bg-gradient-to-br from-white via-luxury-ivory/50 to-luxury-soft-pink/20 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-dusty-rose/30 hover:border-luxury-dusty-rose hover:shadow-xl hover:from-luxury-ivory hover:to-luxury-soft-pink/40 transition-all duration-300 cursor-pointer group text-center relative overflow-hidden p-6 min-w-0"
               >
                 <div className="h-full flex items-center justify-center">
                   <div>
@@ -1806,10 +1806,10 @@ const Account = () => {
         );
       case "order":
         return (
-          <div className="h-full">
-            <div className="space-y-6">
+          <div className="h-full w-full overflow-x-hidden">
+            <div className="space-y-6 w-full">
               {/* Orders Header */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between flex-wrap gap-4">
                 <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon">Your Orders</h2>
                 <Button
                   onClick={() => navigate('/products')}
@@ -2091,31 +2091,31 @@ const Account = () => {
         );
       case "bookings":
         return (
-          <div className="h-full">
+          <div className="h-full w-full overflow-x-hidden">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Bookings</h2>
-              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
+              <p className="text-luxury-body-secondary max-w-4xl leading-relaxed">
                 Schedule consultations with our expert wedding planners and manage your upcoming sessions.
               </p>
             </div>
-            <div className="h-[calc(100vh-12rem)]">
+            <div className="h-[calc(100vh-12rem)] w-full overflow-hidden">
               <Bookings />
             </div>
           </div>
         );
       case "packages":
         return (
-          <div className="h-full overflow-y-auto">
+          <div className="h-full overflow-y-auto w-full overflow-x-hidden">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Package</h2>
-              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
+              <p className="text-luxury-body-secondary max-w-4xl leading-relaxed">
                 Experience authentic Indian weddings with our exclusive packages featuring personal planning visits to India.
               </p>
             </div>
 
             {/* Current Package Status */}
-            <div className="bg-gradient-to-br from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-6 mb-8 border border-luxury-dusty-rose/30">
-              <div className="flex items-center justify-between">
+            <div className="bg-gradient-to-br from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-6 mb-8 border border-luxury-dusty-rose/30 w-full">
+              <div className="flex items-center justify-between flex-wrap gap-4">
                 <div>
                   <h3 className="text-luxury-package-title mb-1">Premium Package</h3>
                   <p className="text-luxury-package-description">Active plan with unlimited consultations</p>
@@ -2128,10 +2128,10 @@ const Account = () => {
             </div>
 
             {/* Package Options */}
-            <div className="mb-8">
+            <div className="mb-8 w-full">
               <h3 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-6">Exclusive India Packages</h3>
               
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
                 {/* India Heritage Package */}
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-luxury-taupe/20 hover:shadow-xl transition-all duration-300 overflow-hidden">
                   <div className="relative h-40 bg-gradient-to-br from-luxury-ivory to-luxury-soft-pink/30">
@@ -2256,7 +2256,7 @@ const Account = () => {
         );
       case "checkout":
         return (
-          <div className="h-full overflow-y-auto">
+          <div className="h-full overflow-y-auto w-full overflow-x-hidden">
             <div className="mb-8">
               <div className="flex items-center gap-4 mb-4">
                 <button
@@ -2287,9 +2287,9 @@ const Account = () => {
             </div>
 
             {selectedPackage ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full">
                 {/* Contact Information */}
-                <div className="space-y-6">
+                <div className="space-y-6 min-w-0">
                   <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/20">
                     <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Contact Information</h3>
                     <div className="space-y-4">
@@ -2301,7 +2301,7 @@ const Account = () => {
                           className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="text-luxury-profile-label mb-2">First Name</label>
                           <input
@@ -2331,7 +2331,7 @@ const Account = () => {
                             className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
                           />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <label className="text-luxury-profile-label mb-2">City</label>
                             <input
@@ -2353,7 +2353,7 @@ const Account = () => {
                 </div>
 
                 {/* Order Summary */}
-                <div className="space-y-6">
+                <div className="space-y-6 min-w-0">
                   <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/20">
                     <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">
                       {selectedPackage.category === 'Order Payment' ? 'Payment Summary' : 'Order Summary'}
@@ -2526,10 +2526,10 @@ const Account = () => {
           </div>
         </div>
 
-        {/* Main Content - Offset by sidebar width */}
-        <div className="flex-1 ml-80">
+        {/* Main Content - Properly constrained */}
+        <div className="flex-1 ml-80 w-[calc(100vw-20rem)] overflow-hidden">
           {/* Content Area */}
-          <div className={`relative h-[calc(100vh-5rem)] ${activeSection === 'enquiries' ? '' : 'overflow-y-auto px-8 py-8'}`}>
+          <div className={`relative h-[calc(100vh-5rem)] w-full ${activeSection === 'enquiries' ? '' : 'overflow-y-auto px-8 py-8'} overflow-x-hidden`}>
             {/* Background Floral Elements - Only for non-chat sections */}
             {activeSection !== 'enquiries' && (
               <>
@@ -2546,7 +2546,7 @@ const Account = () => {
               </>
             )}
             
-            <div className={`relative z-10 max-w-7xl mx-auto h-full ${activeSection === 'enquiries' ? '' : ''}`}>
+            <div className={`relative z-10 w-full max-w-6xl mx-auto h-full ${activeSection === 'enquiries' ? '' : ''}`}>
               {renderContent()}
             </div>
           </div>

@@ -176,12 +176,12 @@ const Bookings = () => {
   };
 
   const renderNewBooking = () => (
-    <div className="max-w-6xl mx-auto space-y-4">
-      <div className="grid lg:grid-cols-3 gap-6">
+    <div className="max-w-full mx-auto space-y-4 w-full overflow-x-hidden">
+      <div className="grid lg:grid-cols-3 gap-6 w-full">
         {/* Left: Date Selection - Compact */}
-        <div className="lg:col-span-1 space-y-4">
+        <div className="lg:col-span-1 space-y-4 min-w-0">
           {/* Date Selection */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20 w-full">
             <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-3">Select Date</h3>
             <div className="flex items-center justify-between mb-3">
               <button
@@ -201,7 +201,7 @@ const Bookings = () => {
                 <ArrowRight className="w-4 h-4 text-luxury-maroon" />
               </button>
             </div>
-            <div className="grid grid-cols-7 gap-1">
+            <div className="grid grid-cols-7 gap-1 w-full">
               {getWeekDates(selectedWeek).map((date, index) => (
                 <button
                   key={index}
@@ -225,20 +225,20 @@ const Bookings = () => {
         </div>
 
         {/* Center: Time Selection */}
-        <div className="lg:col-span-1 space-y-4">
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20">
+        <div className="lg:col-span-1 space-y-4 min-w-0">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-luxury-taupe/20 w-full">
             <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-3">Available Times</h3>
             {!selectedDate ? (
               <p className="text-luxury-maroon/60 font-luxury-sans text-center py-6 text-sm">
                 Please select a date to view available times
               </p>
             ) : (
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-1 gap-2 w-full">
               {timeSlots.map((time) => (
                 <button
                   key={time}
                   onClick={() => setSelectedTimeSlot(time)}
-                  className={`p-3 rounded-lg border transition-all duration-200 font-luxury-sans text-sm ${
+                  className={`p-3 rounded-lg border transition-all duration-200 font-luxury-sans text-sm w-full ${
                     selectedTimeSlot === time
                       ? 'bg-luxury-dusty-rose text-white border-luxury-dusty-rose'
                       : 'bg-white border-luxury-taupe/30 text-luxury-maroon hover:border-luxury-dusty-rose/50'
@@ -253,9 +253,9 @@ const Bookings = () => {
         </div>
 
         {/* Right: Booking Summary */}
-        <div className="lg:col-span-1 space-y-4">
+        <div className="lg:col-span-1 space-y-4 min-w-0">
           {selectedTimeSlot && selectedDate && (
-            <div className="bg-luxury-dusty-rose/10 backdrop-blur-sm rounded-xl p-4 border border-luxury-dusty-rose/30">
+            <div className="bg-luxury-dusty-rose/10 backdrop-blur-sm rounded-xl p-4 border border-luxury-dusty-rose/30 w-full">
               <h3 className="font-luxury-serif text-lg font-semibold text-luxury-maroon mb-3">Booking Summary</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -499,9 +499,9 @@ const Bookings = () => {
   );
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col w-full overflow-x-hidden">
       {/* Teams-style Navigation */}
-      <div className="bg-white/90 backdrop-blur-sm rounded-xl p-1.5 shadow-lg border border-luxury-taupe/20 mb-6">
+      <div className="bg-white/90 backdrop-blur-sm rounded-xl p-1.5 shadow-lg border border-luxury-taupe/20 mb-6 w-full">
         <div className="flex gap-1 overflow-x-auto scrollbar-hide">
           {[
             { id: 'new', label: 'Book Session', icon: Plus },
@@ -528,7 +528,7 @@ const Bookings = () => {
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto w-full overflow-x-hidden">
         {activeTab === 'upcoming' && renderBookingsList('upcoming')}
         {activeTab === 'past' && renderBookingsList('completed')}
         {activeTab === 'new' && renderNewBooking()}
