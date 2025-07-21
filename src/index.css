@@ -1,9 +1,9 @@
-/* Import luxury fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Import luxury fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* Definition of the luxury design system. All colors, gradients, fonts, etc should be defined here. */
 
@@ -148,13 +148,196 @@
     @apply border-2 border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white font-medium px-8 py-4 rounded-sm transition-all duration-300;
   }
 
-  /* Elegant text styles */
-  .text-luxury-heading {
-    @apply font-luxury-serif font-bold tracking-tight;
+  /* Enhanced Font Consistency Utilities */
+  .text-luxury-heading-main {
+    @apply font-luxury-serif font-bold text-2xl md:text-3xl text-luxury-maroon tracking-tight;
   }
 
-  .text-luxury-body {
-    @apply font-luxury-sans leading-relaxed;
+  .text-luxury-heading-section {
+    @apply font-luxury-serif font-bold text-xl text-luxury-maroon tracking-tight;
+  }
+
+  .text-luxury-subheading {
+    @apply font-luxury-sans font-semibold text-lg text-luxury-maroon;
+  }
+
+  .text-luxury-body-primary {
+    @apply font-luxury-sans text-luxury-maroon leading-relaxed;
+  }
+
+  .text-luxury-body-secondary {
+    @apply font-luxury-sans text-luxury-maroon/70 leading-relaxed;
+  }
+
+  .text-luxury-label {
+    @apply font-luxury-sans font-medium text-luxury-maroon/80 tracking-wide uppercase text-sm;
+  }
+
+  .text-luxury-button {
+    @apply font-luxury-sans font-medium tracking-wide;
+  }
+
+  .text-luxury-caption {
+    @apply font-luxury-sans text-xs text-luxury-maroon/60;
+  }
+
+  .text-luxury-price {
+    @apply font-luxury-sans font-bold text-luxury-dusty-rose;
+  }
+
+  .text-luxury-nav {
+    @apply font-luxury-sans font-medium tracking-wide uppercase text-sm;
+  }
+
+  /* User Profile Specific Styles */
+  .text-luxury-profile-name {
+    @apply font-luxury-sans font-semibold text-luxury-maroon;
+  }
+
+  .text-luxury-profile-label {
+    @apply font-luxury-sans font-medium text-luxury-maroon/80 tracking-wide uppercase text-sm;
+  }
+
+  .text-luxury-chat-message {
+    @apply font-luxury-sans text-luxury-maroon;
+  }
+
+  .text-luxury-form-input {
+    @apply font-luxury-sans text-luxury-maroon;
+  }
+
+  /* Refined Typography System - Reduced Boldness */
+  
+  /* Data & Content Hierarchy - Less Bold */
+  .text-luxury-data-primary {
+    @apply font-luxury-sans font-semibold text-luxury-maroon text-lg;
+  }
+
+  .text-luxury-data-secondary {
+    @apply font-luxury-sans font-medium text-luxury-maroon;
+  }
+
+  .text-luxury-data-supporting {
+    @apply font-luxury-sans text-luxury-maroon/70 text-sm;
+  }
+
+  /* Pricing & Financial Data - Bold Only for Emphasis */
+  .text-luxury-price-large {
+    @apply font-luxury-sans font-bold text-luxury-dusty-rose text-2xl;
+  }
+
+  .text-luxury-price-medium {
+    @apply font-luxury-sans font-bold text-luxury-dusty-rose text-lg;
+  }
+
+  .text-luxury-price-small {
+    @apply font-luxury-sans font-semibold text-luxury-dusty-rose;
+  }
+
+  /* Product Information - Cleaner Hierarchy */
+  .text-luxury-product-name {
+    @apply font-luxury-sans font-semibold text-luxury-maroon;
+  }
+
+  .text-luxury-product-category {
+    @apply font-luxury-sans text-luxury-maroon/70 text-sm;
+  }
+
+  .text-luxury-product-details {
+    @apply font-luxury-sans text-luxury-maroon/60 text-sm;
+  }
+
+  /* Order & Transaction Data */
+  .text-luxury-order-id {
+    @apply font-luxury-sans font-semibold text-luxury-maroon tracking-wider;
+  }
+
+  .text-luxury-tracking-number {
+    @apply font-luxury-sans font-medium text-luxury-maroon bg-luxury-soft-pink/20 px-3 py-2 rounded-lg;
+  }
+
+  .text-luxury-status-badge {
+    @apply font-luxury-sans font-medium text-sm;
+  }
+
+  /* Address & Contact Information */
+  .text-luxury-address {
+    @apply font-luxury-sans text-luxury-maroon/70 leading-relaxed;
+  }
+
+  .text-luxury-contact-info {
+    @apply font-luxury-sans text-luxury-maroon;
+  }
+
+  /* Quantity & Measurements */
+  .text-luxury-quantity {
+    @apply font-luxury-sans text-luxury-maroon text-sm;
+  }
+
+  .text-luxury-size-color {
+    @apply font-luxury-sans text-luxury-maroon/60 text-sm;
+  }
+
+  /* Interactive Elements */
+  .text-luxury-link {
+    @apply font-luxury-sans font-medium text-luxury-dusty-rose hover:text-luxury-maroon transition-colors;
+  }
+
+  .text-luxury-button-primary {
+    @apply font-luxury-sans font-medium tracking-wide text-white;
+  }
+
+  .text-luxury-button-secondary {
+    @apply font-luxury-sans font-medium tracking-wide text-luxury-maroon;
+  }
+
+  /* Modal & Dialog Headers */
+  .text-luxury-modal-title {
+    @apply font-luxury-serif font-bold text-xl text-luxury-maroon;
+  }
+
+  .text-luxury-modal-subtitle {
+    @apply font-luxury-sans text-luxury-maroon/70;
+  }
+
+  /* Sidebar Navigation - Clean & Consistent */
+  .text-luxury-sidebar-item {
+    @apply font-luxury-sans text-luxury-maroon tracking-wide text-sm;
+  }
+
+  .text-luxury-sidebar-item-active {
+    @apply font-luxury-sans font-medium text-luxury-maroon tracking-wide text-sm;
+  }
+
+  /* Package Information */
+  .text-luxury-package-title {
+    @apply font-luxury-serif font-bold text-2xl text-luxury-maroon;
+  }
+
+  .text-luxury-package-description {
+    @apply font-luxury-sans text-luxury-maroon/70;
+  }
+
+  .text-luxury-package-feature {
+    @apply font-luxury-sans text-luxury-maroon/80;
+  }
+
+  /* Chat Interface */
+  .text-luxury-chat-welcome {
+    @apply font-luxury-sans font-medium text-luxury-maroon;
+  }
+
+  .text-luxury-chat-action {
+    @apply font-luxury-sans text-luxury-maroon/80 text-sm;
+  }
+
+  /* Emphasis Classes - Use Sparingly */
+  .text-luxury-emphasis {
+    @apply font-luxury-sans font-semibold text-luxury-maroon;
+  }
+
+  .text-luxury-emphasis-strong {
+    @apply font-luxury-sans font-bold text-luxury-maroon;
   }
 
   /* Scroll animations */

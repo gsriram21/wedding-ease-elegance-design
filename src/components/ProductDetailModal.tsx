@@ -194,7 +194,7 @@ const ProductDetailModal = ({
 
                 {/* Price */}
                 <div className="flex items-center gap-4">
-                  <span className="font-luxury-serif text-2xl font-bold text-luxury-dusty-rose">
+                  <span className="font-luxury-sans text-2xl font-bold text-luxury-dusty-rose">
                     {product.price}
                   </span>
                   <span className="font-luxury-sans text-luxury-maroon/50 line-through">
@@ -204,7 +204,7 @@ const ProductDetailModal = ({
 
                 {/* Features */}
                 <div>
-                  <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-2">
+                  <h3 className="font-luxury-sans font-bold text-lg text-luxury-maroon mb-2">
                     Key Features
                   </h3>
                   <div className="grid grid-cols-2 gap-2">

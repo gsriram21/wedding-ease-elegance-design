@@ -48,7 +48,7 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ onNext, formData }) => {
           </div>
           <div className="flex items-center justify-center gap-2 text-luxury-dusty-rose">
             <Heart className="w-5 h-5 fill-current" />
-            <span className="font-luxury-sans text-sm">Welcome to the family!</span>
+            <span className="text-luxury-data-supporting">Welcome to the family!</span>
             <Heart className="w-5 h-5 fill-current" />
           </div>
         </div>
@@ -58,7 +58,7 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ onNext, formData }) => {
           Welcome to Wedding Ease!
         </h1>
         
-        <p className="font-luxury-sans text-luxury-maroon/70 text-lg mb-8 leading-relaxed">
+        <p className="text-luxury-data-supporting text-lg mb-8 leading-relaxed">
           Your journey to the perfect wedding starts here, {formData.name?.split(' ')[0] || 'there'}! 
           Let's create something magical together.
         </p>
@@ -67,17 +67,17 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ onNext, formData }) => {
         <div className="flex items-center justify-center gap-8 mb-8 text-luxury-maroon/60">
           <div className="flex flex-col items-center">
             <Calendar className="w-8 h-8 mb-2" />
-            <span className="font-luxury-sans text-xs">Plan</span>
+            <span className="text-luxury-caption">Plan</span>
           </div>
           <div className="w-12 border-t border-luxury-dusty-rose/30"></div>
           <div className="flex flex-col items-center">
             <Heart className="w-8 h-8 mb-2" />
-            <span className="font-luxury-sans text-xs">Love</span>
+            <span className="text-luxury-caption">Love</span>
           </div>
           <div className="w-12 border-t border-luxury-dusty-rose/30"></div>
           <div className="flex flex-col items-center">
             <Sparkles className="w-8 h-8 mb-2" />
-            <span className="font-luxury-sans text-xs">Celebrate</span>
+            <span className="text-luxury-caption">Celebrate</span>
           </div>
         </div>
 

@@ -73,9 +73,14 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 className="text-white font-luxury-sans tracking-wide uppercase text-lg px-8 py-4 rounded-xl border-2 border-white bg-transparent hover:bg-white hover:text-black shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 group"
-                onClick={() => navigate('/products')}
+                onClick={() => {
+                  const servicesSection = document.getElementById('services');
+                  if (servicesSection) {
+                    servicesSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
-                <span>Shop Now</span>
+                <span>Explore</span>
                 <svg 
                   className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" 
                   fill="none" 

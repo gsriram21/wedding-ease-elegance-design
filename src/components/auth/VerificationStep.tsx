@@ -147,7 +147,7 @@ const VerificationStep: React.FC<VerificationStepProps> = ({ formData, onNext, o
         <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-2">
           {formData.authMethod === 'phone' ? 'Verify Your Phone' : 'Verify Your Email'}
         </h2>
-        <p className="text-luxury-maroon/70">
+        <p className="text-luxury-data-supporting">
           {formData.authMethod === 'phone' 
             ? `We've sent a 6-digit code to ${formData.phone}`
             : `Please check your email ${formData.email} and click the verification link`

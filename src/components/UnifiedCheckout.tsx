@@ -124,7 +124,7 @@ const UnifiedCheckout: React.FC<CheckoutProps> = ({ products, onClose, source })
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="font-luxury-serif text-luxury-maroon">
+                <CardTitle className="font-luxury-sans text-luxury-maroon">
                   Contact Information
                 </CardTitle>
               </CardHeader>

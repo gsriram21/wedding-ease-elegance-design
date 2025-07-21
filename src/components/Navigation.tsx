@@ -5,7 +5,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { User, Sun, LogOut, ChevronDown, Heart, Gem, FileText, Gift, Calendar } from 'lucide-react';
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const navigate = useNavigate();
@@ -78,14 +77,24 @@ const Navigation = () => {
               </button>
               
               <button 
-                onClick={() => navigate('/#services')}
-                className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
-              >
-                Services
-              </button>
-              
-              <button 
-                onClick={() => navigate('/#packages')}
+                onClick={() => {
+                  if (location.pathname === '/') {
+                    // Already on homepage, scroll directly
+                    const packagesSection = document.getElementById('packages');
+                    if (packagesSection) {
+                      packagesSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  } else {
+                    // Navigate to homepage first, then scroll
+                    navigate('/');
+                    setTimeout(() => {
+                      const packagesSection = document.getElementById('packages');
+                      if (packagesSection) {
+                        packagesSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }
+                }}
                 className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
               >
                 Packages
@@ -132,7 +141,24 @@ const Navigation = () => {
               </div>
               
               <button 
-                onClick={() => navigate('/#contact')}
+                onClick={() => {
+                  if (location.pathname === '/') {
+                    // Already on homepage, scroll directly
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  } else {
+                    // Navigate to homepage first, then scroll
+                    navigate('/');
+                    setTimeout(() => {
+                      const contactSection = document.getElementById('contact');
+                      if (contactSection) {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }
+                }}
                 className="text-luxury-maroon/80 hover:text-luxury-dusty-rose transition-colors duration-300 font-luxury-sans font-medium tracking-wide uppercase text-sm"
               >
                 Contact

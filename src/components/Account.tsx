@@ -946,12 +946,12 @@ const Account = () => {
                 <MessageCircle className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon">
+                <h3 className="text-luxury-chat-welcome text-lg">
                   Wedding Planning Assistant
                 </h3>
-                <div className="flex items-center gap-2 text-sm text-luxury-maroon/60">
+                <div className="flex items-center gap-2 text-luxury-chat-action">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="font-luxury-sans">Online • Typically replies instantly</span>
+                  <span>Online • Typically replies instantly</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -987,8 +987,8 @@ const Account = () => {
                           ? 'bg-luxury-dusty-rose text-white rounded-tr-md ml-auto'
                           : 'bg-white border-luxury-taupe/10 rounded-tl-md'
                       }`}>
-                        <p className={`font-luxury-sans ${
-                          message.type === 'user' ? 'text-white' : 'text-luxury-maroon'
+                        <p className={`text-luxury-chat-message ${
+                          message.type === 'user' ? 'text-white' : ''
                         }`}>
                           {message.content}
                         </p>
@@ -1007,8 +1007,8 @@ const Account = () => {
                                     <Calendar className="w-3 h-3 text-luxury-dusty-rose group-hover:text-white" />
                     </div>
                                   <div>
-                                    <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">Book Consultation</span>
-                                    <span className="font-luxury-sans text-xs text-luxury-maroon/60">Free consultation</span>
+                                    <span className="text-luxury-emphasis text-xs block">Book Consultation</span>
+                                    <span className="text-luxury-chat-action text-xs">Free consultation</span>
                   </div>
                                 </div>
                 </button>
@@ -1021,8 +1021,8 @@ const Account = () => {
                                     <ShoppingBag className="w-3 h-3 text-luxury-maroon group-hover:text-white" />
                     </div>
                                   <div>
-                                    <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">View Packages</span>
-                                    <span className="font-luxury-sans text-xs text-luxury-maroon/60">Explore options</span>
+                                    <span className="text-luxury-emphasis text-xs block">View Packages</span>
+                                    <span className="text-luxury-chat-action text-xs">Explore options</span>
                   </div>
                                 </div>
                 </button>
@@ -1035,8 +1035,8 @@ const Account = () => {
                                     <Heart className="w-3 h-3 text-luxury-dusty-rose group-hover:text-white" />
                     </div>
                                   <div>
-                                    <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">Browse Products</span>
-                                    <span className="font-luxury-sans text-xs text-luxury-maroon/60">View collection</span>
+                                    <span className="text-luxury-emphasis text-xs block">Browse Products</span>
+                                    <span className="text-luxury-chat-action text-xs">View collection</span>
                   </div>
                                 </div>
                 </button>
@@ -1049,8 +1049,8 @@ const Account = () => {
                                     <User className="w-3 h-3 text-luxury-maroon group-hover:text-white" />
                     </div>
                                   <div>
-                                    <span className="font-luxury-serif font-bold text-luxury-maroon text-xs block">Get Quote</span>
-                                    <span className="font-luxury-sans text-xs text-luxury-maroon/60">Custom pricing</span>
+                                    <span className="text-luxury-emphasis text-xs block">Get Quote</span>
+                                    <span className="text-luxury-chat-action text-xs">Custom pricing</span>
                   </div>
                                 </div>
                 </button>
@@ -1058,7 +1058,7 @@ const Account = () => {
 
                             {/* Suggested Questions - Compact */}
                             <div className="border-t border-luxury-taupe/20 pt-3">
-                              <p className="font-luxury-sans text-luxury-maroon/80 text-xs mb-2">
+                              <p className="text-luxury-chat-action text-xs mb-2">
                                 💬 Quick questions:
                               </p>
                               <div className="space-y-1">
@@ -1070,7 +1070,7 @@ const Account = () => {
                         <button
                           key={index}
                                     onClick={() => handleQuickQuestion(question)}
-                                    className="block w-full text-left p-2 rounded-md bg-luxury-soft-pink/20 hover:bg-luxury-dusty-rose/20 text-xs font-luxury-sans text-luxury-maroon/80 hover:text-luxury-maroon transition-all"
+                                    className="block w-full text-left p-2 rounded-md bg-luxury-soft-pink/20 hover:bg-luxury-dusty-rose/20 text-luxury-chat-action hover:text-luxury-maroon transition-all"
                         >
                           {question}
                         </button>
@@ -1089,9 +1089,9 @@ const Account = () => {
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <Calendar className="w-4 h-4 text-luxury-dusty-rose" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Book Consultation</span>
+                            <span className="text-luxury-emphasis text-sm">Book Consultation</span>
                           </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          <p className="text-luxury-chat-action text-xs">
                             Schedule a free consultation
                           </p>
                         </button>
@@ -1101,9 +1101,9 @@ const Account = () => {
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <ShoppingBag className="w-4 h-4 text-luxury-maroon" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">View Packages</span>
+                            <span className="text-luxury-emphasis text-sm">View Packages</span>
                           </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          <p className="text-luxury-chat-action text-xs">
                             Explore our packages
                           </p>
                         </button>
@@ -1113,9 +1113,9 @@ const Account = () => {
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <Heart className="w-4 h-4 text-luxury-dusty-rose" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Browse Products</span>
+                            <span className="text-luxury-emphasis text-sm">Browse Products</span>
                           </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          <p className="text-luxury-chat-action text-xs">
                             Discover our collection
                           </p>
                         </button>
@@ -1125,9 +1125,9 @@ const Account = () => {
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <User className="w-4 h-4 text-luxury-maroon" />
-                            <span className="font-luxury-serif font-bold text-luxury-maroon text-sm">Get Quote</span>
+                            <span className="text-luxury-emphasis text-sm">Get Quote</span>
                           </div>
-                          <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                          <p className="text-luxury-chat-action text-xs">
                             Get personalized pricing
                           </p>
                         </button>
@@ -1153,13 +1153,13 @@ const Account = () => {
                                       className="w-16 h-16 object-cover rounded-lg"
                                     />
                                     <div className="flex-1">
-                                      <h4 className="font-luxury-serif font-bold text-luxury-maroon text-sm mb-1">
+                                      <h4 className="text-luxury-product-name text-sm mb-1">
                                         {product.name}
                                       </h4>
-                                      <p className="font-luxury-sans text-xs text-luxury-maroon/70 mb-1">
+                                      <p className="text-luxury-product-category text-xs mb-1">
                                         {product.category}
                                       </p>
-                                      <p className="font-luxury-sans text-sm font-bold text-luxury-dusty-rose">
+                                      <p className="text-luxury-price-small">
                                         {product.price}
                                       </p>
                                     </div>
@@ -1203,14 +1203,14 @@ const Account = () => {
                                       className="w-12 h-12 object-cover rounded-lg"
                                     />
                                     <div className="flex-1">
-                                      <h4 className="font-luxury-serif font-bold text-luxury-maroon text-sm">
+                                      <h4 className="text-luxury-product-name text-sm">
                                         {product.name}
                                       </h4>
-                                      <p className="font-luxury-sans text-xs text-luxury-maroon/70">
+                                      <p className="text-luxury-product-category text-xs">
                                         {product.category}
                                       </p>
                                     </div>
-                                    <p className="font-luxury-sans text-sm font-bold text-luxury-dusty-rose">
+                                    <p className="text-luxury-price-small">
                                       {product.price}
                                     </p>
                                   </div>
@@ -1259,7 +1259,7 @@ const Account = () => {
                     onChange={(e) => setChatInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message or question..."
-                    className="w-full px-4 py-3 pr-12 rounded-2xl border border-luxury-taupe/30 focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/20 font-luxury-sans text-luxury-maroon placeholder:text-luxury-maroon/50 outline-none"
+                    className="w-full px-4 py-3 pr-12 rounded-2xl border border-luxury-taupe/30 focus:border-luxury-dusty-rose focus:ring-2 focus:ring-luxury-dusty-rose/20 text-luxury-form-input placeholder:text-luxury-maroon/50 outline-none"
                   />
                   <button 
                     onClick={handleSendMessage}
@@ -1278,7 +1278,7 @@ const Account = () => {
                   📎 Attach
                 </Button>
               </div>
-              <div className="flex items-center justify-between mt-2 text-xs text-luxury-maroon/50 font-luxury-sans">
+              <div className="flex items-center justify-between mt-2 text-xs text-luxury-maroon/50 font-luxury-sans font-medium">
                 <span>Powered by AI • Responses are typically instant</span>
                 <span className="hidden sm:block">Press Enter to send</span>
               </div>
@@ -1290,7 +1290,7 @@ const Account = () => {
           <div className="h-full">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Profile Settings</h2>
-              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
+              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
                 Manage your personal information and preferences to enhance your wedding planning experience.
               </p>
             </div>
@@ -1298,27 +1298,27 @@ const Account = () => {
             <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Personal Information */}
               <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-luxury-taupe/10">
-                <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Personal Information</h3>
+                <h3 className="text-luxury-subheading mb-6">Personal Information</h3>
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                    <label className="text-luxury-profile-label mb-3">
                         First Name
                     </label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
                         placeholder="First name"
                         defaultValue="Priya"
                     />
                   </div>
                     <div>
-                      <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                      <label className="text-luxury-profile-label mb-3">
                         Last Name
                       </label>
                       <input 
                         type="text" 
-                        className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                        className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
                         placeholder="Last name"
                         defaultValue="Sharma"
                       />
@@ -1326,11 +1326,11 @@ const Account = () => {
                   </div>
                   
                   <div>
-                    <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                    <label className="text-luxury-profile-label mb-3">
                       Gender
                     </label>
                     <div className="relative">
-                      <select className="appearance-none w-full bg-white border border-luxury-taupe/30 rounded-xl px-4 py-3 pr-10 font-luxury-sans text-luxury-maroon focus:ring-2 focus:ring-luxury-dusty-rose focus:border-luxury-dusty-rose transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md bg-white/50">
+                      <select className="appearance-none w-full bg-white border border-luxury-taupe/30 rounded-xl px-4 py-3 pr-10 text-luxury-form-input focus:ring-2 focus:ring-luxury-dusty-rose focus:border-luxury-dusty-rose transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md bg-white/50">
                         <option value="">Select Gender</option>
                         <option value="female">Female</option>
                         <option value="male">Male</option>
@@ -1342,36 +1342,36 @@ const Account = () => {
                   </div>
 
                   <div>
-                    <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                    <label className="text-luxury-profile-label mb-3">
                       Email Address
                     </label>
                     <input 
                       type="email" 
-                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
                       placeholder="Enter your email"
                       defaultValue="priya.sharma@example.com"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                    <label className="text-luxury-profile-label mb-3">
                       Phone Number
                     </label>
                     <input 
                       type="tel" 
-                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
                       placeholder="Enter your phone number"
                       defaultValue="+91 98765 43210"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-luxury-maroon/80 font-luxury-sans font-medium mb-3 tracking-wide uppercase text-sm">
+                    <label className="text-luxury-profile-label mb-3">
                       Wedding Date
                     </label>
                     <input 
                       type="date" 
-                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 font-luxury-sans text-luxury-maroon bg-white/50"
+                      className="w-full px-4 py-3 rounded-lg border border-luxury-taupe/30 focus:ring-2 focus:ring-luxury-dusty-rose focus:border-transparent transition-all duration-300 text-luxury-form-input bg-white/50"
                       defaultValue="2024-12-15"
                     />
                   </div>
@@ -1379,14 +1379,14 @@ const Account = () => {
                   <div className="flex gap-3 pt-4">
                     <Button 
                       onClick={() => handleMockAction('save-profile')}
-                      className="flex-1 bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
+                      className="flex-1 bg-luxury-maroon hover:bg-luxury-burgundy text-white text-luxury-button-primary px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg"
                     >
                       Save Profile
                     </Button>
                     <Button 
                       onClick={() => handleMockAction('upload-photo')}
                       variant="outline"
-                      className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white font-luxury-sans tracking-wide uppercase text-sm px-6 py-3 rounded-lg transition-all duration-300"
+                      className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-luxury-button-secondary px-6 py-3 rounded-lg transition-all duration-300"
                     >
                       Upload Photo
                     </Button>
@@ -1398,28 +1398,28 @@ const Account = () => {
               <div className="space-y-6">
                 {/* Current Package Details */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
-                  <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-4">Active Package Details</h3>
+                  <h3 className="text-luxury-subheading mb-4">Active Package Details</h3>
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="font-luxury-sans text-luxury-maroon/70">Package:</span>
-                      <span className="font-luxury-serif font-bold text-luxury-maroon">Royal Package</span>
+                                        <div className="flex justify-between items-center">
+                      <span className="text-luxury-data-supporting">Package:</span>
+                      <span className="text-luxury-data-secondary">Royal Package</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="font-luxury-sans text-luxury-maroon/70">Gender:</span>
-                      <span className="font-luxury-sans text-luxury-maroon">Female</span>
+                      <span className="text-luxury-data-supporting">Gender:</span>
+                      <span className="text-luxury-data-secondary">Female</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="font-luxury-sans text-luxury-maroon/70">Services Included:</span>
-                      <span className="font-luxury-sans text-luxury-maroon">Full Planning</span>
+                      <span className="text-luxury-data-supporting">Services Included:</span>
+                      <span className="text-luxury-data-secondary">Full Planning</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="font-luxury-sans text-luxury-maroon/70">Consultant:</span>
-                      <span className="font-luxury-sans text-luxury-maroon">Meera Patel</span>
-                  </div>
+                      <span className="text-luxury-data-supporting">Consultant:</span>
+                      <span className="text-luxury-data-secondary">Meera Patel</span>
+                    </div>
                     <Button 
                       onClick={() => handleMockAction('add-shopper')}
                       variant="outline"
-                      className="w-full mt-4 border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans tracking-wide uppercase text-sm"
+                      className="w-full mt-4 border-luxury-dusty-rose text-luxury-dusty-rose hover:bg-luxury-dusty-rose hover:text-white font-luxury-sans font-medium tracking-wide uppercase text-sm"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Add Shopper
@@ -1430,7 +1430,7 @@ const Account = () => {
                 {/* Address Management */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon">Addresses</h3>
+                    <h3 className="text-luxury-subheading">Addresses</h3>
                     <Button 
                       onClick={() => setIsAddingAddress(true)}
                       size="sm"
@@ -1496,7 +1496,7 @@ const Account = () => {
 
                 {/* Account Security */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-luxury-taupe/10">
-                  <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-4">Account Security</h3>
+                  <h3 className="text-luxury-subheading mb-4">Account Security</h3>
                   <div className="space-y-3">
                   <Button 
                     onClick={() => handleMockAction('change-password')}
@@ -1523,7 +1523,7 @@ const Account = () => {
           <div className="h-full">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">Your Wishlists</h2>
-              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
+              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
                 Curate your perfect wedding collection. Save your favorite items and create themed wishlists for different aspects of your special day.
               </p>
             </div>
@@ -1540,10 +1540,10 @@ const Account = () => {
                 <div className="w-16 h-16 bg-luxury-dusty-rose/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-luxury-dusty-rose/30 transition-all duration-300">
                   <Plus className="w-8 h-8 text-luxury-dusty-rose" />
                 </div>
-                <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-2">
+                <h3 className="text-luxury-emphasis-strong text-xl mb-2">
                   Create New Wishlist
                 </h3>
-                <p className="font-luxury-sans text-luxury-maroon/60 text-sm">
+                <p className="text-luxury-body-secondary text-sm">
                   Start a new collection for your special day
                 </p>
                   </div>
@@ -1579,17 +1579,17 @@ const Account = () => {
                       {wishlist.name}
                     </h3>
                     {wishlist.description && (
-                      <p className="font-luxury-sans text-luxury-maroon/70 text-sm mb-4 line-clamp-2">
+                      <p className="text-luxury-data-supporting mb-4 line-clamp-2">
                         {wishlist.description}
                       </p>
                     )}
                     
                     {/* Stats */}
                     <div className="flex items-center justify-between">
-                      <span className="font-luxury-sans text-luxury-maroon/60 text-sm">
+                      <span className="text-luxury-data-supporting">
                         {wishlist.products.length} items
                       </span>
-                      <span className="font-luxury-sans text-luxury-dusty-rose text-sm font-medium">
+                      <span className="text-luxury-link">
                         View Collection →
                       </span>
                     </div>
@@ -1711,16 +1711,16 @@ const Account = () => {
                               <h3 className="font-luxury-serif font-bold text-lg text-luxury-maroon mb-2 line-clamp-1">
                                 {product.name}
                               </h3>
-                              <p className="font-luxury-sans text-luxury-maroon/70 text-sm mb-3 leading-relaxed line-clamp-2">
+                              <p className="text-luxury-data-supporting mb-3 leading-relaxed line-clamp-2">
                                 {product.description}
                               </p>
                               
                               {/* Pricing */}
                               <div className="flex items-center gap-2 mb-4">
-                                <span className="font-luxury-serif text-lg font-bold text-luxury-dusty-rose">
+                                <span className="text-luxury-price-medium">
                                   {product.price}
                                 </span>
-                                <span className="font-luxury-sans text-sm text-luxury-maroon/50 line-through">
+                                <span className="text-luxury-data-supporting line-through">
                                   {product.originalPrice}
                                 </span>
                               </div>
@@ -1786,8 +1786,8 @@ const Account = () => {
               {orders.filter(order => order.status === 'pending').length > 0 && (
               <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon">Pending Orders & Quotes</h3>
-                    <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">
+                    <h3 className="text-luxury-data-primary">Pending Orders & Quotes</h3>
+                    <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-luxury-caption font-medium">
                       {orders.filter(order => order.status === 'pending').length} awaiting response
                     </span>
                   </div>
@@ -1799,23 +1799,23 @@ const Account = () => {
                         <div className="flex items-center justify-between">
                           <div className="space-y-2">
                             <div className="flex items-center gap-4">
-                              <h3 className="font-luxury-serif font-bold text-luxury-maroon">Quote #{order.orderCode}</h3>
-                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-orange-200 text-orange-800">
+                              <h3 className="text-luxury-data-primary">Quote <span className="text-luxury-order-id">#{order.orderCode}</span></h3>
+                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-luxury-status-badge bg-orange-200 text-orange-800">
                                 <Clock className="w-3 h-3" />
                                 Pending Approval
                               </span>
                               {order.quoteValid && (
-                                <span className="text-xs text-red-600 font-medium">
+                                <span className="text-luxury-caption text-red-600 font-medium">
                                   Valid until {order.quoteValid.toLocaleDateString()}
                                 </span>
                               )}
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-luxury-maroon/60 font-luxury-sans">
+                            <div className="flex items-center gap-4 text-luxury-data-supporting">
                               <span>Created on {order.date.toLocaleDateString()}</span>
                               <span>•</span>
-                              <span>Total Cost: {order.total}</span>
+                              <span>Total Cost: <span className="text-luxury-price-small">{order.total}</span></span>
                               <span>•</span>
-                              <span>Order Code: {order.orderCode}</span>
+                              <span>Order Code: <span className="text-luxury-order-id">{order.orderCode}</span></span>
                             </div>
                             {order.specialInstructions && (
                               <p className="text-sm text-luxury-maroon/70 bg-luxury-dusty-rose/10 p-2 rounded-lg">
@@ -1861,9 +1861,9 @@ const Account = () => {
                                 className="w-16 h-16 rounded-lg object-cover"
                               />
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-luxury-sans font-medium text-luxury-maroon truncate">{item.name}</h4>
-                                <p className="text-sm text-luxury-maroon/60">Qty: {item.quantity}</p>
-                                <p className="text-sm font-bold text-green-600">{item.price}</p>
+                                <h4 className="text-luxury-product-name text-base truncate">{item.name}</h4>
+                                <p className="text-luxury-quantity">Qty: {item.quantity}</p>
+                                <p className="text-luxury-price-small">{item.price}</p>
                               </div>
                             </div>
                           ))}
@@ -1876,7 +1876,7 @@ const Account = () => {
 
               {/* Regular Orders Section */}
               <div className="space-y-4">
-                <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon">Order History</h3>
+                <h3 className="text-luxury-data-primary">Order History</h3>
                 {orders.filter(order => order.status !== 'pending').map((order) => (
                 <div key={order.id} className="bg-white/80 backdrop-blur-sm rounded-xl border border-luxury-taupe/20 overflow-hidden hover:shadow-lg transition-all duration-300">
                   {/* Order Header */}
@@ -1884,16 +1884,16 @@ const Account = () => {
                     <div className="flex items-center justify-between">
                       <div className="space-y-1">
                         <div className="flex items-center gap-4">
-                          <h3 className="font-luxury-serif font-bold text-luxury-maroon">Order #{order.orderNumber}</h3>
-                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${getOrderStatusColor(order.status)}`}>
+                          <h3 className="text-luxury-data-primary">Order <span className="text-luxury-order-id">#{order.orderNumber}</span></h3>
+                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-luxury-status-badge ${getOrderStatusColor(order.status)}`}>
                             {getOrderStatusIcon(order.status)}
                             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                           </span>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-luxury-maroon/60 font-luxury-sans">
+                        <div className="flex items-center gap-4 text-luxury-data-supporting">
                           <span>Placed on {order.date.toLocaleDateString()}</span>
                           <span>•</span>
-                          <span>Total: {order.total}</span>
+                          <span>Total: <span className="text-luxury-price-small">{order.total}</span></span>
                           {order.estimatedDelivery && (
                             <>
                               <span>•</span>
@@ -1923,14 +1923,14 @@ const Account = () => {
                             className="w-16 h-16 rounded-lg object-cover"
                           />
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-luxury-sans font-medium text-luxury-maroon truncate">{item.name}</h4>
-                            <p className="text-sm text-luxury-maroon/60">Qty: {item.quantity}</p>
-                            <p className="text-sm font-bold text-luxury-dusty-rose">{item.price}</p>
+                            <h4 className="text-luxury-product-name text-base truncate">{item.name}</h4>
+                            <p className="text-luxury-quantity">Qty: {item.quantity}</p>
+                            <p className="text-luxury-price-small">{item.price}</p>
                           </div>
                         </div>
                       ))}
                       {order.items.length > 3 && (
-                        <div className="flex items-center justify-center text-luxury-maroon/60 font-luxury-sans text-sm">
+                        <div className="flex items-center justify-center text-luxury-data-supporting">
                           +{order.items.length - 3} more items
                         </div>
                       )}
@@ -1946,8 +1946,8 @@ const Account = () => {
                 <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto mx-auto" style={{ marginLeft: '160px', marginRight: '0px', marginTop: '40px' }}>
                   <div className="p-6 border-b border-luxury-taupe/20">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-luxury-serif font-bold text-xl text-luxury-maroon">
-                        Order Details - #{selectedOrder.orderNumber}
+                      <h3 className="text-luxury-modal-title">
+                        Order Details - <span className="text-luxury-order-id">#{selectedOrder.orderNumber}</span>
                       </h3>
                       <button
                         onClick={() => setSelectedOrder(null)}
@@ -1957,21 +1957,21 @@ const Account = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="p-6 space-y-6">
+                                      <div className="p-6 space-y-6">
                     {/* Order Status and Info */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
                         <div>
-                          <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Order Status</h4>
+                          <h4 className="text-luxury-data-secondary mb-2">Order Status</h4>
                           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${getOrderStatusColor(selectedOrder.status)}`}>
                             {getOrderStatusIcon(selectedOrder.status)}
-                            <span className="font-medium">{selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}</span>
+                            <span className="text-luxury-status-badge">{selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}</span>
                           </div>
                         </div>
                         {selectedOrder.trackingNumber && (
                           <div>
-                            <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Tracking Number</h4>
-                            <p className="font-luxury-sans text-luxury-maroon bg-luxury-soft-pink/20 px-3 py-2 rounded-lg inline-block">
+                            <h4 className="text-luxury-data-secondary mb-2">Tracking Number</h4>
+                            <p className="text-luxury-tracking-number inline-block">
                               {selectedOrder.trackingNumber}
                             </p>
                           </div>
@@ -1979,19 +1979,19 @@ const Account = () => {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Shipping Address</h4>
-                          <p className="font-luxury-sans text-luxury-maroon/70">{selectedOrder.shippingAddress}</p>
+                          <h4 className="text-luxury-data-secondary mb-2">Shipping Address</h4>
+                          <p className="text-luxury-address">{selectedOrder.shippingAddress}</p>
                         </div>
                         <div>
-                          <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-2">Payment Method</h4>
-                          <p className="font-luxury-sans text-luxury-maroon/70">{selectedOrder.paymentMethod}</p>
+                          <h4 className="text-luxury-data-secondary mb-2">Payment Method</h4>
+                          <p className="text-luxury-contact-info">{selectedOrder.paymentMethod}</p>
                         </div>
                       </div>
                     </div>
 
                     {/* Order Items */}
                     <div>
-                      <h4 className="font-luxury-serif font-semibold text-luxury-maroon mb-4">Items Ordered</h4>
+                      <h4 className="text-luxury-data-secondary mb-4">Items Ordered</h4>
                       <div className="space-y-4">
                         {selectedOrder.items.map((item) => (
                           <div key={item.id} className="flex items-center gap-4 p-4 bg-luxury-soft-pink/10 rounded-lg">
@@ -2001,14 +2001,14 @@ const Account = () => {
                               className="w-20 h-20 rounded-lg object-cover"
                             />
                             <div className="flex-1">
-                              <h5 className="font-luxury-sans font-semibold text-luxury-maroon">{item.name}</h5>
-                              <p className="text-sm text-luxury-maroon/60 font-luxury-sans">{item.category}</p>
-                              {item.size && <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Size: {item.size}</p>}
-                              {item.color && <p className="text-sm text-luxury-maroon/60 font-luxury-sans">Color: {item.color}</p>}
+                              <h5 className="text-luxury-product-name">{item.name}</h5>
+                              <p className="text-luxury-product-category">{item.category}</p>
+                              {item.size && <p className="text-luxury-size-color">Size: {item.size}</p>}
+                              {item.color && <p className="text-luxury-size-color">Color: {item.color}</p>}
                             </div>
                             <div className="text-right">
-                              <p className="font-luxury-sans font-semibold text-luxury-maroon">Qty: {item.quantity}</p>
-                              <p className="font-luxury-serif font-bold text-luxury-dusty-rose">{item.price}</p>
+                              <p className="text-luxury-quantity">Qty: {item.quantity}</p>
+                              <p className="text-luxury-price-medium">{item.price}</p>
                             </div>
                           </div>
                         ))}
@@ -2018,8 +2018,8 @@ const Account = () => {
                     {/* Order Total */}
                     <div className="border-t border-luxury-taupe/20 pt-4">
                       <div className="flex justify-between items-center">
-                        <span className="font-luxury-serif text-lg font-semibold text-luxury-maroon">Order Total:</span>
-                        <span className="font-luxury-serif text-xl font-bold text-luxury-dusty-rose">{selectedOrder.total}</span>
+                        <span className="text-luxury-data-secondary text-lg">Order Total:</span>
+                        <span className="text-luxury-price-large">{selectedOrder.total}</span>
                       </div>
                     </div>
 
@@ -2062,7 +2062,7 @@ const Account = () => {
           <div className="h-full">
             <div className="mb-8">
               <h2 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-4">My Package</h2>
-              <p className="font-luxury-sans text-lg text-luxury-maroon/70 max-w-3xl leading-relaxed">
+              <p className="text-luxury-body-secondary max-w-3xl leading-relaxed">
                 Manage your wedding planning package, view included services, and explore upgrade options.
               </p>
             </div>
@@ -2071,36 +2071,36 @@ const Account = () => {
             <div className="bg-gradient-to-br from-luxury-dusty-rose/10 to-luxury-maroon/10 rounded-xl p-8 mb-8 border border-luxury-dusty-rose/30">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="font-luxury-serif text-2xl font-bold text-luxury-maroon mb-2">Royal Package</h3>
-                  <p className="font-luxury-sans text-luxury-maroon/70">Premium wedding planning experience</p>
+                  <h3 className="text-luxury-package-title mb-2">Royal Package</h3>
+                  <p className="text-luxury-package-description">Premium wedding planning experience</p>
                 </div>
                 <div className="text-right">
-                  <div className="font-luxury-serif text-3xl font-bold text-luxury-maroon">₹2,50,000</div>
-                  <div className="font-luxury-sans text-sm text-luxury-maroon/60">Current Plan</div>
+                  <div className="text-luxury-price-large">₹2,50,000</div>
+                  <div className="text-luxury-caption text-luxury-maroon/60">Current Plan</div>
                 </div>
               </div>
 
               {/* Package Features */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                 <div className="bg-white/50 rounded-lg p-4">
-                  <h4 className="font-luxury-serif font-bold text-luxury-maroon mb-2">Complete Planning</h4>
-                  <ul className="space-y-1 text-sm text-luxury-maroon/70 font-luxury-sans">
+                  <h4 className="text-luxury-emphasis mb-2">Complete Planning</h4>
+                  <ul className="space-y-1 text-luxury-package-feature">
                     <li>• Full-service coordination</li>
                     <li>• Timeline management</li>
                     <li>• Vendor coordination</li>
                   </ul>
                 </div>
                 <div className="bg-white/50 rounded-lg p-4">
-                  <h4 className="font-luxury-serif font-bold text-luxury-maroon mb-2">Design & Decor</h4>
-                  <ul className="space-y-1 text-sm text-luxury-maroon/70 font-luxury-sans">
+                  <h4 className="text-luxury-emphasis mb-2">Design & Decor</h4>
+                  <ul className="space-y-1 text-luxury-package-feature">
                     <li>• Custom theme design</li>
                     <li>• Floral arrangements</li>
                     <li>• Lighting setup</li>
                   </ul>
                 </div>
                 <div className="bg-white/50 rounded-lg p-4">
-                  <h4 className="font-luxury-serif font-bold text-luxury-maroon mb-2">Personal Support</h4>
-                  <ul className="space-y-1 text-sm text-luxury-maroon/70 font-luxury-sans">
+                  <h4 className="text-luxury-emphasis mb-2">Personal Support</h4>
+                  <ul className="space-y-1 text-luxury-package-feature">
                     <li>• Dedicated planner</li>
                     <li>• 24/7 support</li>
                     <li>• Emergency assistance</li>
@@ -2109,10 +2109,10 @@ const Account = () => {
               </div>
 
               <div className="flex gap-4">
-                <Button className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans">
+                <Button className="bg-luxury-maroon hover:bg-luxury-burgundy text-white text-luxury-button-primary">
                   View Full Details
                 </Button>
-                <Button variant="outline" className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white font-luxury-sans">
+                <Button variant="outline" className="border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-luxury-button-secondary">
                   Download Contract
                 </Button>
               </div>
@@ -2120,28 +2120,28 @@ const Account = () => {
 
             {/* Upgrade Options */}
             <div className="mb-8">
-              <h3 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-6">Upgrade Options</h3>
+              <h3 className="text-luxury-subheading mb-6">Upgrade Options</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-white/80 rounded-xl p-6 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 transition-all duration-300">
-                  <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-2">Platinum Package</h4>
-                  <p className="font-luxury-sans text-luxury-maroon/70 mb-4">Everything in Royal plus luxury transportation and premium venues</p>
+                  <h4 className="text-luxury-emphasis-strong mb-2">Platinum Package</h4>
+                  <p className="text-luxury-package-description mb-4">Everything in Royal plus luxury transportation and premium venues</p>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="font-luxury-serif text-xl font-bold text-luxury-maroon">₹4,50,000</span>
-                    <span className="font-luxury-sans text-sm text-green-600">Save ₹50,000</span>
+                    <span className="text-luxury-price-large">₹4,50,000</span>
+                    <span className="text-luxury-data-secondary text-green-600">Save ₹50,000</span>
                   </div>
-                  <Button className="w-full bg-luxury-dusty-rose hover:bg-luxury-maroon text-white font-luxury-sans">
+                  <Button className="w-full bg-luxury-dusty-rose hover:bg-luxury-maroon text-white text-luxury-button-primary">
                     Upgrade Now
                   </Button>
                 </div>
                 <div className="bg-white/80 rounded-xl p-6 border border-luxury-taupe/20 hover:border-luxury-dusty-rose/40 transition-all duration-300">
-                  <h4 className="font-luxury-serif text-lg font-bold text-luxury-maroon mb-2">Add-On Services</h4>
-                  <p className="font-luxury-sans text-luxury-maroon/70 mb-4">Enhance your package with additional services</p>
-                  <ul className="space-y-2 text-sm font-luxury-sans text-luxury-maroon/70 mb-4">
+                  <h4 className="text-luxury-emphasis-strong mb-2">Add-On Services</h4>
+                  <p className="text-luxury-package-description mb-4">Enhance your package with additional services</p>
+                  <ul className="space-y-2 text-luxury-package-feature mb-4">
                     <li>• Professional photography</li>
                     <li>• Live streaming setup</li>
                     <li>• Additional decor themes</li>
                   </ul>
-                  <Button variant="outline" className="w-full border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white font-luxury-sans">
+                  <Button variant="outline" className="w-full border-luxury-maroon text-luxury-maroon hover:bg-luxury-maroon hover:text-white text-luxury-button-secondary">
                     Browse Add-Ons
                   </Button>
                 </div>
@@ -2155,11 +2155,11 @@ const Account = () => {
           return (
             <div className="h-full flex items-center justify-center">
               <div className="text-center">
-                <h2 className="font-luxury-serif text-xl font-bold text-luxury-maroon mb-4">No Products Selected</h2>
-                <p className="font-luxury-sans text-luxury-maroon/70 mb-6">Please select products from the chat to proceed with checkout.</p>
+                <h2 className="text-luxury-subheading mb-4">No Products Selected</h2>
+                <p className="text-luxury-body-secondary mb-6">Please select products from the chat to proceed with checkout.</p>
                 <Button 
                   onClick={() => setActiveSection('enquiries')}
-                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white font-luxury-sans"
+                  className="bg-luxury-maroon hover:bg-luxury-burgundy text-white text-luxury-button-primary"
                 >
                   Return to Chat
                 </Button>
@@ -2189,7 +2189,7 @@ const Account = () => {
       {showNotification && (
         <div className="fixed top-4 right-4 z-50 bg-luxury-maroon text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in-up">
           <Check className="w-5 h-5" />
-          <span className="font-luxury-sans text-sm">{notificationMessage}</span>
+          <span className="text-luxury-data-secondary">{notificationMessage}</span>
         </div>
       )}
 
@@ -2203,8 +2203,8 @@ const Account = () => {
                 <User className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-luxury-serif font-bold text-luxury-maroon text-sm">Shilpa Parikh</h3>
-                <p className="font-luxury-sans text-xs text-luxury-maroon/60">Active Member</p>
+                <h3 className="text-luxury-profile-name">Shilpa Parikh</h3>
+                <p className="text-luxury-caption text-luxury-maroon/60">Active Member</p>
               </div>
             </div>
           </div>
@@ -2213,6 +2213,7 @@ const Account = () => {
           <div className="flex-1 p-6 space-y-2 overflow-y-auto overflow-x-hidden">
             {sidebarItems.map((item) => {
               const Icon = item.icon;
+              const isActive = (item.id === "enquiries" && activeSection === "enquiries") || (item.id === activeSection);
               return (
                 <button
                   key={item.id}
@@ -2223,15 +2224,14 @@ const Account = () => {
                       handleSectionChange(item.id);
                     }
                   }}
-                  className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl font-medium ${
-                    (item.id === "enquiries" && activeSection === "enquiries") || 
-                    (item.id === activeSection)
+                  className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-200 ${
+                    isActive
                       ? "bg-luxury-dusty-rose text-white shadow-lg" 
                       : "text-luxury-maroon/70 hover:bg-luxury-soft-pink hover:text-luxury-maroon"
                   }`}
                 >
                   <Icon className="w-5 h-5" />
-                  <span className="font-luxury-sans font-medium">{item.label}</span>
+                  <span className={isActive ? "text-luxury-sidebar-item-active text-white" : "text-luxury-sidebar-item"}>{item.label}</span>
                 </button>
               );
             })}
